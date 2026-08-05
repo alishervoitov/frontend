@@ -7,6 +7,8 @@ import RegisterPage from "./pages/RegisterPage";
 import MePage from "./pages/MePage";
 import DoctorPatientsPage from "./pages/DoctorPatientsPage";
 import PatientDetailPage from "./pages/PatientDetailPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminAuditLogPage from "./pages/AdminAuditLogPage";
 import "./styles/global.css";
 
 export default function App() {
@@ -38,6 +40,22 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["doctor", "admin"]}>
                                     <PatientDetailPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/users"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <AdminUsersPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/audit"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <AdminAuditLogPage />
                                 </ProtectedRoute>
                             }
                         />

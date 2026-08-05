@@ -5,6 +5,7 @@ export default function Layout() {
     const { user, logout } = useAuth();
     const { pathname } = useLocation();
     const isDoctorOrAdmin = user?.role === "doctor" || user?.role === "admin";
+    const isAdmin = user?.role === "admin";
 
     return (
         <div>
@@ -15,6 +16,16 @@ export default function Layout() {
                         <Link to="/patients" className={`topbar-link ${pathname.startsWith("/patients") ? "active" : ""}`}>
                             Bemorlar
                         </Link>
+                    )}
+                    {isAdmin && (
+                        <>
+                            <Link to="/admin/users" className={`topbar-link ${pathname.startsWith("/admin/users") ? "active" : ""}`}>
+                                Foydalanuvchilar
+                            </Link>
+                            <Link to="/admin/audit" className={`topbar-link ${pathname.startsWith("/admin/audit") ? "active" : ""}`}>
+                                Audit jurnali
+                            </Link>
+                        </>
                     )}
                 </div>
                 <div className="topbar-right">
