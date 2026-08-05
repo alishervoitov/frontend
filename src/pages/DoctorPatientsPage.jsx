@@ -18,45 +18,48 @@ export default function DoctorPatientsPage() {
     }, [search]);
 
     return (
-        <div style={{ padding: "32px 40px" }}>
-            <h1>Bemorlar</h1>
+        <div className="page">
+            <div className="page-head">
+                <h1>Bemorlar</h1>
+            </div>
 
             <input
+                className="search-input"
                 placeholder="Ism yoki familiya bo'yicha qidirish..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                style={{ maxWidth: 320, marginBottom: 20 }}
             />
 
             {error && <div className="alert-error">{error}</div>}
-            {loading ? (
-                <p>Yuklanmoqda...</p>
-            ) : patients.length === 0 ? (
-                <p>Bemorlar topilmadi.</p>
-            ) : (
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                    <thead>
-                    <tr style={{ textAlign: "left", borderBottom: "2px solid #DCE6E2" }}>
-                        <th style={{ padding: 10 }}>F.I.Sh.</th>
-                        <th style={{ padding: 10 }}>Foydalanuvchi nomi</th>
-                        <th style={{ padding: 10 }}>Jinsi</th>
-                        <th style={{ padding: 10 }}>Qon guruhi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {patients.map((p) => (
-                        <tr key={p.id} style={{ borderBottom: "1px solid #DCE6E2" }}>
-                            <td style={{ padding: 10 }}>
-                                <Link to={`/patients/${p.id}`}>{p.full_name || "(ism kiritilmagan)"}</Link>
-                            </td>
-                            <td style={{ padding: 10 }}>{p.username}</td>
-                            <td style={{ padding: 10 }}>{p.gender || "—"}</td>
-                            <td style={{ padding: 10 }}>{p.blood_type || "—"}</td>
+
+            <div className="table-card">
+                {loading ? (
+                    <div className="empty-state">Yuklanmoqda...</div>
+                ) : patients.length === 0 ? (
+                    <div className="empty-state">Bemorlar topilmadi.</div>
+                ) : (
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>F.I.Sh.</th>
+                            <th>Foydalanuvchi nomi</th>
+                            <th>Jinsi</th>
+                            <th>Qon guruhi</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+                        <tbody>
+                        {patients.map((p) => (
+                            <tr key={p.id}>
+                                <td><Link to={`/patients/${p.id}`}>{p.full_name || "(ism kiritilmagan)"}</Link></td>
+                                <td className="cell-muted">{p.username}</td>
+                                <td className="cell-muted">{p.gender || "—"}</td>
+                                <td className="cell-muted">{p.blood_type || "—"}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
         </div>
     );
 }
