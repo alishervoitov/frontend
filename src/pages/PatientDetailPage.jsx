@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import client from "../api/client";
+import client, { downloadPatientHistoryPdf } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 
 const RECORD_TYPES = [
@@ -69,6 +70,13 @@ export default function PatientDetailPage() {
                         {showForm ? "Bekor qilish" : "+ Yangi yozuv qo'shish"}
                     </button>
                 )}
+                <button
+                    className="btn btn-secondary"
+                    style={{ width: "auto" }}
+                    onClick={() => downloadPatientHistoryPdf(id, `kasallik_tarixi_${patient.user.username}.pdf`)}
+                >
+                    ⬇ PDF yuklab olish
+                </button>
             </div>
 
             {showEdit && (

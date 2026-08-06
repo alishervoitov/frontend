@@ -62,4 +62,15 @@ client.interceptors.response.use(
 );
 
 export { getTokens, setTokens };
+export async function downloadPatientHistoryPdf(patientId, filename) {
+    const res = await client.get(`/records/patients/${patientId}/history-pdf/`, {
+        responseType: "blob",
+    });
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename || `kasallik_tarixi_${patientId}.pdf`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
 export default client;

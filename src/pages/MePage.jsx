@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import client from "../api/client";
+import client, { downloadPatientHistoryPdf } from "../api/client";
 
 export default function MePage() {
     const { user } = useAuth();
@@ -15,6 +16,7 @@ function PatientHome({ user }) {
     const [profile, setProfile] = useState(null);
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
 
     useEffect(() => {
         Promise.all([
@@ -24,6 +26,17 @@ function PatientHome({ user }) {
             .then(([p, r]) => { setProfile(p.data); setRecords(r.data); })
             .finally(() => setLoading(false));
     }, []);
+
+    async function handleDownload() {
+        setDownloading(true);
+        try {
+            await downloadPatientHistoryPdf(profile.id, `kasallik_tarixi_${user.username}.pdf`);
+        } catch {
+            alert("PDF yuklab bo'lmadi.");
+        } finally {
+            setDownloading(false);
+        }
+    }
 
     return (
         <div className="page">
@@ -44,7 +57,13 @@ function PatientHome({ user }) {
                         <p className="timeline-field"><b>Tibbiy yozuvlar soni:</b> {profile?.records_count ?? 0}</p>
                     </div>
 
-                    <h2 style={{ marginTop: 28, marginBottom: 16 }}>Kasallik tarixim</h2>
+                    <div className="page-head">
+                        <h2>Kasallik tarixim</h2>
+                        <button className="btn btn-secondary" style={{ width: "auto" }} onClick={handleDownload} disabled={downloading}>
+                            {downloading ? "Tayyorlanmoqda..." : "⬇ PDF yuklab olish"}
+                        </button>
+                    </div>
+
                     {records.length === 0 ? (
                         <div className="table-card"><div className="empty-state">Hozircha tibbiy yozuvlar yo'q.</div></div>
                     ) : (
