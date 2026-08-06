@@ -25,6 +25,9 @@ export default function Layout() {
                             <Link to="/admin/audit" className={`topbar-link ${pathname.startsWith("/admin/audit") ? "active" : ""}`}>
                                 Audit jurnali
                             </Link>
+                            <Link to="/admin/anonymize" className={`topbar-link ${pathname.startsWith("/admin/anonymize") ? "active" : ""}`}>
+                                Anonimlashtirish
+                            </Link>
                         </>
                     )}
                 </div>
@@ -40,3 +43,12 @@ export default function Layout() {
         </div>
     );
 }
+
+
+
+
+
+
+
+
+

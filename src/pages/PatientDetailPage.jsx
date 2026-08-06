@@ -15,12 +15,14 @@ export default function PatientDetailPage() {
     const { id } = useParams();
     const { user } = useAuth();
     const isDoctor = user?.role === "doctor";
+    const canEditProfile = user?.role === "doctor" || user?.role === "admin";
 
     const [patient, setPatient] = useState(null);
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
 
     function loadData() {
         setLoading(true);
@@ -51,14 +53,29 @@ export default function PatientDetailPage() {
                 <h1>{patient.user.first_name} {patient.user.last_name}</h1>
                 <div className="patient-meta">
                     Foydalanuvchi: <b>{patient.user.username}</b> · Jinsi: <b>{patient.gender || "—"}</b> ·{" "}
-                    Qon guruhi: <b>{patient.blood_type || "—"}</b>
+                    Qon guruhi: <b>{patient.blood_type || "—"}</b> ·{" "}
+                    Tug'ilgan sana: <b>{patient.date_of_birth || "—"}</b>
                 </div>
             </div>
 
-            {isDoctor && (
-                <button className="btn btn-primary" style={{ width: "auto", marginBottom: 20 }} onClick={() => setShowForm(!showForm)}>
-                    {showForm ? "Bekor qilish" : "+ Yangi yozuv qo'shish"}
-                </button>
+            <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+                {canEditProfile && (
+                    <button className="btn btn-secondary" style={{ width: "auto" }} onClick={() => setShowEdit(!showEdit)}>
+                        {showEdit ? "Bekor qilish" : "Profilni tahrirlash"}
+                    </button>
+                )}
+                {isDoctor && (
+                    <button className="btn btn-primary" style={{ width: "auto" }} onClick={() => setShowForm(!showForm)}>
+                        {showForm ? "Bekor qilish" : "+ Yangi yozuv qo'shish"}
+                    </button>
+                )}
+            </div>
+
+            {showEdit && (
+                <EditProfileForm
+                    patient={patient}
+                    onSaved={(updated) => { setPatient(updated); setShowEdit(false); }}
+                />
             )}
 
             {showForm && (
@@ -93,6 +110,89 @@ export default function PatientDetailPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+function EditProfileForm({ patient, onSaved }) {
+    const [form, setForm] = useState({
+        date_of_birth: patient.date_of_birth || "",
+        gender: patient.gender || "",
+        blood_type: patient.blood_type || "",
+        national_id: patient.national_id || "",
+        address: patient.address || "",
+        emergency_contact: patient.emergency_contact || "",
+        allergies: patient.allergies || "",
+    });
+    const [error, setError] = useState("");
+    const [saving, setSaving] = useState(false);
+
+    function update(field) {
+        return (e) => setForm({ ...form, [field]: e.target.value });
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setError("");
+        setSaving(true);
+        try {
+            const res = await client.patch(`/records/patients/${patient.id}/`, form);
+            onSaved(res.data);
+        } catch {
+            setError("Profilni saqlab bo'lmadi. Maydonlarni tekshiring.");
+        } finally {
+            setSaving(false);
+        }
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="card">
+            <h2 style={{ marginBottom: 14 }}>Profilni tahrirlash</h2>
+            {error && <div className="alert-error">{error}</div>}
+
+            <div className="form-row" style={{ display: "flex", gap: 12 }}>
+                <div className="field" style={{ flex: 1 }}>
+                    <label>Tug'ilgan sana</label>
+                    <input type="date" value={form.date_of_birth} onChange={update("date_of_birth")} />
+                </div>
+                <div className="field" style={{ flex: 1 }}>
+                    <label>Jinsi</label>
+                    <select value={form.gender} onChange={update("gender")}>
+                        <option value="">Tanlanmagan</option>
+                        <option value="M">Erkak</option>
+                        <option value="F">Ayol</option>
+                        <option value="O">Boshqa</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className="form-row" style={{ display: "flex", gap: 12 }}>
+                <div className="field" style={{ flex: 1 }}>
+                    <label>Qon guruhi</label>
+                    <input value={form.blood_type} onChange={update("blood_type")} placeholder="masalan A(II) Rh+" />
+                </div>
+                <div className="field" style={{ flex: 1 }}>
+                    <label>Shaxsni tasdiqlovchi hujjat raqami</label>
+                    <input value={form.national_id} onChange={update("national_id")} />
+                </div>
+            </div>
+
+            <div className="field">
+                <label>Manzil</label>
+                <input value={form.address} onChange={update("address")} />
+            </div>
+            <div className="field">
+                <label>Favqulodda holatda bog'lanish uchun raqam</label>
+                <input value={form.emergency_contact} onChange={update("emergency_contact")} />
+            </div>
+            <div className="field">
+                <label>Ma'lum allergiyalar</label>
+                <input value={form.allergies} onChange={update("allergies")} />
+            </div>
+
+            <button className="btn btn-primary" style={{ width: "auto" }} disabled={saving}>
+                {saving ? "Saqlanmoqda..." : "Saqlash"}
+            </button>
+        </form>
     );
 }
 

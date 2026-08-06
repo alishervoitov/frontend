@@ -10,6 +10,7 @@ import PatientDetailPage from "./pages/PatientDetailPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminAuditLogPage from "./pages/AdminAuditLogPage";
 import "./styles/global.css";
+import AdminAnonymizePage from "./pages/AdminAnonymizePage";
 
 export default function App() {
     return (
@@ -56,6 +57,14 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["admin"]}>
                                     <AdminAuditLogPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/anonymize"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <AdminAnonymizePage />
                                 </ProtectedRoute>
                             }
                         />
