@@ -1,18 +1,18 @@
-
+import AvatarUpload from "../components/AvatarUpload";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
 
 export default function MePage() {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
 
-    if (user?.role === "patient") return <PatientHome user={user} />;
-    if (user?.role === "doctor") return <DoctorHome user={user} />;
-    return <AdminHome user={user} />;
+    if (user?.role === "patient") return <PatientHome user={user} onAvatarUpdated={setUser} />;
+    if (user?.role === "doctor") return <DoctorHome user={user} onAvatarUpdated={setUser} />;
+    return <AdminHome user={user} onAvatarUpdated={setUser} />;
 }
 
-function PatientHome({ user }) {
+function PatientHome({ user, onAvatarUpdated }) {
     const [profile, setProfile] = useState(null);
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,6 +44,7 @@ function PatientHome({ user }) {
                 <h1>Salom, {user.first_name || user.username}!</h1>
                 <div className="patient-meta">Bu — sizning shaxsiy kabinetingiz.</div>
             </div>
+            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
 
             {loading ? (
                 <div className="table-card"><div className="empty-state">Yuklanmoqda...</div></div>
@@ -89,13 +90,14 @@ function PatientHome({ user }) {
     );
 }
 
-function DoctorHome({ user }) {
+function DoctorHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
             <div className="patient-header">
                 <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
                 <div className="patient-meta">Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi bo'limga o'ting.</div>
             </div>
+            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>
                 Bemorlar ro'yxatiga o'tish →
             </Link>
@@ -103,13 +105,14 @@ function DoctorHome({ user }) {
     );
 }
 
-function AdminHome({ user }) {
+function AdminHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
             <div className="patient-header">
                 <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
                 <div className="patient-meta">Administrator paneli.</div>
             </div>
+            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>
                 Bemorlar ro'yxatiga o'tish →
             </Link>

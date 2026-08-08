@@ -6,6 +6,7 @@ export default function Layout() {
     const { pathname } = useLocation();
     const isDoctorOrAdmin = user?.role === "doctor" || user?.role === "admin";
     const isAdmin = user?.role === "admin";
+    const initial = (user?.first_name || user?.username || "?")[0]?.toUpperCase();
 
     return (
         <div>
@@ -32,9 +33,12 @@ export default function Layout() {
                     )}
                 </div>
                 <div className="topbar-right">
-          <span className="topbar-user">
+                    <div className="avatar-circle avatar-sm">
+                        {user?.avatar_url ? <img src={user.avatar_url} alt="avatar" /> : <span>{initial}</span>}
+                    </div>
+                    <span className="topbar-user">
             {user?.first_name || user?.username}{" "}
-              <span className={`badge badge-${user?.role}`}>{user?.role}</span>
+                        <span className={`badge badge-${user?.role}`}>{user?.role}</span>
           </span>
                     <button className="btn btn-secondary" onClick={logout}>Chiqish</button>
                 </div>

@@ -131,3 +131,16 @@ td a:hover { color: var(--primary); }
 .timeline-doctor { font-size: 0.75rem; color: var(--ink-faint); margin-top: 8px; }
 
 .empty-state { text-align: center; padding: 40px 20px; color: var(--ink-muted); }
+
+
+.avatar-circle {
+    border-radius: 50%;
+    background: var(--primary-tint);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; overflow: hidden; flex-shrink: 0;
+    font-family: var(--font-display);
+}
+.avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar-sm { width: 30px; height: 30px; font-size: 13px; }
+.avatar-lg { width: 64px; height: 64px; font-size: 24px; }
