@@ -144,3 +144,54 @@ td a:hover { color: var(--primary); }
 .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar-sm { width: 30px; height: 30px; font-size: 13px; }
 .avatar-lg { width: 64px; height: 64px; font-size: 24px; }
+
+
+/* ---------- Responsive (mobil va planshet) ---------- */
+@media (max-width: 900px) {
+    .page { padding: 20px; }
+    .stat-row, .card + .card { margin-bottom: 12px; }
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .topbar-left {
+        gap: 14px;
+        order: 2;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+    .topbar-link { white-space: nowrap; font-size: 0.85rem; }
+    .topbar-right { order: 1; width: 100%; justify-content: space-between; }
+    .topbar-user { display: none; }
+
+    .page { padding: 16px; }
+    .page-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .page-head h1, .page-head h2 { margin-bottom: 0; }
+
+    .patient-header h1 { font-size: 1.4rem; }
+
+    /* Jadvallarni gorizontal skroll qilinadigan qilamiz, siqib bo'lmaydi */
+    .table-card { overflow-x: auto; }
+    table { min-width: 480px; }
+
+    .timeline { padding-left: 20px; margin-left: 2px; }
+    .timeline-item::before { left: -26px; }
+
+    .form-row { flex-direction: column; gap: 0; }
+
+    .auth-card { padding: 24px 20px; }
+
+    div[style*="display: flex"][style*="gap: 10px"] {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 420px) {
+    .avatar-lg { width: 52px; height: 52px; font-size: 20px; }
+    .btn { font-size: 0.85rem; padding: 8px 14px; }
+}

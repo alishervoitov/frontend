@@ -59,7 +59,7 @@ export default function PatientDetailPage() {
                 </div>
             </div>
 
-            <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
+            <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
                 {canEditProfile && (
                     <button className="btn btn-secondary" style={{ width: "auto" }} onClick={() => setShowEdit(!showEdit)}>
                         {showEdit ? "Bekor qilish" : "Profilni tahrirlash"}

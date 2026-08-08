@@ -98,7 +98,7 @@ export default function AdminAnonymizePage() {
 
             {report && (
                 <>
-                    <div style={{ display: "flex", gap: 14, margin: "20px 0" }}>
+                    <div style={{ display: "flex", gap: 14, margin: "20px 0", flexWrap: "wrap" }}>
                         <StatCard label="Jami bemorlar" value={report.jami_bemorlar} />
                         <StatCard label="Chiqarilgan" value={report.chiqarilgan_yozuvlar} tone="success" />
                         <StatCard label="Chiqarib tashlangan" value={report.chiqarib_tashlangan_yozuvlar} tone="danger" />
@@ -151,7 +151,7 @@ function StatCard({ label, value, tone }) {
         success: "var(--success)", danger: "var(--danger)", accent: "var(--accent)",
     };
     return (
-        <div className="card" style={{ flex: 1, marginBottom: 0, padding: "14px 18px" }}>
+        <div className="card" style={{ flex: "1 1 140px", minWidth: 140, marginBottom: 0, padding: "14px 18px" }}>
             <div style={{ fontSize: 12, color: "var(--ink-muted)", textTransform: "uppercase", letterSpacing: ".03em" }}>
                 {label}
             </div>
