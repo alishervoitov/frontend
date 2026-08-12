@@ -65,6 +65,9 @@ export default function LoginPage() {
 
                 <div className="auth-switch">
                     Hisobingiz yo'qmi? <Link to="/register">Ro'yxatdan o'ting</Link>
+                    <div style={{ marginTop: 8 }}>
+                        <Link to="/forgot-password">Parolni unutdingizmi?</Link>
+                    </div>
                 </div>
             </div>
         </div>
