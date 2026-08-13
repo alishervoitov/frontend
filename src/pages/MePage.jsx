@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
 import RecordAttachments from "../components/RecordAttachments";
+import PrescriptionsSection from "../components/PrescriptionsSection";
 
 export default function MePage() {
     const { user, setUser } = useAuth();
@@ -59,6 +60,7 @@ function PatientHome({ user, onAvatarUpdated }) {
                         <p className="timeline-field"><b>Tibbiy yozuvlar soni:</b> {profile?.records_count ?? 0}</p>
                     </div>
 
+                    <PrescriptionsSection patientId={profile?.id} isDoctor={false} />
                     <div className="page-head">
                         <h2>Kasallik tarixim</h2>
                         <button className="btn btn-secondary" style={{ width: "auto" }} onClick={handleDownload} disabled={downloading}>
