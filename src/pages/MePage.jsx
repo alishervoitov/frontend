@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
+import RecordAttachments from "../components/RecordAttachments";
 
 export default function MePage() {
     const { user, setUser } = useAuth();
@@ -79,6 +80,7 @@ function PatientHome({ user, onAvatarUpdated }) {
                                         {r.diagnosis && <p className="timeline-field"><b>Tashxis:</b> {r.diagnosis}</p>}
                                         {r.treatment && <p className="timeline-field"><b>Davolash:</b> {r.treatment}</p>}
                                         <div className="timeline-doctor">Shifokor: {r.created_by_name}</div>
+                                        <RecordAttachments recordId={r.id} isDoctor={false} />
                                     </div>
                                 </div>
                             ))}
