@@ -195,3 +195,5 @@ td a:hover { color: var(--primary); }
     .avatar-lg { width: 52px; height: 52px; font-size: 20px; }
     .btn { font-size: 0.85rem; padding: 8px 14px; }
 }
+
+.btn-sm { padding: 5px 12px; font-size: 0.78rem; }

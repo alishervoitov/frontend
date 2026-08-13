@@ -73,4 +73,17 @@ export async function downloadPatientHistoryPdf(patientId, filename) {
     a.click();
     window.URL.revokeObjectURL(url);
 }
+
+export async function downloadAttachment(attachmentId, filename) {
+    const res = await client.get(`/records/attachments/${attachmentId}/`, {
+        responseType: "blob",
+    });
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
 export default client;
+
