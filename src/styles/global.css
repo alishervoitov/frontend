@@ -82,6 +82,10 @@ input:focus, select:focus { outline: none; border-color: var(--primary); box-sha
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);
 }
+@media (max-width: 700px) {
+    .table-card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-card table { min-width: 460px; }
+}
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th {
     text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em;
@@ -133,67 +137,66 @@ td a:hover { color: var(--primary); }
 .empty-state { text-align: center; padding: 40px 20px; color: var(--ink-muted); }
 
 
-.avatar-circle {
-    border-radius: 50%;
+.avatar-circle, .avatar-square {
     background: var(--primary-tint);
     color: var(--primary);
     display: flex; align-items: center; justify-content: center;
     font-weight: 700; overflow: hidden; flex-shrink: 0;
     font-family: var(--font-display);
 }
-.avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar-circle { border-radius: 50%; }
+.avatar-square { border-radius: var(--radius-md); }
+.avatar-circle img, .avatar-square img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 .avatar-sm { width: 30px; height: 30px; font-size: 13px; }
 .avatar-lg { width: 64px; height: 64px; font-size: 24px; }
+.avatar-xl { width: 96px; height: 96px; font-size: 34px; }
+.avatar-fill { width: 140px; height: auto; align-self: stretch; font-size: 34px; }
 
+.avatar-upload { display: inline-block; }
+.avatar-clickable { position: relative; cursor: pointer; }
+.avatar-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(16, 38, 43, 0.55);
+    color: #fff; font-size: 16px;
+    opacity: 0; transition: opacity .15s ease;
+}
+.avatar-square .avatar-overlay { border-radius: var(--radius-md); }
+.avatar-circle .avatar-overlay { border-radius: 50%; }
+.avatar-clickable:hover .avatar-overlay { opacity: 1; }
 
-/* ---------- Responsive (mobil va planshet) ---------- */
-@media (max-width: 900px) {
-    .page { padding: 20px; }
-    .stat-row, .card + .card { margin-bottom: 12px; }
+.profile-card-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 20px;
+}
+.profile-card-fields { flex: 1; min-width: 0; }
+
+@media (max-width: 480px) {
+    .avatar-xl { width: 72px; height: 72px; font-size: 26px; }
 }
 
 @media (max-width: 700px) {
-    .topbar {
-        padding: 10px 16px;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    .topbar-left {
-        gap: 14px;
-        order: 2;
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 2px;
-    }
-    .topbar-link { white-space: nowrap; font-size: 0.85rem; }
-    .topbar-right { order: 1; width: 100%; justify-content: space-between; }
-    .topbar-user { display: none; }
-
-    .page { padding: 16px; }
-    .page-head { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .page-head h1, .page-head h2 { margin-bottom: 0; }
-
-    .patient-header h1 { font-size: 1.4rem; }
-
-    /* Jadvallarni gorizontal skroll qilinadigan qilamiz, siqib bo'lmaydi */
-    .table-card { overflow-x: auto; }
-    table { min-width: 480px; }
-
-    .timeline { padding-left: 20px; margin-left: 2px; }
-    .timeline-item::before { left: -26px; }
-
-    .form-row { flex-direction: column; gap: 0; }
-
-    .auth-card { padding: 24px 20px; }
-
-    div[style*="display: flex"][style*="gap: 10px"] {
-        flex-wrap: wrap;
-    }
+    .profile-card-row { gap: 12px; }
+    .avatar-fill { width: 84px; min-height: auto; height: auto; align-self: stretch; }
+    .profile-card-fields h2 { font-size: 1.1rem; }
+    .topbar-right .avatar-sm { display: none; }
+    .topbar-left .topbar-link { display: none; }
 }
 
-@media (max-width: 420px) {
-    .avatar-lg { width: 52px; height: 52px; font-size: 20px; }
-    .btn { font-size: 0.85rem; padding: 8px 14px; }
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-
-.btn-sm { padding: 5px 12px; font-size: 0.78rem; }
+.btn-row .btn {
+    width: auto;
+    flex: 0 0 auto;
+}
+@media (max-width: 480px) {
+    .btn-row { flex-direction: column; }
+    .btn-row .btn { width: 100%; }
+}

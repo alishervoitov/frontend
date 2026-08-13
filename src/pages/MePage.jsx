@@ -46,18 +46,22 @@ function PatientHome({ user, onAvatarUpdated }) {
                 <h1>Salom, {user.first_name || user.username}!</h1>
                 <div className="patient-meta">Bu — sizning shaxsiy kabinetingiz.</div>
             </div>
-            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
 
             {loading ? (
                 <div className="table-card"><div className="empty-state">Yuklanmoqda...</div></div>
             ) : (
                 <>
                     <div className="card">
-                        <h2 style={{ marginBottom: 12 }}>Profil ma'lumotlari</h2>
-                        <p className="timeline-field"><b>Jinsi:</b> {profile?.gender || "kiritilmagan"}</p>
-                        <p className="timeline-field"><b>Qon guruhi:</b> {profile?.blood_type || "kiritilmagan"}</p>
-                        <p className="timeline-field"><b>Allergiyalar:</b> {profile?.allergies || "kiritilmagan"}</p>
-                        <p className="timeline-field"><b>Tibbiy yozuvlar soni:</b> {profile?.records_count ?? 0}</p>
+                        <div className="profile-card-row">
+                            <div className="profile-card-fields">
+                                <h2 style={{ marginBottom: 12 }}>Profil ma'lumotlari</h2>
+                                <p className="timeline-field"><b>Jinsi:</b> {profile?.gender || "kiritilmagan"}</p>
+                                <p className="timeline-field"><b>Qon guruhi:</b> {profile?.blood_type || "kiritilmagan"}</p>
+                                <p className="timeline-field"><b>Allergiyalar:</b> {profile?.allergies || "kiritilmagan"}</p>
+                                <p className="timeline-field"><b>Tibbiy yozuvlar soni:</b> {profile?.records_count ?? 0}</p>
+                            </div>
+                            <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
+                        </div>
                     </div>
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />
@@ -97,9 +101,12 @@ function PatientHome({ user, onAvatarUpdated }) {
 function DoctorHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
-            <div className="patient-header">
-                <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                <div className="patient-meta">Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi bo'limga o'ting.</div>
+            <div className="profile-header-row">
+                <div className="patient-header" style={{ marginBottom: 0 }}>
+                    <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
+                    <div className="patient-meta">Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi bo'limga o'ting.</div>
+                </div>
+                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             </div>
             <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>
@@ -112,9 +119,12 @@ function DoctorHome({ user, onAvatarUpdated }) {
 function AdminHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
-            <div className="patient-header">
-                <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                <div className="patient-meta">Administrator paneli.</div>
+            <div className="profile-header-row">
+                <div className="patient-header" style={{ marginBottom: 0 }}>
+                    <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
+                    <div className="patient-meta">Administrator paneli.</div>
+                </div>
+                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             </div>
             <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>

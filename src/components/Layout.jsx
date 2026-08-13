@@ -37,9 +37,9 @@ export default function Layout() {
                         {user?.avatar_url ? <img src={user.avatar_url} alt="avatar" /> : <span>{initial}</span>}
                     </div>
                     <span className="topbar-user">
-            {user?.first_name || user?.username}{" "}
+                        <span>{user?.first_name || user?.username}</span>{" "}
                         <span className={`badge badge-${user?.role}`}>{user?.role}</span>
-          </span>
+                    </span>
                     <button className="btn btn-secondary" onClick={logout}>Chiqish</button>
                 </div>
             </div>

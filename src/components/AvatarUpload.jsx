@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import client from "../api/client";
 
-export default function AvatarUpload({ user, onUpdated }) {
+export default function AvatarUpload({ user, onUpdated, shape = "circle", size = "lg" }) {
     const [preview, setPreview] = useState(user?.avatar_url || null);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState("");
+    const inputRef = useRef(null);
 
     function handleFileChange(e) {
         const file = e.target.files[0];
@@ -24,26 +25,30 @@ export default function AvatarUpload({ user, onUpdated }) {
             });
             onUpdated(res.data);
         } catch {
-            setError("Rasmni yuklab bo'lmadi (5MB dan kichik rasm tanlang).");
+            setError("Rasmni yuklab bo'lmadi.");
         } finally {
             setUploading(false);
         }
     }
 
     const initial = (user?.first_name || user?.username || "?")[0].toUpperCase();
+    const shapeClass = shape === "square" ? "avatar-square" : "avatar-circle";
+    const sizeClass = size === "fill" ? "avatar-fill" : size === "xl" ? "avatar-xl" : "avatar-lg";
 
     return (
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
-            <div className="avatar-circle avatar-lg">
+        <div className="avatar-upload">
+            <label className={`${shapeClass} ${sizeClass} avatar-clickable`} title="Rasmni o'zgartirish">
                 {preview ? <img src={preview} alt="avatar" /> : <span>{initial}</span>}
-            </div>
-            <div>
-                <label className="btn btn-secondary" style={{ width: "auto", cursor: "pointer", display: "inline-flex" }}>
-                    {uploading ? "Yuklanmoqda..." : "Rasm tanlash"}
-                    <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
-                </label>
-                {error && <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 6 }}>{error}</div>}
-            </div>
+                <span className="avatar-overlay">{uploading ? "..." : "✎"}</span>
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                />
+            </label>
+            {error && <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 6, textAlign: "center" }}>{error}</div>}
         </div>
     );
 }

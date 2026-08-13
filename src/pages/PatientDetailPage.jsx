@@ -60,20 +60,19 @@ export default function PatientDetailPage() {
                 </div>
             </div>
 
-            <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
+            <div className="btn-row">
                 {canEditProfile && (
-                    <button className="btn btn-secondary" style={{ width: "auto" }} onClick={() => setShowEdit(!showEdit)}>
+                    <button className="btn btn-secondary" onClick={() => setShowEdit(!showEdit)}>
                         {showEdit ? "Bekor qilish" : "Profilni tahrirlash"}
                     </button>
                 )}
                 {isDoctor && (
-                    <button className="btn btn-primary" style={{ width: "auto" }} onClick={() => setShowForm(!showForm)}>
+                    <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
                         {showForm ? "Bekor qilish" : "+ Yangi yozuv qo'shish"}
                     </button>
                 )}
                 <button
                     className="btn btn-secondary"
-                    style={{ width: "auto" }}
                     onClick={() => downloadPatientHistoryPdf(id, `kasallik_tarixi_${patient.user.username}.pdf`)}
                 >
                     ⬇ PDF yuklab olish
