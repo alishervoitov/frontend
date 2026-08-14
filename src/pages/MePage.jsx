@@ -101,17 +101,20 @@ function PatientHome({ user, onAvatarUpdated }) {
 function DoctorHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
-            <div className="profile-header-row">
-                <div className="patient-header" style={{ marginBottom: 0 }}>
-                    <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                    <div className="patient-meta">Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi bo'limga o'ting.</div>
+            <div className="card">
+                <div className="profile-card-row">
+                    <div className="profile-card-fields">
+                        <h1 style={{ marginBottom: 6 }}>Xush kelibsiz, {user.first_name || user.username}!</h1>
+                        <p className="patient-meta" style={{ margin: 0 }}>
+                            Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi tugmani bosing.
+                        </p>
+                        <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
+                            Bemorlar ro'yxatiga o'tish →
+                        </Link>
+                    </div>
+                    <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
                 </div>
-                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             </div>
-            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
-            <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>
-                Bemorlar ro'yxatiga o'tish →
-            </Link>
         </div>
     );
 }
@@ -119,17 +122,20 @@ function DoctorHome({ user, onAvatarUpdated }) {
 function AdminHome({ user, onAvatarUpdated }) {
     return (
         <div className="page">
-            <div className="profile-header-row">
-                <div className="patient-header" style={{ marginBottom: 0 }}>
-                    <h1>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                    <div className="patient-meta">Administrator paneli.</div>
+            <div className="card">
+                <div className="profile-card-row">
+                    <div className="profile-card-fields">
+                        <h1 style={{ marginBottom: 6 }}>Xush kelibsiz, {user.first_name || user.username}!</h1>
+                        <p className="patient-meta" style={{ margin: 0 }}>
+                            Administrator paneli — foydalanuvchilar, audit jurnali va anonimlashtirish moduliga yuqoridagi menyudan o'ting.
+                        </p>
+                        <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
+                            Bemorlar ro'yxatiga o'tish →
+                        </Link>
+                    </div>
+                    <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
                 </div>
-                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             </div>
-            <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
-            <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none" }}>
-                Bemorlar ro'yxatiga o'tish →
-            </Link>
         </div>
     );
 }
