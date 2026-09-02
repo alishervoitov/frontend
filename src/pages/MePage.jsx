@@ -1,10 +1,11 @@
 import AvatarUpload from "../components/AvatarUpload";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
-import RecordAttachments from "../components/RecordAttachments";
 import PrescriptionsSection from "../components/PrescriptionsSection";
+import RecordAttachments from "../components/RecordAttachments";
 
 export default function MePage() {
     const { user, setUser } = useAuth();
@@ -15,6 +16,7 @@ export default function MePage() {
 }
 
 function PatientHome({ user, onAvatarUpdated }) {
+    const { t } = useTranslation();
     const [profile, setProfile] = useState(null);
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -42,50 +44,49 @@ function PatientHome({ user, onAvatarUpdated }) {
 
     return (
         <div className="page">
-            <div className="patient-header">
-                <h1>Salom, {user.first_name || user.username}!</h1>
-                <div className="patient-meta">Bu — sizning shaxsiy kabinetingiz.</div>
+            <div className="profile-header-row">
+                <div className="patient-header" style={{ marginBottom: 0 }}>
+                    <h1>{t("me.hello", { name: user.first_name || user.username })}</h1>
+                    <div className="patient-meta">{t("me.patientSubtitle")}</div>
+                </div>
+                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
             </div>
 
             {loading ? (
-                <div className="table-card"><div className="empty-state">Yuklanmoqda...</div></div>
+                <div className="table-card"><div className="empty-state">{t("me.loading")}</div></div>
             ) : (
                 <>
                     <div className="card">
-                        <div className="profile-card-row">
-                            <div className="profile-card-fields">
-                                <h2 style={{ marginBottom: 12 }}>Profil ma'lumotlari</h2>
-                                <p className="timeline-field"><b>Jinsi:</b> {profile?.gender || "kiritilmagan"}</p>
-                                <p className="timeline-field"><b>Qon guruhi:</b> {profile?.blood_type || "kiritilmagan"}</p>
-                                <p className="timeline-field"><b>Allergiyalar:</b> {profile?.allergies || "kiritilmagan"}</p>
-                                <p className="timeline-field"><b>Tibbiy yozuvlar soni:</b> {profile?.records_count ?? 0}</p>
-                            </div>
-                            <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
-                        </div>
+                        <h2 style={{ marginBottom: 12 }}>{t("me.profileInfo")}</h2>
+                        <p className="timeline-field"><b>{t("me.gender")}:</b> {profile?.gender || t("me.notProvided")}</p>
+                        <p className="timeline-field"><b>{t("me.bloodType")}:</b> {profile?.blood_type || t("me.notProvided")}</p>
+                        <p className="timeline-field"><b>{t("me.allergies")}:</b> {profile?.allergies || t("me.notProvided")}</p>
+                        <p className="timeline-field"><b>{t("me.recordsCount")}:</b> {profile?.records_count ?? 0}</p>
                     </div>
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />
+
                     <div className="page-head">
-                        <h2>Kasallik tarixim</h2>
+                        <h2>{t("me.myHistory")}</h2>
                         <button className="btn btn-secondary" style={{ width: "auto" }} onClick={handleDownload} disabled={downloading}>
-                            {downloading ? "Tayyorlanmoqda..." : "⬇ PDF yuklab olish"}
+                            {downloading ? t("me.preparing") : `⬇ ${t("me.downloadPdf")}`}
                         </button>
                     </div>
 
                     {records.length === 0 ? (
-                        <div className="table-card"><div className="empty-state">Hozircha tibbiy yozuvlar yo'q.</div></div>
+                        <div className="table-card"><div className="empty-state">{t("me.noRecords")}</div></div>
                     ) : (
                         <div className="timeline">
                             {records.map((r) => (
                                 <div key={r.id} className="timeline-item">
                                     <div className="timeline-date">
-                                        {new Date(r.visit_date).toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" })}
+                                        {new Date(r.visit_date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
                                     </div>
                                     <div className="timeline-card">
                                         <div className="timeline-title">{r.title}</div>
-                                        {r.diagnosis && <p className="timeline-field"><b>Tashxis:</b> {r.diagnosis}</p>}
-                                        {r.treatment && <p className="timeline-field"><b>Davolash:</b> {r.treatment}</p>}
-                                        <div className="timeline-doctor">Shifokor: {r.created_by_name}</div>
+                                        {r.diagnosis && <p className="timeline-field"><b>{t("patientDetail.diagnosis")}:</b> {r.diagnosis}</p>}
+                                        {r.treatment && <p className="timeline-field"><b>{t("patientDetail.treatment")}:</b> {r.treatment}</p>}
+                                        <div className="timeline-doctor">{t("me.doctorLabel")}: {r.created_by_name}</div>
                                         <RecordAttachments recordId={r.id} isDoctor={false} />
                                     </div>
                                 </div>
@@ -99,17 +100,16 @@ function PatientHome({ user, onAvatarUpdated }) {
 }
 
 function DoctorHome({ user, onAvatarUpdated }) {
+    const { t } = useTranslation();
     return (
         <div className="page">
             <div className="card">
                 <div className="profile-card-row">
                     <div className="profile-card-fields">
-                        <h1 style={{ marginBottom: 6 }}>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                        <p className="patient-meta" style={{ margin: 0 }}>
-                            Bemorlar ro'yxatini ko'rish va tibbiy yozuv qo'shish uchun quyidagi tugmani bosing.
-                        </p>
+                        <h1 style={{ marginBottom: 6 }}>{t("me.welcome", { name: user.first_name || user.username })}</h1>
+                        <p className="patient-meta" style={{ margin: 0 }}>{t("me.doctorSubtitle")}</p>
                         <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
-                            Bemorlar ro'yxatiga o'tish →
+                            {t("me.goToPatients")}
                         </Link>
                     </div>
                     <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
@@ -120,17 +120,16 @@ function DoctorHome({ user, onAvatarUpdated }) {
 }
 
 function AdminHome({ user, onAvatarUpdated }) {
+    const { t } = useTranslation();
     return (
         <div className="page">
             <div className="card">
                 <div className="profile-card-row">
                     <div className="profile-card-fields">
-                        <h1 style={{ marginBottom: 6 }}>Xush kelibsiz, {user.first_name || user.username}!</h1>
-                        <p className="patient-meta" style={{ margin: 0 }}>
-                            Administrator paneli — foydalanuvchilar, audit jurnali va anonimlashtirish moduliga yuqoridagi menyudan o'ting.
-                        </p>
+                        <h1 style={{ marginBottom: 6 }}>{t("me.welcome", { name: user.first_name || user.username })}</h1>
+                        <p className="patient-meta" style={{ margin: 0 }}>{t("me.adminSubtitle")}</p>
                         <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
-                            Bemorlar ro'yxatiga o'tish →
+                            {t("me.goToPatients")}
                         </Link>
                     </div>
                     <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
