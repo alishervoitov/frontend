@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import client from "../api/client";
 
 export default function DoctorPatientsPage() {
+    const { t } = useTranslation();
     const [patients, setPatients] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
@@ -13,19 +15,19 @@ export default function DoctorPatientsPage() {
         client
             .get("/records/patients/", { params: search ? { search } : {} })
             .then((res) => setPatients(res.data))
-            .catch(() => setError("Bemorlar ro'yxatini yuklab bo'lmadi."))
+            .catch(() => setError(t("patients.loadError")))
             .finally(() => setLoading(false));
     }, [search]);
 
     return (
         <div className="page">
             <div className="page-head">
-                <h1>Bemorlar</h1>
+                <h1>{t("patients.title")}</h1>
             </div>
 
             <input
                 className="search-input"
-                placeholder="Ism yoki familiya bo'yicha qidirish..."
+                placeholder={t("patients.searchPlaceholder")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
@@ -34,23 +36,23 @@ export default function DoctorPatientsPage() {
 
             <div className="table-card">
                 {loading ? (
-                    <div className="empty-state">Yuklanmoqda...</div>
+                    <div className="empty-state">{t("me.loading")}</div>
                 ) : patients.length === 0 ? (
-                    <div className="empty-state">Bemorlar topilmadi.</div>
+                    <div className="empty-state">{t("patients.notFound")}</div>
                 ) : (
                     <table>
                         <thead>
                         <tr>
-                            <th>F.I.Sh.</th>
-                            <th>Foydalanuvchi nomi</th>
-                            <th>Jinsi</th>
-                            <th>Qon guruhi</th>
+                            <th>{t("patients.fullName")}</th>
+                            <th>{t("patients.username")}</th>
+                            <th>{t("patients.gender")}</th>
+                            <th>{t("patients.bloodType")}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {patients.map((p) => (
                             <tr key={p.id}>
-                                <td><Link to={`/patients/${p.id}`}>{p.full_name || "(ism kiritilmagan)"}</Link></td>
+                                <td><Link to={`/patients/${p.id}`}>{p.full_name || t("patients.noName")}</Link></td>
                                 <td className="cell-muted">{p.username}</td>
                                 <td className="cell-muted">{p.gender || "—"}</td>
                                 <td className="cell-muted">{p.blood_type || "—"}</td>
