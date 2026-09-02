@@ -162,5 +162,12 @@
     "groupDetails": "Детали групп",
     "groupStatus": "Статус"
   },
+  "recordTypes": {
+    "visit": "Визит",
+    "diagnosis": "Диагноз",
+    "prescription": "Рецепт",
+    "lab_result": "Результат анализа",
+    "procedure": "Процедура"
+  },
   "actions": { "close": "Закрыть", "yes": "Да", "no": "Нет" }
 }

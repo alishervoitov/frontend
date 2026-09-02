@@ -162,5 +162,12 @@
     "groupDetails": "Group details",
     "groupStatus": "Status"
   },
+  "recordTypes": {
+    "visit": "Visit",
+    "diagnosis": "Diagnosis",
+    "prescription": "Prescription",
+    "lab_result": "Lab result",
+    "procedure": "Procedure"
+  },
   "actions": { "close": "Close", "yes": "Yes", "no": "No" }
 }

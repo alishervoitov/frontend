@@ -168,6 +168,13 @@
     "groupDetails": "Guruhlar tafsiloti",
     "groupStatus": "Holati"
   },
+  "recordTypes": {
+    "visit": "Tashrif",
+    "diagnosis": "Tashxis",
+    "prescription": "Retsept",
+    "lab_result": "Laboratoriya natijasi",
+    "procedure": "Muolaja"
+  },
   "actions": {
     "close": "Yopish",
     "yes": "Ha",
