@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 export default function LoginPage() {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -22,7 +25,7 @@ export default function LoginPage() {
             else navigate("/me");
         } catch (err) {
             const detail = err.response?.data?.detail;
-            setError(detail || "Login yoki parol noto'g'ri.");
+            setError(detail || t("auth.loginError"));
         } finally {
             setLoading(false);
         }
@@ -30,15 +33,18 @@ export default function LoginPage() {
 
     return (
         <div className="auth-page">
+            <div style={{ position: "absolute", top: 20, right: 20 }}>
+                <LanguageSwitcher />
+            </div>
             <div className="auth-card">
-                <div className="auth-brand">MedKarta</div>
-                <div className="auth-sub">Bemor kasallik tarixi tizimiga kirish</div>
+                <div className="auth-brand">{t("app.name")}</div>
+                <div className="auth-sub">{t("auth.loginTitle")}</div>
 
                 {error && <div className="alert-error">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="field">
-                        <label htmlFor="username">Foydalanuvchi nomi</label>
+                        <label htmlFor="username">{t("auth.username")}</label>
                         <input
                             id="username"
                             type="text"
@@ -49,7 +55,7 @@ export default function LoginPage() {
                         />
                     </div>
                     <div className="field">
-                        <label htmlFor="password">Parol</label>
+                        <label htmlFor="password">{t("auth.password")}</label>
                         <input
                             id="password"
                             type="password"
@@ -59,14 +65,14 @@ export default function LoginPage() {
                         />
                     </div>
                     <button className="btn btn-primary" type="submit" disabled={loading}>
-                        {loading ? "Kirilmoqda..." : "Kirish"}
+                        {loading ? t("auth.loggingIn") : t("auth.loginButton")}
                     </button>
                 </form>
 
                 <div className="auth-switch">
-                    Hisobingiz yo'qmi? <Link to="/register">Ro'yxatdan o'ting</Link>
+                    {t("auth.noAccount")} <Link to="/register">{t("auth.register")}</Link>
                     <div style={{ marginTop: 8 }}>
-                        <Link to="/forgot-password">Parolni unutdingizmi?</Link>
+                        <Link to="/forgot-password">{t("auth.forgotPassword")}</Link>
                     </div>
                 </div>
             </div>
