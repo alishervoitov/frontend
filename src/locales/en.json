@@ -169,5 +169,14 @@
     "lab_result": "Lab result",
     "procedure": "Procedure"
   },
+  "frequency": {
+    "once": "Once",
+    "daily_1": "Once daily",
+    "daily_2": "Twice daily",
+    "daily_3": "3 times daily",
+    "daily_4": "4 times daily",
+    "weekly": "Weekly",
+    "as_needed": "As needed"
+  },
   "actions": { "close": "Close", "yes": "Yes", "no": "No" }
 }

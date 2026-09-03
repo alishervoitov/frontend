@@ -175,6 +175,15 @@
     "lab_result": "Laboratoriya natijasi",
     "procedure": "Muolaja"
   },
+  "frequency": {
+    "once": "Bir marta",
+    "daily_1": "Kuniga 1 marta",
+    "daily_2": "Kuniga 2 marta",
+    "daily_3": "Kuniga 3 marta",
+    "daily_4": "Kuniga 4 marta",
+    "weekly": "Haftada bir marta",
+    "as_needed": "Zarurat bo'yicha"
+  },
   "actions": {
     "close": "Yopish",
     "yes": "Ha",
