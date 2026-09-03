@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import client from "../api/client";
 
-const FREQUENCY_OPTIONS = [
-    { value: "once", label: "Bir marta" },
-    { value: "daily_1", label: "Kuniga 1 marta" },
-    { value: "daily_2", label: "Kuniga 2 marta" },
-    { value: "daily_3", label: "Kuniga 3 marta" },
-    { value: "daily_4", label: "Kuniga 4 marta" },
-    { value: "weekly", label: "Haftada bir marta" },
-    { value: "as_needed", label: "Zarurat bo'yicha" },
-];
-
 export default function PrescriptionsSection({ patientId, isDoctor }) {
+    const { t } = useTranslation();
+
+    const FREQUENCY_OPTIONS = [
+        { value: "once", label: t("frequency.once") },
+        { value: "daily_1", label: t("frequency.daily_1") },
+        { value: "daily_2", label: t("frequency.daily_2") },
+        { value: "daily_3", label: t("frequency.daily_3") },
+        { value: "daily_4", label: t("frequency.daily_4") },
+        { value: "weekly", label: t("frequency.weekly") },
+        { value: "as_needed", label: t("frequency.as_needed") },
+    ];
+
     const [prescriptions, setPrescriptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -32,17 +35,17 @@ export default function PrescriptionsSection({ patientId, isDoctor }) {
             });
             load();
         } catch {
-            alert("O'zgartirib bo'lmadi.");
+            alert(t("patients.loadError"));
         }
     }
 
     return (
         <div style={{ marginBottom: 28 }}>
             <div className="page-head">
-                <h2>Retseptlar</h2>
+                <h2>{t("prescriptions.title")}</h2>
                 {isDoctor && (
                     <button className="btn btn-primary" style={{ width: "auto" }} onClick={() => setShowForm(!showForm)}>
-                        {showForm ? "Bekor qilish" : "+ Retsept yozish"}
+                        {showForm ? t("prescriptions.cancel") : t("prescriptions.add")}
                     </button>
                 )}
             </div>
@@ -50,25 +53,26 @@ export default function PrescriptionsSection({ patientId, isDoctor }) {
             {showForm && (
                 <NewPrescriptionForm
                     patientId={patientId}
+                    frequencyOptions={FREQUENCY_OPTIONS}
                     onCreated={() => { setShowForm(false); load(); }}
                 />
             )}
 
             {loading ? (
-                <div className="table-card"><div className="empty-state">Yuklanmoqda...</div></div>
+                <div className="table-card"><div className="empty-state">{t("me.loading")}</div></div>
             ) : prescriptions.length === 0 ? (
-                <div className="table-card"><div className="empty-state">Hozircha retseptlar yo'q.</div></div>
+                <div className="table-card"><div className="empty-state">{t("prescriptions.noPrescriptions")}</div></div>
             ) : (
                 <div className="table-card">
                     <table>
                         <thead>
                         <tr>
-                            <th>Dori</th>
-                            <th>Dozasi</th>
-                            <th>Chastota</th>
-                            <th>Davomiyligi</th>
-                            <th>Boshlangan sana</th>
-                            <th>Holati</th>
+                            <th>{t("prescriptions.medication")}</th>
+                            <th>{t("prescriptions.dosage")}</th>
+                            <th>{t("prescriptions.frequency")}</th>
+                            <th>{t("prescriptions.duration")}</th>
+                            <th>{t("prescriptions.startDate")}</th>
+                            <th>{t("prescriptions.status")}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -76,8 +80,8 @@ export default function PrescriptionsSection({ patientId, isDoctor }) {
                             <tr key={p.id}>
                                 <td><b>{p.medication_name}</b></td>
                                 <td className="cell-muted">{p.dosage}</td>
-                                <td className="cell-muted">{p.frequency_display}</td>
-                                <td className="cell-muted">{p.duration_days} kun</td>
+                                <td className="cell-muted">{FREQUENCY_OPTIONS.find(f => f.value === p.frequency)?.label || p.frequency_display}</td>
+                                <td className="cell-muted">{p.duration_days} {t("prescriptions.days")}</td>
                                 <td className="cell-muted">{p.start_date}</td>
                                 <td>
                                     {isDoctor ? (
@@ -86,11 +90,11 @@ export default function PrescriptionsSection({ patientId, isDoctor }) {
                                             style={{ border: "none", cursor: "pointer" }}
                                             onClick={() => toggleActive(p)}
                                         >
-                                            {p.is_active ? "Faol" : "Tugagan"}
+                                            {p.is_active ? t("prescriptions.active") : t("prescriptions.expired")}
                                         </button>
                                     ) : (
                                         <span className={`badge ${p.is_active ? "badge-doctor" : "badge-admin"}`}>
-                        {p.is_active ? "Faol" : "Tugagan"}
+                        {p.is_active ? t("prescriptions.active") : t("prescriptions.expired")}
                       </span>
                                     )}
                                 </td>
@@ -104,7 +108,8 @@ export default function PrescriptionsSection({ patientId, isDoctor }) {
     );
 }
 
-function NewPrescriptionForm({ patientId, onCreated }) {
+function NewPrescriptionForm({ patientId, frequencyOptions, onCreated }) {
+    const { t } = useTranslation();
     const [form, setForm] = useState({
         medication_name: "", dosage: "", frequency: "daily_1",
         duration_days: 7, instructions: "",
@@ -125,7 +130,7 @@ function NewPrescriptionForm({ patientId, onCreated }) {
             await client.post("/records/prescriptions/", { ...form, patient: patientId });
             onCreated();
         } catch {
-            setError("Retseptni saqlab bo'lmadi. Maydonlarni tekshiring.");
+            setError(t("patients.loadError"));
         } finally {
             setSaving(false);
         }
@@ -136,36 +141,36 @@ function NewPrescriptionForm({ patientId, onCreated }) {
             {error && <div className="alert-error">{error}</div>}
             <div className="form-row" style={{ display: "flex", gap: 12 }}>
                 <div className="field" style={{ flex: 2 }}>
-                    <label>Dori nomi</label>
+                    <label>{t("prescriptions.medicationName")}</label>
                     <input value={form.medication_name} onChange={update("medication_name")} required />
                 </div>
                 <div className="field" style={{ flex: 1 }}>
-                    <label>Dozasi</label>
+                    <label>{t("prescriptions.dosage")}</label>
                     <input value={form.dosage} onChange={update("dosage")} placeholder="500mg" required />
                 </div>
             </div>
             <div className="form-row" style={{ display: "flex", gap: 12 }}>
                 <div className="field" style={{ flex: 1 }}>
-                    <label>Chastota</label>
+                    <label>{t("prescriptions.frequency")}</label>
                     <select value={form.frequency} onChange={update("frequency")}>
-                        {FREQUENCY_OPTIONS.map((f) => <option key={f.value} value={f.value}>{f.label}</option>)}
+                        {frequencyOptions.map((f) => <option key={f.value} value={f.value}>{f.label}</option>)}
                     </select>
                 </div>
                 <div className="field" style={{ flex: 1 }}>
-                    <label>Davomiyligi (kun)</label>
+                    <label>{t("prescriptions.durationDays")}</label>
                     <input type="number" min="1" value={form.duration_days} onChange={update("duration_days")} required />
                 </div>
                 <div className="field" style={{ flex: 1 }}>
-                    <label>Boshlangan sana</label>
+                    <label>{t("prescriptions.startDate")}</label>
                     <input type="date" value={form.start_date} onChange={update("start_date")} required />
                 </div>
             </div>
             <div className="field">
-                <label>Qo'shimcha ko'rsatmalar</label>
-                <input value={form.instructions} onChange={update("instructions")} placeholder="Ovqatdan keyin ichilsin..." />
+                <label>{t("prescriptions.instructions")}</label>
+                <input value={form.instructions} onChange={update("instructions")} />
             </div>
             <button className="btn btn-primary" style={{ width: "auto" }} disabled={saving}>
-                {saving ? "Saqlanmoqda..." : "Saqlash"}
+                {saving ? t("auth.saving") : t("prescriptions.save")}
             </button>
         </form>
     );
