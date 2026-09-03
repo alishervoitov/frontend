@@ -161,7 +161,10 @@
     "downloadCsv": "Скачать CSV",
     "groupDetails": "Детали групп",
     "groupStatus": "Статус",
-    "createButton": "Создать"
+    "createButton": "Создать",
+    "selectAtLeastOne": "Выберите хотя бы один квази-идентификатор.",
+    "groupSize": "Размер",
+    "hidden": "Скрыто"
   },
   "recordTypes": {
     "visit": "Визит",

@@ -161,7 +161,10 @@
     "downloadCsv": "Download CSV",
     "groupDetails": "Group details",
     "groupStatus": "Status",
-    "createButton": "Create"
+    "createButton": "Create",
+    "selectAtLeastOne": "Select at least one quasi-identifier.",
+    "groupSize": "Size",
+    "hidden": "Hidden"
   },
   "recordTypes": {
     "visit": "Visit",

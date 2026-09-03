@@ -167,7 +167,10 @@
     "downloadCsv": "CSV yuklab olish",
     "groupDetails": "Guruhlar tafsiloti",
     "groupStatus": "Holati",
-    "createButton": "Yaratish"
+    "createButton": "Yaratish",
+    "selectAtLeastOne": "Kamida bitta bilvosita identifikator tanlang.",
+    "groupSize": "Hajmi",
+    "hidden": "Yashirildi"
   },
   "recordTypes": {
     "visit": "Tashrif",

@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import client from "../api/client";
 
-const QI_OPTIONS = [
-    { value: "age_group", label: "Yosh oralig'i" },
-    { value: "gender", label: "Jinsi" },
-    { value: "blood_type", label: "Qon guruhi" },
-];
-
 export default function AdminAnonymizePage() {
+    const { t } = useTranslation();
+
+    const QI_OPTIONS = [
+        { value: "age_group", label: t("admin.ageGroup") },
+        { value: "gender", label: t("admin.gender") },
+        { value: "blood_type", label: t("admin.bloodType") },
+    ];
+
     const [k, setK] = useState(5);
     const [selectedQi, setSelectedQi] = useState(["age_group", "gender", "blood_type"]);
     const [report, setReport] = useState(null);
@@ -23,7 +26,7 @@ export default function AdminAnonymizePage() {
     async function runReport() {
         setError("");
         if (selectedQi.length === 0) {
-            setError("Kamida bitta bilvosita identifikator tanlang.");
+            setError(t("admin.selectAtLeastOne"));
             return;
         }
         setLoading(true);
@@ -33,7 +36,7 @@ export default function AdminAnonymizePage() {
             });
             setReport(res.data);
         } catch {
-            setError("Hisobotni yuklab bo'lmadi.");
+            setError(t("patients.loadError"));
         } finally {
             setLoading(false);
         }
@@ -52,28 +55,27 @@ export default function AdminAnonymizePage() {
             a.click();
             window.URL.revokeObjectURL(url);
         } catch {
-            setError("CSV faylni yuklab bo'lmadi.");
+            setError(t("patients.loadError"));
         }
     }
 
     return (
         <div className="page" style={{ maxWidth: 900 }}>
             <div className="page-head">
-                <h1>Anonimlashtirish moduli</h1>
+                <h1>{t("admin.anonymizeTitle")}</h1>
             </div>
             <p className="patient-meta" style={{ marginBottom: 20 }}>
-                Bemorlar ma'lumotlarini k-anonimlik modeli asosida tadqiqot/statistika uchun anonimlashtiradi.
-                To'g'ridan-to'g'ri identifikatorlar (F.I.Sh., ID) har doim olib tashlanadi.
+                {t("admin.anonymizeDesc")}
             </p>
 
             <div className="card">
                 <div className="field" style={{ maxWidth: 160 }}>
-                    <label>k qiymati (minimal guruh hajmi)</label>
+                    <label>{t("admin.kValue")}</label>
                     <input type="number" min="2" max="50" value={k} onChange={(e) => setK(Number(e.target.value))} />
                 </div>
 
                 <div className="field">
-                    <label>Bilvosita identifikatorlar (quasi-identifiers)</label>
+                    <label>{t("admin.quasiIdentifiers")}</label>
                     <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
                         {QI_OPTIONS.map((opt) => (
                             <label key={opt.value} style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 400, fontSize: "0.88rem" }}>
@@ -92,34 +94,34 @@ export default function AdminAnonymizePage() {
                 {error && <div className="alert-error">{error}</div>}
 
                 <button className="btn btn-primary" style={{ width: "auto" }} onClick={runReport} disabled={loading}>
-                    {loading ? "Hisoblanmoqda..." : "Hisoblash"}
+                    {loading ? t("admin.calculating") : t("admin.calculate")}
                 </button>
             </div>
 
             {report && (
                 <>
                     <div style={{ display: "flex", gap: 14, margin: "20px 0", flexWrap: "wrap" }}>
-                        <StatCard label="Jami bemorlar" value={report.jami_bemorlar} />
-                        <StatCard label="Chiqarilgan" value={report.chiqarilgan_yozuvlar} tone="success" />
-                        <StatCard label="Chiqarib tashlangan" value={report.chiqarib_tashlangan_yozuvlar} tone="danger" />
-                        <StatCard label="Axborot yo'qotilishi" value={`${report.axborot_yoqotilishi_foizi}%`} tone="accent" />
+                        <StatCard label={t("admin.totalPatients")} value={report.jami_bemorlar} />
+                        <StatCard label={t("admin.released")} value={report.chiqarilgan_yozuvlar} tone="success" />
+                        <StatCard label={t("admin.suppressed")} value={report.chiqarib_tashlangan_yozuvlar} tone="danger" />
+                        <StatCard label={t("admin.infoLoss")} value={`${report.axborot_yoqotilishi_foizi}%`} tone="accent" />
                     </div>
 
                     <button className="btn btn-secondary" style={{ width: "auto", marginBottom: 20 }} onClick={downloadCsv}>
-                        ⬇ CSV yuklab olish
+                        ⬇ {t("admin.downloadCsv")}
                     </button>
 
-                    <h2 style={{ marginBottom: 12 }}>Guruhlar tafsiloti</h2>
+                    <h2 style={{ marginBottom: 12 }}>{t("admin.groupDetails")}</h2>
                     <div className="table-card">
                         <table>
                             <thead>
                             <tr>
-                                <th>Yosh oralig'i</th>
-                                <th>Jinsi</th>
-                                <th>Qon guruhi</th>
-                                <th>Hajmi</th>
+                                <th>{t("admin.ageGroup")}</th>
+                                <th>{t("admin.gender")}</th>
+                                <th>{t("admin.bloodType")}</th>
+                                <th>{t("admin.groupSize")}</th>
                                 <th>l-diversity</th>
-                                <th>Holati</th>
+                                <th>{t("admin.groupStatus")}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -132,7 +134,7 @@ export default function AdminAnonymizePage() {
                                     <td className="cell-muted">{g.l_diversity}</td>
                                     <td>
                       <span className={`badge ${g.chiqarildi ? "badge-patient" : "badge-admin"}`}>
-                        {g.chiqarildi ? "Chiqarildi" : "Yashirildi"}
+                        {g.chiqarildi ? t("admin.released") : t("admin.hidden")}
                       </span>
                                     </td>
                                 </tr>
