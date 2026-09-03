@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import client from "../api/client";
 
-const ACTION_LABELS = {
-    view: "Ko'rish", create: "Yaratish", update: "Tahrirlash",
-    delete: "O'chirish", login: "Kirish", login_failed: "Muvaffaqiyatsiz kirish",
-};
-
 export default function AdminAuditLogPage() {
+    const { t } = useTranslation();
+
+    const ACTION_LABELS = {
+        view: t("auditActions.view"), create: t("auditActions.create"), update: t("auditActions.update"),
+        delete: t("auditActions.delete"), login: t("auditActions.login"), login_failed: t("auditActions.login_failed"),
+        export: t("auditActions.export"),
+    };
+
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -17,23 +21,23 @@ export default function AdminAuditLogPage() {
     return (
         <div className="page" style={{ maxWidth: 1100 }}>
             <div className="page-head">
-                <h1>Audit jurnali</h1>
+                <h1>{t("admin.auditTitle")}</h1>
             </div>
 
             <div className="table-card">
                 {loading ? (
-                    <div className="empty-state">Yuklanmoqda...</div>
+                    <div className="empty-state">{t("admin.loading")}</div>
                 ) : logs.length === 0 ? (
-                    <div className="empty-state">Hozircha yozuvlar yo'q.</div>
+                    <div className="empty-state">{t("admin.noEntries")}</div>
                 ) : (
                     <table>
                         <thead>
                         <tr>
-                            <th>Vaqt</th>
-                            <th>Kim</th>
-                            <th>Harakat</th>
-                            <th>Bemor</th>
-                            <th>Tafsilot</th>
+                            <th>{t("admin.time")}</th>
+                            <th>{t("admin.who")}</th>
+                            <th>{t("admin.action")}</th>
+                            <th>{t("admin.patient")}</th>
+                            <th>{t("admin.detail")}</th>
                             <th>IP</th>
                         </tr>
                         </thead>
@@ -41,7 +45,7 @@ export default function AdminAuditLogPage() {
                         {logs.map((l) => (
                             <tr key={l.id}>
                                 <td className="cell-muted" style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
-                                    {new Date(l.timestamp).toLocaleString("uz-UZ")}
+                                    {new Date(l.timestamp).toLocaleString()}
                                 </td>
                                 <td>{l.actor_name || "—"}</td>
                                 <td>{ACTION_LABELS[l.action] || l.action}</td>

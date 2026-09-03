@@ -179,5 +179,10 @@
     "weekly": "Weekly",
     "as_needed": "As needed"
   },
+  "auditActions": {
+    "view": "View", "create": "Create", "update": "Update",
+    "delete": "Delete", "login": "Login", "login_failed": "Failed login",
+    "export": "Export"
+  },
   "actions": { "close": "Close", "yes": "Yes", "no": "No" }
 }

@@ -179,5 +179,10 @@
     "weekly": "Раз в неделю",
     "as_needed": "По необходимости"
   },
+  "auditActions": {
+    "view": "Просмотр", "create": "Создание", "update": "Изменение",
+    "delete": "Удаление", "login": "Вход", "login_failed": "Неудачный вход",
+    "export": "Экспорт"
+  },
   "actions": { "close": "Закрыть", "yes": "Да", "no": "Нет" }
 }
