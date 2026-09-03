@@ -160,7 +160,8 @@
     "infoLoss": "Потеря информации",
     "downloadCsv": "Скачать CSV",
     "groupDetails": "Детали групп",
-    "groupStatus": "Статус"
+    "groupStatus": "Статус",
+    "createButton": "Создать"
   },
   "recordTypes": {
     "visit": "Визит",

@@ -82,6 +82,7 @@ function NewUserForm({ onCreated }) {
         } finally {
             setSaving(false);
         }
+        {saving ? t("auth.saving") : t("admin.createButton")}
     }
 
     return (

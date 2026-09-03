@@ -160,7 +160,8 @@
     "infoLoss": "Information loss",
     "downloadCsv": "Download CSV",
     "groupDetails": "Group details",
-    "groupStatus": "Status"
+    "groupStatus": "Status",
+    "createButton": "Create"
   },
   "recordTypes": {
     "visit": "Visit",

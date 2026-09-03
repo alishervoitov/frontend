@@ -166,7 +166,8 @@
     "infoLoss": "Axborot yo'qotilishi",
     "downloadCsv": "CSV yuklab olish",
     "groupDetails": "Guruhlar tafsiloti",
-    "groupStatus": "Holati"
+    "groupStatus": "Holati",
+    "createButton": "Yaratish"
   },
   "recordTypes": {
     "visit": "Tashrif",
