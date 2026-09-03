@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import client, { downloadAttachment } from "../api/client.js";
+import { useTranslation } from "react-i18next";
+import client, { downloadAttachment } from "../api/client";
 
 export default function RecordAttachments({ recordId, isDoctor }) {
+    const { t } = useTranslation();
     const [attachments, setAttachments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
@@ -28,7 +30,7 @@ export default function RecordAttachments({ recordId, isDoctor }) {
             });
             load();
         } catch {
-            setError("Fayl yuklab bo'lmadi (10MB dan kichik JPEG/PNG/PDF tanlang).");
+            setError(t("patients.loadError"));
         } finally {
             setUploading(false);
             e.target.value = "";
@@ -36,12 +38,12 @@ export default function RecordAttachments({ recordId, isDoctor }) {
     }
 
     async function handleDelete(attachmentId) {
-        if (!confirm("Faylni o'chirishni tasdiqlaysizmi?")) return;
+        if (!confirm(t("attachments.confirmDelete"))) return;
         try {
             await client.delete(`/records/attachments/${attachmentId}/`);
             load();
         } catch {
-            setError("Faylni o'chirib bo'lmadi.");
+            setError(t("patients.loadError"));
         }
     }
 
@@ -50,11 +52,11 @@ export default function RecordAttachments({ recordId, isDoctor }) {
     return (
         <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
             <div style={{ fontSize: 12, fontWeight: 600, color: "var(--ink-muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".03em" }}>
-                Biriktirilgan fayllar {attachments.length > 0 && `(${attachments.length})`}
+                {t("attachments.title")} {attachments.length > 0 && `(${attachments.length})`}
             </div>
 
             {attachments.length === 0 && !isDoctor && (
-                <div style={{ fontSize: 13, color: "var(--ink-faint)" }}>Fayllar biriktirilmagan.</div>
+                <div style={{ fontSize: 13, color: "var(--ink-faint)" }}>{t("attachments.none")}</div>
             )}
 
             {attachments.map((a) => (
@@ -73,7 +75,7 @@ export default function RecordAttachments({ recordId, isDoctor }) {
                             onClick={() => handleDelete(a.id)}
                             style={{ background: "none", border: "none", color: "var(--danger)", cursor: "pointer", padding: 0, fontSize: 11 }}
                         >
-                            o'chirish
+                            {t("attachments.delete")}
                         </button>
                     )}
                 </div>
@@ -81,7 +83,7 @@ export default function RecordAttachments({ recordId, isDoctor }) {
 
             {isDoctor && (
                 <label className="btn btn-secondary btn-sm" style={{ width: "auto", cursor: "pointer", display: "inline-flex", marginTop: 6 }}>
-                    {uploading ? "Yuklanmoqda..." : "+ Fayl biriktirish"}
+                    {uploading ? t("attachments.uploading") : t("attachments.add")}
                     <input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={handleFileChange} style={{ display: "none" }} />
                 </label>
             )}
