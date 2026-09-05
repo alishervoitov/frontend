@@ -62,14 +62,16 @@ client.interceptors.response.use(
 );
 
 export { getTokens, setTokens };
-export async function downloadPatientHistoryPdf(patientId, filename) {
+export async function downloadPatientHistoryPdf(patientId, filename, lang) {
+    const currentLang = lang || localStorage.getItem("i18nextLng") || "uz";
     const res = await client.get(`/records/patients/${patientId}/history-pdf/`, {
+        params: { lang: currentLang },
         responseType: "blob",
     });
     const url = window.URL.createObjectURL(new Blob([res.data]));
     const a = document.createElement("a");
     a.href = url;
-    a.download = filename || `kasallik_tarixi_${patientId}.pdf`;
+    a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);
 }
