@@ -187,5 +187,93 @@
     "delete": "Delete", "login": "Login", "login_failed": "Failed login",
     "export": "Export"
   },
-  "actions": { "close": "Close", "yes": "Yes", "no": "No" }
+  "actions": { "close": "Close", "yes": "Yes", "no": "No" },
+  "landing": {
+    "eyebrow": "Medical records system",
+    "heroTitleA": "Medical history:",
+    "heroTitleB": "secure, in one place",
+    "heroText": "Medical records for doctor and patient.",
+    "chips": {
+      "roles": "Role-based access",
+      "session": "Secure sessions",
+      "audit": "Audit log"
+    },
+    "mock": {
+      "title": "My medical history",
+      "r1": {
+        "date": "12.03",
+        "diag": "General checkup",
+        "sub": "Doctor's recommendations"
+      },
+      "r2": {
+        "date": "28.03",
+        "diag": "Blood test",
+        "sub": "Results added"
+      },
+      "r3": {
+        "date": "15.04",
+        "diag": "Follow-up visit",
+        "sub": "Treatment continues"
+      },
+      "pdf": "Download PDF",
+      "note": "Sample data, not real patients",
+      "badge": "Only you can see it"
+    },
+    "stepsTitle": "How it works",
+    "steps": {
+      "1": {
+        "title": "Sign up",
+        "text": "Create a patient account and log in."
+      },
+      "2": {
+        "title": "Doctor adds a record",
+        "text": "Diagnosis, treatment and files are added to your history."
+      },
+      "3": {
+        "title": "View and download",
+        "text": "See your history in your portal and save it as PDF."
+      }
+    },
+    "featuresTitle": "Features",
+    "features": {
+      "patient": {
+        "title": "Patient portal",
+        "text": "Your profile, medical history and prescriptions in one place."
+      },
+      "doctor": {
+        "title": "Doctor panel",
+        "text": "Search patients, add medical records and files."
+      },
+      "pdf": {
+        "title": "PDF download",
+        "text": "Download your medical history as a PDF."
+      },
+      "admin": {
+        "title": "Administrator",
+        "text": "User management, audit log and data anonymization."
+      }
+    },
+    "securityEyebrow": "Protection",
+    "securityTitle": "Your data is protected",
+    "securityText": "Medical data is among the most sensitive. The system restricts access by role and records actions.",
+    "security": {
+      "roles": "Role-based access: a patient sees only their own records.",
+      "session": "The session is revoked when you log out.",
+      "audit": "Actions are recorded in the audit log.",
+      "https": "Communication is encrypted over HTTPS."
+    },
+    "finalTitle": "Ready to get started?",
+    "footerNote": "Research prototype for a master's thesis",
+    "cards": {
+      "rx": {
+        "title": "Prescription",
+        "l1": "Medication name · twice daily",
+        "l2": "Course: 7 days"
+      },
+      "pdf": {
+        "title": "PDF report",
+        "sub": "medical_history.pdf"
+      }
+    }
+  }
 }

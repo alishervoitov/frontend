@@ -197,5 +197,93 @@
     "close": "Yopish",
     "yes": "Ha",
     "no": "Yo'q"
+  },
+  "landing": {
+    "eyebrow": "Tibbiy yozuvlar tizimi",
+    "heroTitleA": "Kasallik tarixi:",
+    "heroTitleB": "xavfsiz, bir joyda",
+    "heroText": "Tibbiy yozuvlar shifokor va bemor uchun.",
+    "chips": {
+      "roles": "Rolga asoslangan kirish",
+      "session": "Xavfsiz sessiyalar",
+      "audit": "Audit jurnali"
+    },
+    "mock": {
+      "title": "Kasallik tarixim",
+      "r1": {
+        "date": "12.03",
+        "diag": "Umumiy ko'rik",
+        "sub": "Shifokor tavsiyalari"
+      },
+      "r2": {
+        "date": "28.03",
+        "diag": "Qon tahlili",
+        "sub": "Natijalar kiritildi"
+      },
+      "r3": {
+        "date": "15.04",
+        "diag": "Nazorat ko'rigi",
+        "sub": "Davolash davom etadi"
+      },
+      "pdf": "PDF yuklab olish",
+      "note": "Namuna ma'lumotlar, real bemorlar emas",
+      "badge": "Faqat siz ko'rasiz"
+    },
+    "stepsTitle": "Qanday ishlaydi",
+    "steps": {
+      "1": {
+        "title": "Ro'yxatdan o'ting",
+        "text": "Bemor sifatida hisob yarating va tizimga kiring."
+      },
+      "2": {
+        "title": "Shifokor yozuv kiritadi",
+        "text": "Tashxis, davolash va fayllar kasallik tarixiga qo'shiladi."
+      },
+      "3": {
+        "title": "Ko'ring va yuklab oling",
+        "text": "Tarixingizni kabinetda ko'ring va PDF ko'rinishida saqlang."
+      }
+    },
+    "featuresTitle": "Imkoniyatlar",
+    "features": {
+      "patient": {
+        "title": "Bemor kabineti",
+        "text": "Shaxsiy profil, kasallik tarixi va retseptlarni bir joyda ko'ring."
+      },
+      "doctor": {
+        "title": "Shifokor paneli",
+        "text": "Bemorlar ro'yxatidan qidiring, tibbiy yozuv va fayllar qo'shing."
+      },
+      "pdf": {
+        "title": "PDF yuklab olish",
+        "text": "Kasallik tarixini PDF ko'rinishida yuklab oling."
+      },
+      "admin": {
+        "title": "Administrator",
+        "text": "Foydalanuvchilarni boshqarish, audit jurnali va ma'lumotlarni anonimlashtirish."
+      }
+    },
+    "securityEyebrow": "Himoya",
+    "securityTitle": "Ma'lumotlaringiz himoyada",
+    "securityText": "Tibbiy ma'lumot eng nozik ma'lumotlardan biri. Tizim kirishni rollar bo'yicha cheklaydi va amallarni qayd etadi.",
+    "security": {
+      "roles": "Rolga asoslangan ruxsatlar: bemor faqat o'z yozuvlarini ko'radi.",
+      "session": "Tizimdan chiqqanda sessiya bekor qilinadi.",
+      "audit": "Amallar audit jurnalida qayd etiladi.",
+      "https": "Aloqa HTTPS orqali shifrlanadi."
+    },
+    "finalTitle": "Boshlashga tayyormisiz?",
+    "footerNote": "Magistrlik dissertatsiyasi doirasidagi tadqiqot prototipi",
+    "cards": {
+      "rx": {
+        "title": "Retsept",
+        "l1": "Dori nomi · kuniga 2 mahal",
+        "l2": "Davomiyligi: 7 kun"
+      },
+      "pdf": {
+        "title": "PDF hisobot",
+        "sub": "kasallik_tarixi.pdf"
+      }
+    }
   }
 }

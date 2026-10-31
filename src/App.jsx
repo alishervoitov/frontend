@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import MePage from "./pages/MePage";
@@ -10,6 +11,7 @@ import PatientDetailPage from "./pages/PatientDetailPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import AdminAuditLogPage from "./pages/AdminAuditLogPage";
 import "./styles/global.css";
+import "./styles/landing.css";
 import AdminAnonymizePage from "./pages/AdminAnonymizePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -19,6 +21,7 @@ export default function App() {
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
+                    <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
