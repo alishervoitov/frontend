@@ -19,6 +19,8 @@ import QueuePage from "./pages/QueuePage";
 import DoctorQueuePage from "./pages/DoctorQueuePage";
 import RegistryPage from "./pages/RegistryPage";
 import KioskPage from "./pages/KioskPage";
+import LabPage from "./pages/LabPage";
+import "./styles/labs.css";
 import "./styles/queue.css";
 
 export default function App() {
@@ -53,6 +55,14 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["doctor"]}>
                                     <DoctorQueuePage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/lab"
+                            element={
+                                <ProtectedRoute allowedRoles={["lab"]}>
+                                    <LabPage />
                                 </ProtectedRoute>
                             }
                         />

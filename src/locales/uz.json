@@ -10,7 +10,8 @@
     "logout": "Chiqish",
     "queue": "Navbat olish",
     "doctorQueue": "Navbat",
-    "registry": "Registratura"
+    "registry": "Registratura",
+    "lab": "Laboratoriya"
   },
   "auth": {
     "loginTitle": "Bemor kasallik tarixi tizimiga kirish",
@@ -49,7 +50,8 @@
   "roles": {
     "admin": "ADMIN",
     "doctor": "DOCTOR",
-    "patient": "PATIENT"
+    "patient": "PATIENT",
+    "lab": "LABORANT"
   },
   "me": {
     "hello": "Salom, {{name}}!",
@@ -147,6 +149,7 @@
     "roleField": "Rol",
     "doctorRole": "Shifokor",
     "adminRole": "Administrator",
+    "labRole": "Laborant",
     "auditTitle": "Audit jurnali",
     "time": "Vaqt",
     "who": "Kim",
@@ -174,7 +177,7 @@
     "selectAtLeastOne": "Kamida bitta bilvosita identifikator tanlang.",
     "groupSize": "Hajmi",
     "hidden": "Yashirildi",
-    "filter": {"all": "Hammasi", "doctor": "Shifokorlar", "patient": "Bemorlar", "admin": "Adminlar", "inactive": "Faolsizlar"},
+    "filter": {"all": "Hammasi", "doctor": "Shifokorlar", "lab": "Laborantlar", "patient": "Bemorlar", "admin": "Adminlar", "inactive": "Faolsizlar"},
     "searchUsers": "Ism, login yoki email",
     "noUsers": "Foydalanuvchi topilmadi",
     "status": "Holat",
@@ -437,5 +440,93 @@
     "markNoShow": "Kelmadi deb belgilash",
     "statePresent": "Shifoxonada",
     "stateAway": "Hali kelmagan"
+  },
+  "labs": {
+    "pageTitle": "Laboratoriya",
+    "sectionTitle": "Tahlil natijalari",
+    "homeSubtitle": "Bemorlarning tahlil natijalarini kiritish",
+    "goToLab": "Natija kiritish",
+    "choosePatient": "Bemorni tanlang",
+    "searchPatient": "Bemor ismi, familiyasi yoki logini (kamida 2 harf)",
+    "noPatients": "Bemor topilmadi",
+    "patient": "Bemor",
+    "changePatient": "Boshqa bemor",
+    "chooseTest": "Tahlil turi",
+    "title": "Nomi",
+    "collectedAt": "Namuna olingan vaqt",
+    "enterValues": "Natijalar",
+    "refNote": "Me'yorlar namunaviy (kattalar uchun) va bemor jinsiga qarab qo'yiladi. Laboratoriyangiz me'yori boshqacha bo'lsa, o'zgartiring.",
+    "param": "Ko'rsatkich",
+    "result": "Natija",
+    "unit": "Birlik",
+    "reference": "Me'yor",
+    "addRow": "Ko'rsatkich qo'shish",
+    "removeRow": "O'chirish",
+    "notes": "Izoh",
+    "file": "Blanka fayli (PDF yoki rasm, ixtiyoriy)",
+    "save": "Natijani saqlash",
+    "savedFor": "{{name}} uchun natija saqlandi",
+    "recent": "Oxirgi kiritilganlar",
+    "noRecent": "Hali natija kiritilmagan",
+    "noResults": "Hozircha tahlil natijalari yo'q",
+    "loadError": "Natijalarni yuklab bo'lmadi",
+    "enteredBy": "Laborant",
+    "abnormalCount": "{{count}} ta ko'rsatkich me'yordan tashqarida",
+    "allNormal": "Barchasi me'yorda",
+    "delete": "O'chirish",
+    "deleteConfirm": "«{{title}}» natijasi o'chirilsinmi?",
+    "gender": {
+      "M": "erkak",
+      "F": "ayol",
+      "O": "boshqa"
+    },
+    "panels": {
+      "cbc": "Umumiy qon tahlili",
+      "biochem": "Qon biokimyosi",
+      "urine": "Umumiy siydik tahlili",
+      "custom": "Boshqa tahlil"
+    },
+    "params": {
+      "hgb": "Gemoglobin (HGB)",
+      "rbc": "Eritrotsitlar (RBC)",
+      "hct": "Gematokrit (HCT)",
+      "wbc": "Leykotsitlar (WBC)",
+      "plt": "Trombotsitlar (PLT)",
+      "esr": "EChT (SOE)",
+      "ci": "Rang ko'rsatkichi",
+      "glucose": "Glyukoza",
+      "protein": "Umumiy oqsil",
+      "urea": "Mochevina",
+      "creatinine": "Kreatinin",
+      "bilirubin": "Umumiy bilirubin",
+      "alt": "ALT",
+      "ast": "AST",
+      "cholesterol": "Umumiy xolesterin",
+      "color": "Rangi",
+      "clarity": "Tiniqligi",
+      "sg": "Solishtirma zichlik",
+      "ph": "pH",
+      "protein_u": "Oqsil",
+      "glucose_u": "Glyukoza",
+      "wbc_u": "Leykotsitlar",
+      "rbc_u": "Eritrotsitlar"
+    },
+    "options": {
+      "straw": "somon-sariq",
+      "yellow": "sariq",
+      "dark": "to'q sariq",
+      "red": "qizg'ish",
+      "clear": "tiniq",
+      "cloudy": "loyqa",
+      "neg": "manfiy",
+      "trace": "izlari",
+      "pos": "musbat"
+    },
+    "errors": {
+      "noValues": "Kamida bitta ko'rsatkich natijasini kiriting.",
+      "fileSize": "Fayl 10 MB dan oshmasligi kerak.",
+      "upload": "Natija saqlandi, lekin faylni yuklab bo'lmadi.",
+      "generic": "Saqlashda xatolik."
+    }
   }
 }

@@ -6,12 +6,14 @@ import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
 import PrescriptionsSection from "../components/PrescriptionsSection";
 import RecordAttachments from "../components/RecordAttachments";
+import LabResultsSection from "../components/LabResultsSection";
 
 export default function MePage() {
     const { user, setUser } = useAuth();
 
     if (user?.role === "patient") return <PatientHome user={user} onAvatarUpdated={setUser} />;
     if (user?.role === "doctor") return <DoctorHome user={user} onAvatarUpdated={setUser} />;
+    if (user?.role === "lab") return <LabHome user={user} onAvatarUpdated={setUser} />;
     return <AdminHome user={user} onAvatarUpdated={setUser} />;
 }
 
@@ -66,6 +68,8 @@ function PatientHome({ user, onAvatarUpdated }) {
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />
 
+                    <LabResultsSection />
+
                     <div className="page-head">
                         <h2>{t("me.myHistory")}</h2>
                         <button className="btn btn-secondary" style={{ width: "auto" }} onClick={handleDownload} disabled={downloading}>
@@ -110,6 +114,26 @@ function DoctorHome({ user, onAvatarUpdated }) {
                         <p className="patient-meta" style={{ margin: 0 }}>{t("me.doctorSubtitle")}</p>
                         <Link to="/patients" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
                             {t("me.goToPatients")}
+                        </Link>
+                    </div>
+                    <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function LabHome({ user, onAvatarUpdated }) {
+    const { t } = useTranslation();
+    return (
+        <div className="page">
+            <div className="card">
+                <div className="profile-card-row">
+                    <div className="profile-card-fields">
+                        <h1 style={{ marginBottom: 6 }}>{t("me.welcome", { name: user.first_name || user.username })}</h1>
+                        <p className="patient-meta" style={{ margin: 0 }}>{t("labs.homeSubtitle")}</p>
+                        <Link to="/lab" className="btn btn-primary" style={{ width: "auto", textDecoration: "none", marginTop: 16, display: "inline-flex" }}>
+                            {t("labs.goToLab")}
                         </Link>
                     </div>
                     <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="square" size="fill" />

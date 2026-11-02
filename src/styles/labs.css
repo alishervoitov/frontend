@@ -1,0 +1,54 @@
+/* ===== Laboratoriya tahlillari ===== */
+.lab-section { margin: 28px 0; }
+.lab-h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); margin: 0 0 14px; }
+.lab-recent-title { margin-top: 36px; }
+.lab-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.lab-card summary { list-style: none; cursor: pointer; padding: 16px 20px; }
+.lab-card summary::-webkit-details-marker { display: none; }
+.lab-card[open] summary { border-bottom: 1px solid var(--border); }
+.lab-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lab-card-title { font-weight: 600; color: var(--ink); }
+.lab-card-meta { font-size: 0.85rem; color: var(--ink-muted); margin-top: 2px; }
+.lab-badge { font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.lab-badge-warn { background: var(--danger-tint); color: var(--danger); }
+.lab-badge-ok { background: var(--success-tint); color: var(--success); }
+.lab-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.lab-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-muted); padding: 10px 20px; background: var(--surface-sunken); }
+.lab-table td { padding: 9px 20px; border-top: 1px solid var(--border); }
+.lab-value { font-weight: 600; }
+.lab-arrow { margin-left: 4px; }
+.lab-row-low .lab-value, .lab-row-low .lab-arrow { color: #2F5FA8; }
+.lab-row-high .lab-value, .lab-row-high .lab-arrow, .lab-row-abnormal .lab-value, .lab-row-abnormal .lab-arrow { color: var(--danger); }
+.lab-row-low, .lab-row-high, .lab-row-abnormal { background: #FFF8F5; }
+.lab-notes { margin: 0; padding: 12px 20px; font-size: 0.9rem; border-top: 1px solid var(--border); }
+.lab-foot { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 20px; border-top: 1px solid var(--border); }
+
+/* Laborant formasi */
+.lab-step { margin-bottom: 20px; }
+.lab-search { margin: 0 0 12px; max-width: none; width: 100%; font-size: 1rem; padding: 12px 14px; }
+.lab-patients { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.lab-patient { display: flex; flex-direction: column; gap: 2px; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; cursor: pointer; font: inherit; }
+.lab-patient:hover { border-color: var(--primary); }
+.lab-patient span { font-size: 0.85rem; color: var(--ink-muted); }
+.lab-patient-chip { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--primary-tint); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 22px; }
+.lab-panels { margin-bottom: 16px; }
+.lab-grid-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.lab-input-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.lab-input-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-muted); padding: 8px 10px; background: var(--surface-sunken); }
+.lab-input-table td { padding: 6px 10px; border-top: 1px solid var(--border); }
+.lab-input-table input { width: 100%; padding: 7px 9px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 0.9rem; background: var(--surface); }
+.lab-input-table td:nth-child(2) input { font-weight: 600; }
+.lab-input-table .lab-unit { width: 90px; }
+.lab-ref { display: flex; align-items: center; gap: 6px; }
+.lab-ref input { width: 72px; }
+.lab-flag { width: 30px; text-align: center; font-weight: 700; }
+.lab-flag-low { color: #2F5FA8; }
+.lab-flag-high, .lab-flag-abnormal { color: var(--danger); }
+.lab-flag-normal { color: var(--success); }
+.lab-add { margin: 10px 0 18px; }
+.lab-saved { background: var(--success-tint); color: var(--success); font-weight: 600; padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+.field textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; }
+.badge-lab { background: #EDE7F6; color: #5B3A9B; }
+@media (max-width: 700px) {
+    .lab-table th, .lab-table td { padding: 8px 12px; }
+}

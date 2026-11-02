@@ -21,6 +21,11 @@ export default function Layout() {
                             {t("nav.queue")}
                         </Link>
                     )}
+                    {user?.role === "lab" && (
+                        <Link to="/lab" className={`topbar-link q-nav ${pathname.startsWith("/lab") ? "active" : ""}`}>
+                            {t("nav.lab")}
+                        </Link>
+                    )}
                     {user?.role === "doctor" && (
                         <Link to="/doctor/queue" className={`topbar-link q-nav ${pathname.startsWith("/doctor/queue") ? "active" : ""}`}>
                             {t("nav.doctorQueue")}

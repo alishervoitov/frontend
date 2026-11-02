@@ -4,6 +4,7 @@ import client, { downloadPatientHistoryPdf} from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import RecordAttachments from "../components/RecordAttachments";
 import PrescriptionsSection from "../components/PrescriptionsSection";
+import LabResultsSection from "../components/LabResultsSection";
 
 const RECORD_TYPES = [
     { value: "visit", label: "Tashrif" },
@@ -94,6 +95,7 @@ export default function PatientDetailPage() {
             )}
 
             <PrescriptionsSection patientId={id} isDoctor={isDoctor} />
+            <LabResultsSection patientId={id} />
             <h2 style={{ marginTop: 28, marginBottom: 16 }}>Kasallik tarixi</h2>
 
             {records.length === 0 ? (

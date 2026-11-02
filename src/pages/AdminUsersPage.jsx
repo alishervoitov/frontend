@@ -4,7 +4,7 @@ import client from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { SPECIALTIES, specLabel } from "../api/specialty";
 
-const FILTERS = ["all", "doctor", "patient", "admin", "inactive"];
+const FILTERS = ["all", "doctor", "lab", "patient", "admin", "inactive"];
 const PAGE = 50;
 
 function matches(u, filter, q) {
@@ -200,6 +200,7 @@ function NewUserForm({ onCreated }) {
                 <label>{t("admin.roleField")}</label>
                 <select value={form.role} onChange={update("role")}>
                     <option value="doctor">{t("admin.doctorRole")}</option>
+                    <option value="lab">{t("admin.labRole")}</option>
                     <option value="admin">{t("admin.adminRole")}</option>
                 </select>
             </div>

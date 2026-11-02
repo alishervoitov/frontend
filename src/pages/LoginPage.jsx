@@ -20,8 +20,9 @@ export default function LoginPage() {
         setLoading(true);
         try {
             const user = await login(username, password);
-            if (user.role === "admin") navigate("/admin");
+            if (user.role === "admin") navigate("/admin/users");
             else if (user.role === "doctor") navigate("/patients");
+            else if (user.role === "lab") navigate("/lab");
             else navigate("/me");
         } catch (err) {
             const detail = err.response?.data?.detail;

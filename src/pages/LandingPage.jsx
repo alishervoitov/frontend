@@ -33,7 +33,7 @@ export default function LandingPage() {
 
     if (loading) return null;
     if (user) {
-        const home = user.role === "doctor" ? "/patients" : "/me";
+        const home = user.role === "doctor" ? "/patients" : user.role === "lab" ? "/lab" : "/me";
         return <Navigate to={home} replace />;
     }
 
