@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { errorText, hhmm, kioskApi, kioskKey } from "../api/queue";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import TicketSlip from "../components/TicketSlip";
+import SpecialtyPicker from "../components/SpecialtyPicker";
+import { specLabel } from "../api/specialty";
 
 const RESET_MS = 20000;
 const POLL_MS = 30000;
@@ -29,6 +31,7 @@ export default function KioskPage() {
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
+    const [spec, setSpec] = useState(null);
 
     const load = useCallback(() => {
         return kioskApi.doctors()
@@ -48,7 +51,7 @@ export default function KioskPage() {
 
     useEffect(() => {
         if (!ticket) return;
-        const id = setTimeout(() => setTicket(null), RESET_MS);
+        const id = setTimeout(() => { setTicket(null); setSpec(null); }, RESET_MS);
         return () => clearTimeout(id);
     }, [ticket]);
 
@@ -80,16 +83,21 @@ export default function KioskPage() {
                 <div className="kiosk-done">
                     <div className="q-print-area"><TicketSlip ticket={ticket} /></div>
                     <p className="kiosk-take">{t("queue.kioskTake")}</p>
-                    <button className="btn btn-primary q-btn-auto kiosk-btn" onClick={() => setTicket(null)}>{t("queue.done")}</button>
+                    <button className="btn btn-primary q-btn-auto kiosk-btn" onClick={() => { setTicket(null); setSpec(null); }}>{t("queue.done")}</button>
                 </div>
             ) : (
                 <>
-                    <h1 className="kiosk-title">{t("queue.kioskTitle")}</h1>
+                    <h1 className="kiosk-title">{spec ? specLabel(t, spec) : t("queue.kioskChooseSpecialty")}</h1>
                     {error && <div className="alert-error">{error}</div>}
+                    {!spec ? (
+                        <SpecialtyPicker doctors={doctors} onPick={setSpec} className="kiosk-spec" />
+                    ) : (
+                    <>
+                    <button type="button" className="q-back kiosk-back" onClick={() => setSpec(null)}>← {t("queue.allSpecialties")}</button>
                     <div className="kiosk-grid">
-                        {doctors.map((d) => (
+                        {doctors.filter((d) => (d.specialty || "other") === spec).map((d) => (
                             <button key={d.id} className="kiosk-doc" disabled={!d.accepting || busy} onClick={() => take(d)}>
-                                <span className="kiosk-doc-spec">{d.specialty || t("queue.doctor")}</span>
+                                <span className="kiosk-doc-spec">{specLabel(t, d.specialty)}</span>
                                 <span className="kiosk-doc-name">{d.name}</span>
                                 <span className="kiosk-doc-meta">
                                     {d.room ? `${t("queue.room")} ${d.room} · ` : ""}
@@ -100,6 +108,8 @@ export default function KioskPage() {
                             </button>
                         ))}
                     </div>
+                    </>
+                    )}
                 </>
             )}
         </div>

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
+import { SPECIALTIES, specLabel } from "../api/specialty";
 
 const POLL_MS = 15000;
 
@@ -20,7 +21,7 @@ function Settings({ initial, onSaved }) {
             onSaved();
         } catch (err) {
             const d = err?.response?.data;
-            setMsg(d?.work_end?.[0] || d?.avg_minutes?.[0] || errorText(err, t));
+            setMsg(d?.work_end?.[0] || d?.avg_minutes?.[0] || d?.specialty?.[0] || errorText(err, t));
         }
     }
 
@@ -28,7 +29,12 @@ function Settings({ initial, onSaved }) {
         <form className="card q-settings" onSubmit={save}>
             <h2 className="q-h2">{t("queue.settings")}</h2>
             <div className="q-form-grid">
-                <div className="field"><label>{t("queue.specialty")}</label><input value={form.specialty} onChange={set("specialty")} /></div>
+                <div className="field"><label>{t("queue.specialty")}</label>
+                    <select className="q-select" value={form.specialty} onChange={set("specialty")}>
+                        <option value="">{t("queue.selectSpecialty")}</option>
+                        {SPECIALTIES.map((c) => <option key={c} value={c}>{specLabel(t, c)}</option>)}
+                    </select>
+                </div>
                 <div className="field"><label>{t("queue.room")}</label><input value={form.room} onChange={set("room")} /></div>
                 <div className="field"><label>{t("queue.workStart")}</label><input type="time" value={form.work_start?.slice(0, 5)} onChange={set("work_start")} /></div>
                 <div className="field"><label>{t("queue.workEnd")}</label><input type="time" value={form.work_end?.slice(0, 5)} onChange={set("work_end")} /></div>
@@ -87,6 +93,12 @@ export default function DoctorQueuePage() {
                 </button>
             </div>
             {error && <div className="alert-error">{error}</div>}
+            {!data.settings.specialty && !showSettings && (
+                <div className="q-hint">
+                    {t("queue.setSpecialtyHint")}{" "}
+                    <button type="button" className="q-back" onClick={() => setShowSettings(true)}>{t("queue.settings")} →</button>
+                </div>
+            )}
             {showSettings && <Settings initial={data.settings} onSaved={load} />}
 
             <div className="q-doctor-top">

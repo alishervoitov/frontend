@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { hhmm } from "../api/queue";
+import { specLabel } from "../api/specialty";
 
 // Chop etiladigan navbat chiptasi (registratura va kiosk)
 export default function TicketSlip({ ticket }) {
@@ -12,7 +13,7 @@ export default function TicketSlip({ ticket }) {
             <div className="ticket-slip-number">{ticket.number}</div>
             <div className="ticket-slip-doctor">{ticket.doctor.name}</div>
             <div className="ticket-slip-meta">
-                {ticket.doctor.specialty}
+                {specLabel(t, ticket.doctor.specialty)}
                 {ticket.doctor.room ? ` · ${t("queue.room")} ${ticket.doctor.room}` : ""}
             </div>
             <div className="ticket-slip-row">

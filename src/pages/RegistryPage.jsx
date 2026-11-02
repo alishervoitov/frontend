@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
 import TicketSlip from "../components/TicketSlip";
+import { groupBySpecialty, specLabel } from "../api/specialty";
 
 const POLL_MS = 20000;
 
@@ -54,10 +55,14 @@ export default function RegistryPage() {
                         <label>{t("queue.doctor")}</label>
                         <select value={doctor} onChange={(e) => setDoctor(e.target.value)} required>
                             <option value="">{t("queue.selectDoctor")}</option>
-                            {rows.map(({ doctor: d }) => (
-                                <option key={d.id} value={d.id}>
-                                    {d.name}{d.specialty ? ` — ${d.specialty}` : ""} ({t("queue.waiting").toLowerCase()}: {d.waiting})
-                                </option>
+                            {groupBySpecialty(rows.map((r) => r.doctor)).map(([code, list]) => (
+                                <optgroup key={code} label={specLabel(t, code)}>
+                                    {list.map((d) => (
+                                        <option key={d.id} value={d.id}>
+                                            {d.name} ({t("queue.waiting").toLowerCase()}: {d.waiting})
+                                        </option>
+                                    ))}
+                                </optgroup>
                             ))}
                         </select>
                     </div>
@@ -88,7 +93,7 @@ export default function RegistryPage() {
                         <div key={d.id} className="q-board-col">
                             <div className="q-board-head">
                                 <b>{d.name}</b>
-                                <span className="q-muted">{d.specialty}{d.room ? ` · ${t("queue.room")} ${d.room}` : ""}</span>
+                                <span className="q-muted">{specLabel(t, d.specialty)}{d.room ? ` · ${t("queue.room")} ${d.room}` : ""}</span>
                             </div>
                             <div className="q-board-now">{t("queue.nowServing")}: <b>{cur ? cur.number : "—"}</b></div>
                             <ul>

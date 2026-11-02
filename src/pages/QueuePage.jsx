@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
+import { groupBySpecialty, matchesQuery, specLabel } from "../api/specialty";
+import SpecialtyPicker from "../components/SpecialtyPicker";
 
 const POLL_MS = 30000;
 
@@ -16,7 +18,7 @@ function MyTicket({ ticket, onCancel }) {
             <div className="q-my-body">
                 <div className="q-my-doctor">{ticket.doctor.name}</div>
                 <div className="q-muted">
-                    {ticket.doctor.specialty}
+                    {specLabel(t, ticket.doctor.specialty)}
                     {ticket.doctor.room ? ` · ${t("queue.room")} ${ticket.doctor.room}` : ""}
                 </div>
                 {ticket.status === "waiting" && (
@@ -45,6 +47,7 @@ export default function QueuePage() {
     const [busy, setBusy] = useState(null);
     const [error, setError] = useState("");
     const [filter, setFilter] = useState("");
+    const [spec, setSpec] = useState(null);
 
     const load = useCallback(() => {
         return Promise.all([queueApi.doctors(), queueApi.myTickets()])
@@ -87,8 +90,39 @@ export default function QueuePage() {
     }
 
     const activeIds = new Set(mine.filter((m) => m.status === "waiting" || m.status === "called").map((m) => m.doctor.id));
-    const q = filter.trim().toLowerCase();
-    const shown = doctors.filter((d) => !q || `${d.name} ${d.specialty}`.toLowerCase().includes(q));
+    const q = filter.trim();
+    // Qidiruv yozilsa: mos shifokorlar yo'nalish bo'yicha guruhlanadi; tanlangan yo'nalish bo'lsa: faqat uning shifokorlari
+    const shown = spec
+        ? doctors.filter((d) => (d.specialty || "other") === spec)
+        : doctors.filter((d) => matchesQuery(d, q));
+    const showPicker = !spec && !q;
+
+    const renderDoctor = (d) => (
+        <div key={d.id} className={`q-doc ${d.accepting ? "" : "q-doc-off"}`}>
+            <div className="q-doc-top">
+                <div>
+                    <div className="q-doc-name">{d.name}</div>
+                    <div className="q-muted">
+                        {specLabel(t, d.specialty)}
+                        {d.room ? ` · ${t("queue.room")} ${d.room}` : ""}
+                    </div>
+                </div>
+                <span className="q-hours">{d.work_start}–{d.work_end}</span>
+            </div>
+            <div className="q-doc-stats">
+                <div><span>{t("queue.waiting")}</span><b>{d.waiting}</b></div>
+                <div><span>{t("queue.nowServing")}</span><b>{d.current_number ?? "—"}</b></div>
+                <div><span>{t("queue.etaIfNow")}</span><b>{d.accepting ? `~${hhmm(d.next_eta)}` : "—"}</b></div>
+            </div>
+            <button
+                className="btn btn-primary"
+                disabled={!d.accepting || activeIds.has(d.id) || busy === d.id}
+                onClick={() => take(d)}
+            >
+                {activeIds.has(d.id) ? t("queue.alreadyTaken") : d.accepting ? t("queue.take") : t("queue.closed")}
+            </button>
+        </div>
+    );
 
     return (
         <div className="page">
@@ -110,52 +144,32 @@ export default function QueuePage() {
             )}
 
             <section className="q-section">
-                <div className="q-section-head">
-                    <h2 className="q-h2">{t("queue.chooseDoctor")}</h2>
+                <h2 className="q-h2">{spec ? specLabel(t, spec) : t("queue.chooseSpecialty")}</h2>
+                {spec ? (
+                    <button type="button" className="q-back" onClick={() => setSpec(null)}>← {t("queue.allSpecialties")}</button>
+                ) : (
                     <input
-                        className="search-input q-search"
+                        className="search-input q-search-wide"
                         placeholder={t("queue.searchPlaceholder")}
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                     />
-                </div>
+                )}
                 {loading ? (
                     <div className="empty-state">{t("me.loading")}</div>
+                ) : showPicker ? (
+                    <SpecialtyPicker doctors={doctors} onPick={setSpec} />
                 ) : shown.length === 0 ? (
-                    <div className="empty-state">{t("queue.noDoctors")}</div>
+                    <div className="empty-state">{t("queue.noMatch")}</div>
+                ) : spec ? (
+                    <div className="q-grid">{shown.map(renderDoctor)}</div>
                 ) : (
-                    <div className="q-grid">
-                        {shown.map((d) => (
-                            <div key={d.id} className={`q-doc ${d.accepting ? "" : "q-doc-off"}`}>
-                                <div className="q-doc-top">
-                                    <div>
-                                        <div className="q-doc-name">{d.name}</div>
-                                        <div className="q-muted">
-                                            {d.specialty || t("queue.doctor")}
-                                            {d.room ? ` · ${t("queue.room")} ${d.room}` : ""}
-                                        </div>
-                                    </div>
-                                    <span className="q-hours">{d.work_start}–{d.work_end}</span>
-                                </div>
-                                <div className="q-doc-stats">
-                                    <div><span>{t("queue.waiting")}</span><b>{d.waiting}</b></div>
-                                    <div><span>{t("queue.nowServing")}</span><b>{d.current_number ?? "—"}</b></div>
-                                    <div><span>{t("queue.etaIfNow")}</span><b>{d.accepting ? `~${hhmm(d.next_eta)}` : "—"}</b></div>
-                                </div>
-                                <button
-                                    className="btn btn-primary"
-                                    disabled={!d.accepting || activeIds.has(d.id) || busy === d.id}
-                                    onClick={() => take(d)}
-                                >
-                                    {activeIds.has(d.id)
-                                        ? t("queue.alreadyTaken")
-                                        : d.accepting
-                                            ? t("queue.take")
-                                            : t("queue.closed")}
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                    groupBySpecialty(shown).map(([code, list]) => (
+                        <div key={code} className="q-group">
+                            <h3 className="q-group-title">{specLabel(t, code)}</h3>
+                            <div className="q-grid">{list.map(renderDoctor)}</div>
+                        </div>
+                    ))
                 )}
             </section>
         </div>
