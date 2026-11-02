@@ -15,6 +15,11 @@ import "./styles/landing.css";
 import AdminAnonymizePage from "./pages/AdminAnonymizePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import QueuePage from "./pages/QueuePage";
+import DoctorQueuePage from "./pages/DoctorQueuePage";
+import RegistryPage from "./pages/RegistryPage";
+import KioskPage from "./pages/KioskPage";
+import "./styles/queue.css";
 
 export default function App() {
     return (
@@ -26,6 +31,7 @@ export default function App() {
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                     <Route path="/reset-password/:uid/:token" element={<ResetPasswordPage />} />
+                    <Route path="/kiosk" element={<KioskPage />} />
                     <Route
                         element={
                             <ProtectedRoute>
@@ -34,6 +40,30 @@ export default function App() {
                         }
                     >
                         <Route path="/me" element={<MePage />} />
+                        <Route
+                            path="/queue"
+                            element={
+                                <ProtectedRoute allowedRoles={["patient"]}>
+                                    <QueuePage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/doctor/queue"
+                            element={
+                                <ProtectedRoute allowedRoles={["doctor"]}>
+                                    <DoctorQueuePage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/registry"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <RegistryPage />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route
                             path="/patients"
                             element={

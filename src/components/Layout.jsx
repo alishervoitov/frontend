@@ -16,6 +16,21 @@ export default function Layout() {
             <div className="topbar">
                 <div className="topbar-left">
                     <Link to="/me" className="topbar-brand">{t("app.name")}</Link>
+                    {user?.role === "patient" && (
+                        <Link to="/queue" className={`topbar-link q-nav ${pathname.startsWith("/queue") ? "active" : ""}`}>
+                            {t("nav.queue")}
+                        </Link>
+                    )}
+                    {user?.role === "doctor" && (
+                        <Link to="/doctor/queue" className={`topbar-link q-nav ${pathname.startsWith("/doctor/queue") ? "active" : ""}`}>
+                            {t("nav.doctorQueue")}
+                        </Link>
+                    )}
+                    {isAdmin && (
+                        <Link to="/registry" className={`topbar-link q-nav ${pathname.startsWith("/registry") ? "active" : ""}`}>
+                            {t("nav.registry")}
+                        </Link>
+                    )}
                     {isDoctorOrAdmin && (
                         <Link to="/patients" className={`topbar-link ${pathname.startsWith("/patients") ? "active" : ""}`}>
                             {t("nav.patients")}
