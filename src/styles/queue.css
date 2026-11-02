@@ -154,3 +154,9 @@
 .kiosk-back { font-size: 1.2rem; }
 .q-check input { width: auto; margin: 0; flex: none; }
 .q-check { justify-content: flex-start; }
+.q-form-grid-2 { grid-template-columns: 1fr 1fr; align-items: start; }
+.q-spec-cell { display: inline-flex; align-items: center; gap: 8px; }
+.q-select-sm { padding: 6px 8px; font-size: 0.85rem; min-width: 180px; }
+.q-select-empty { border-color: var(--accent); color: var(--accent); }
+.q-ok { color: var(--success); font-weight: 700; }
+.q-err { color: var(--danger); font-weight: 700; }

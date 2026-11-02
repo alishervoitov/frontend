@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import client from "../api/client";
+import { SPECIALTIES, specLabel } from "../api/specialty";
 
 export default function AdminUsersPage() {
     const { t } = useTranslation();
@@ -37,6 +38,7 @@ export default function AdminUsersPage() {
                             <th>{t("patients.username")}</th>
                             <th>{t("admin.email")}</th>
                             <th>{t("admin.role")}</th>
+                            <th>{t("queue.specialty")}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,6 +48,7 @@ export default function AdminUsersPage() {
                                 <td className="cell-muted">{u.username}</td>
                                 <td className="cell-muted">{u.email || "—"}</td>
                                 <td><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
+                                <td>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -56,10 +59,43 @@ export default function AdminUsersPage() {
     );
 }
 
+// Mavjud shifokorning mutaxassisligini jadvalning o'zida o'zgartirish
+function SpecialtyCell({ user }) {
+    const { t } = useTranslation();
+    const [value, setValue] = useState(user.specialty || "");
+    const [state, setState] = useState("");
+
+    async function change(e) {
+        const next = e.target.value;
+        const prev = value;
+        setValue(next);
+        setState("saving");
+        try {
+            await client.patch(`/queue/doctors/${user.id}/profile/`, { specialty: next });
+            setState("saved");
+        } catch {
+            setValue(prev);
+            setState("error");
+        }
+    }
+
+    return (
+        <span className="q-spec-cell">
+            <select className={`q-select q-select-sm ${value ? "" : "q-select-empty"}`} value={value} onChange={change}>
+                <option value="">{t("queue.selectSpecialty")}</option>
+                {SPECIALTIES.map((c) => <option key={c} value={c}>{specLabel(t, c)}</option>)}
+            </select>
+            {state === "saved" && <span className="q-ok">✓</span>}
+            {state === "error" && <span className="q-err">!</span>}
+        </span>
+    );
+}
+
 function NewUserForm({ onCreated }) {
     const { t } = useTranslation();
     const [form, setForm] = useState({
         username: "", first_name: "", last_name: "", email: "", password: "", role: "doctor",
+        specialty: "", room: "",
     });
     const [error, setError] = useState("");
     const [saving, setSaving] = useState(false);
@@ -73,7 +109,8 @@ function NewUserForm({ onCreated }) {
         setError("");
         setSaving(true);
         try {
-            await client.post("/auth/users/", form);
+            const payload = form.role === "doctor" ? form : { ...form, specialty: "", room: "" };
+            await client.post("/auth/users/", payload);
             onCreated();
         } catch (err) {
             const data = err.response?.data;
@@ -95,6 +132,21 @@ function NewUserForm({ onCreated }) {
                     <option value="admin">{t("admin.adminRole")}</option>
                 </select>
             </div>
+            {form.role === "doctor" && (
+                <div className="q-form-grid q-form-grid-2">
+                    <div className="field">
+                        <label>{t("queue.specialty")}</label>
+                        <select className="q-select" value={form.specialty} onChange={update("specialty")} required>
+                            <option value="">{t("queue.selectSpecialty")}</option>
+                            {SPECIALTIES.map((c) => <option key={c} value={c}>{specLabel(t, c)}</option>)}
+                        </select>
+                    </div>
+                    <div className="field">
+                        <label>{t("queue.room")}</label>
+                        <input value={form.room} onChange={update("room")} maxLength={20} />
+                    </div>
+                </div>
+            )}
             <div className="field">
                 <label>{t("auth.username")}</label>
                 <input value={form.username} onChange={update("username")} required />
