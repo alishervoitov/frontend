@@ -167,7 +167,16 @@
     "createButton": "Create",
     "selectAtLeastOne": "Select at least one quasi-identifier.",
     "groupSize": "Size",
-    "hidden": "Hidden"
+    "hidden": "Hidden",
+    "filter": {"all": "All", "doctor": "Doctors", "patient": "Patients", "admin": "Admins", "inactive": "Inactive"},
+    "searchUsers": "Name, username or email",
+    "noUsers": "No users found",
+    "status": "Status",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "deactivateConfirm": "Deactivate {{name}}? They won't be able to sign in; their data is kept.",
+    "showMore": "Show more ({{count}})",
+    "you": "You"
   },
   "recordTypes": {
     "visit": "Visit",
@@ -359,7 +368,9 @@
       "closed": "The doctor is not taking a queue today.",
       "retry": "Error, please try again.",
       "load": "Could not load data.",
-      "generic": "Something went wrong."
+      "generic": "Something went wrong.",
+      "not_waiting": "Only a waiting ticket can be marked.",
+      "not_today": "The ticket is not for today."
     },
     "chooseSpecialty": "Choose a specialty",
     "allSpecialties": "All specialties",
@@ -403,6 +414,16 @@
       "urologist": "urologist kidney",
       "traumatologist": "traumatologist orthopedist bone fracture joint",
       "other": "other"
-    }
+    },
+    "etaIfArrive": "If you arrive now",
+    "arriveHint": "Tap the button when you reach the clinic. Until then, patients who are already here are seen; once you arrive you take your place by your number.",
+    "arriveButton": "I'm at the clinic",
+    "arriveConfirm": "Are you at the clinic? Please wait near the room until you're called.",
+    "arrivedNote": "Arrival recorded, please wait to be called",
+    "onlineShort": "online",
+    "pendingTitle": "Online, not yet arrived",
+    "pendingNote": "These patients aren't called until they arrive. Then they join the queue by their number.",
+    "ifArrives": "if arrives",
+    "markArrived": "Arrived"
   }
 }

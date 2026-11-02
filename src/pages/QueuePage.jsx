@@ -6,7 +6,7 @@ import SpecialtyPicker from "../components/SpecialtyPicker";
 
 const POLL_MS = 30000;
 
-function MyTicket({ ticket, onCancel }) {
+function MyTicket({ ticket, onCancel, onArrive }) {
     const { t } = useTranslation();
     const active = ticket.status === "waiting" || ticket.status === "called";
     return (
@@ -24,9 +24,16 @@ function MyTicket({ ticket, onCancel }) {
                 {ticket.status === "waiting" && (
                     <div className="q-my-stats">
                         <div><span>{t("queue.ahead")}</span><b>{ticket.ahead}</b></div>
-                        <div><span>{t("queue.eta")}</span><b>~{hhmm(ticket.eta)}</b></div>
+                        <div><span>{ticket.arrived ? t("queue.eta") : t("queue.etaIfArrive")}</span><b>~{hhmm(ticket.eta)}</b></div>
                     </div>
                 )}
+                {ticket.status === "waiting" && !ticket.arrived && (
+                    <div className="q-arrive">
+                        <p>{t("queue.arriveHint")}</p>
+                        <button className="btn btn-primary q-btn-auto" onClick={() => onArrive(ticket)}>{t("queue.arriveButton")}</button>
+                    </div>
+                )}
+                {ticket.status === "waiting" && ticket.arrived && <div className="q-arrived">✓ {t("queue.arrivedNote")}</div>}
                 {ticket.status === "called" && <div className="q-callout">{t("queue.calledNow")}</div>}
                 {!active && <div className="q-muted">{t(`queue.status.${ticket.status}`)}</div>}
             </div>
@@ -79,6 +86,17 @@ export default function QueuePage() {
         }
     }
 
+    async function arrive(ticket) {
+        if (!window.confirm(t("queue.arriveConfirm"))) return;
+        setError("");
+        try {
+            await queueApi.arrive(ticket.id);
+            await load();
+        } catch (err) {
+            setError(errorText(err, t));
+        }
+    }
+
     async function cancel(ticket) {
         if (!window.confirm(t("queue.cancelConfirm"))) return;
         try {
@@ -110,7 +128,10 @@ export default function QueuePage() {
                 <span className="q-hours">{d.work_start}–{d.work_end}</span>
             </div>
             <div className="q-doc-stats">
-                <div><span>{t("queue.waiting")}</span><b>{d.waiting}</b></div>
+                <div>
+                    <span>{t("queue.waiting")}</span>
+                    <b>{d.waiting}{d.pending_online ? <small className="q-pending"> +{d.pending_online} {t("queue.onlineShort")}</small> : null}</b>
+                </div>
                 <div><span>{t("queue.nowServing")}</span><b>{d.current_number ?? "—"}</b></div>
                 <div><span>{t("queue.etaIfNow")}</span><b>{d.accepting ? `~${hhmm(d.next_eta)}` : "—"}</b></div>
             </div>
@@ -137,7 +158,7 @@ export default function QueuePage() {
                 <section className="q-section">
                     <h2 className="q-h2">{t("queue.myTickets")}</h2>
                     <div className="q-my-list">
-                        {mine.map((tk) => <MyTicket key={tk.id} ticket={tk} onCancel={cancel} />)}
+                        {mine.map((tk) => <MyTicket key={tk.id} ticket={tk} onCancel={cancel} onArrive={arrive} />)}
                     </div>
                     <p className="q-note">{t("queue.etaNote")}</p>
                 </section>

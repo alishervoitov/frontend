@@ -7,6 +7,7 @@ export const queueApi = {
     doctors: () => client.get("/queue/doctors/").then((r) => r.data),
     myTickets: () => client.get("/queue/tickets/my/").then((r) => r.data),
     take: (doctor) => client.post("/queue/tickets/", { doctor }).then((r) => r.data),
+    arrive: (id) => client.post(`/queue/tickets/${id}/arrive/`).then((r) => r.data),
     cancel: (id) => client.post(`/queue/tickets/${id}/cancel/`).then((r) => r.data),
     doctorQueue: () => client.get("/queue/doctor/").then((r) => r.data),
     callNext: () => client.post("/queue/doctor/next/").then((r) => r.data),

@@ -1,13 +1,29 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import client from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { SPECIALTIES, specLabel } from "../api/specialty";
+
+const FILTERS = ["all", "doctor", "patient", "admin", "inactive"];
+const PAGE = 50;
+
+function matches(u, filter, q) {
+    if (filter === "inactive" && u.is_active !== false) return false;
+    if (!["all", "inactive"].includes(filter) && u.role !== filter) return false;
+    if (!q) return true;
+    return `${u.first_name} ${u.last_name} ${u.username} ${u.email}`.toLowerCase().includes(q);
+}
 
 export default function AdminUsersPage() {
     const { t } = useTranslation();
+    const { user: me } = useAuth();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
+    const [filter, setFilter] = useState("all");
+    const [query, setQuery] = useState("");
+    const [limit, setLimit] = useState(PAGE);
+    const [error, setError] = useState("");
 
     function loadUsers() {
         setLoading(true);
@@ -15,9 +31,27 @@ export default function AdminUsersPage() {
     }
 
     useEffect(loadUsers, []);
+    useEffect(() => setLimit(PAGE), [filter, query]);
+
+    async function toggleActive(u) {
+        const next = !u.is_active;
+        if (!next && !window.confirm(t("admin.deactivateConfirm", { name: u.username }))) return;
+        setError("");
+        try {
+            const res = await client.patch(`/auth/users/${u.id}/`, { is_active: next });
+            setUsers((list) => list.map((x) => (x.id === u.id ? { ...x, ...res.data } : x)));
+        } catch (err) {
+            const d = err.response?.data;
+            setError(d?.is_active?.[0] || t("queue.errors.generic"));
+        }
+    }
+
+    const q = query.trim().toLowerCase();
+    const count = (f) => users.filter((u) => matches(u, f, "")).length;
+    const shown = users.filter((u) => matches(u, filter, q));
 
     return (
-        <div className="page">
+        <div className="page page-wide">
             <div className="page-head">
                 <h1>{t("admin.usersTitle")}</h1>
                 <button className="btn btn-primary" style={{ width: "auto" }} onClick={() => setShowForm(!showForm)}>
@@ -26,12 +60,31 @@ export default function AdminUsersPage() {
             </div>
 
             {showForm && <NewUserForm onCreated={() => { setShowForm(false); loadUsers(); }} />}
+            {error && <div className="alert-error">{error}</div>}
+
+            <div className="au-toolbar">
+                <div className="au-tabs">
+                    {FILTERS.map((f) => (
+                        <button key={f} type="button" className={`au-tab ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>
+                            {t(`admin.filter.${f}`)} <span>{count(f)}</span>
+                        </button>
+                    ))}
+                </div>
+                <input
+                    className="search-input au-search"
+                    placeholder={t("admin.searchUsers")}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+            </div>
 
             <div className="table-card">
                 {loading ? (
                     <div className="empty-state">{t("admin.loading")}</div>
+                ) : shown.length === 0 ? (
+                    <div className="empty-state">{t("admin.noUsers")}</div>
                 ) : (
-                    <table>
+                    <table className="au-table">
                         <thead>
                         <tr>
                             <th>{t("patients.fullName")}</th>
@@ -39,22 +92,40 @@ export default function AdminUsersPage() {
                             <th>{t("admin.email")}</th>
                             <th>{t("admin.role")}</th>
                             <th>{t("queue.specialty")}</th>
+                            <th>{t("admin.status")}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map((u) => (
-                            <tr key={u.id}>
-                                <td>{u.first_name} {u.last_name}</td>
-                                <td className="cell-muted">{u.username}</td>
-                                <td className="cell-muted">{u.email || "—"}</td>
-                                <td><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
-                                <td>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
-                            </tr>
-                        ))}
+                        {shown.slice(0, limit).map((u) => {
+                            const name = `${u.first_name || ""} ${u.last_name || ""}`.trim();
+                            return (
+                                <tr key={u.id} className={u.is_active === false ? "au-inactive" : ""}>
+                                    <td className="au-clip">{name || <span className="cell-muted">—</span>}</td>
+                                    <td className="cell-muted au-clip">{u.username}</td>
+                                    <td className="cell-muted au-clip">{u.email || "—"}</td>
+                                    <td><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
+                                    <td>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
+                                    <td>
+                                        {u.id === me?.id ? (
+                                            <span className="cell-muted">{t("admin.you")}</span>
+                                        ) : (
+                                            <button type="button" className={`au-status ${u.is_active === false ? "off" : ""}`} onClick={() => toggleActive(u)}>
+                                                {u.is_active === false ? t("admin.activate") : t("admin.deactivate")}
+                                            </button>
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                 )}
             </div>
+            {shown.length > limit && (
+                <button type="button" className="btn btn-secondary au-more" onClick={() => setLimit(limit + PAGE)}>
+                    {t("admin.showMore", { count: shown.length - limit })}
+                </button>
+            )}
         </div>
     );
 }

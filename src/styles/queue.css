@@ -160,3 +160,36 @@
 .q-select-empty { border-color: var(--accent); color: var(--accent); }
 .q-ok { color: var(--success); font-weight: 700; }
 .q-err { color: var(--danger); font-weight: 700; }
+
+/* Admin: foydalanuvchilar */
+.page-wide { max-width: 1180px; }
+.au-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.au-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.au-tab { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font: inherit; font-size: 0.88rem; color: var(--ink-muted); cursor: pointer; }
+.au-tab span { margin-left: 4px; font-size: 0.78rem; color: var(--ink-faint); }
+.au-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.au-tab.active span { color: #CFE3DF; }
+.au-search { max-width: 300px; margin: 0; }
+.au-table td { vertical-align: middle; }
+.au-clip { max-width: 240px; overflow-wrap: anywhere; }
+.au-inactive td { opacity: 0.55; }
+.au-inactive td:last-child { opacity: 1; }
+.au-status { background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 5px 10px; font: inherit; font-size: 0.8rem; color: var(--danger); cursor: pointer; white-space: nowrap; }
+.au-status.off { color: var(--success); }
+.au-status:hover { background: var(--surface-sunken); }
+.au-more { width: auto; margin-top: 14px; }
+@media (max-width: 700px) {
+    .au-search { max-width: none; width: 100%; }
+    .au-table { min-width: 860px; }
+}
+
+/* Kelganlikni tasdiqlash (check-in) */
+.q-arrive { margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-md); background: var(--accent-tint); display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.q-arrive p { margin: 0; font-size: 0.88rem; color: var(--ink); flex: 1; min-width: 220px; line-height: 1.5; }
+.q-arrived { margin-top: 10px; color: var(--success); font-weight: 600; font-size: 0.9rem; }
+.q-pending { font-size: 0.72rem; font-weight: 500; color: var(--accent); }
+.q-note-top { margin: -6px 0 12px; }
+.q-link-ok { color: var(--primary); font-weight: 600; }
+.q-board-pending { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border-strong); }
+.q-board-pending-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 4px; }
+.q-board-pending-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 8px; padding: 4px 0; font-size: 0.88rem; align-items: center; }

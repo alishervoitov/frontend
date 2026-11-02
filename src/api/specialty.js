@@ -42,7 +42,10 @@ export function groupBySpecialty(doctors) {
 }
 
 // Yo'nalishdagi eng yaqin bo'sh vaqt
-export function earliestEta(doctors) {
-    const open = doctors.filter((d) => d.accepting && d.next_eta).map((d) => d.next_eta).sort();
+// walkin=true: shifoxonada (kiosk) chipta olayotgan bemor uchun, faqat kelganlar hisobga olinadi
+export function earliestEta(doctors, walkin = false) {
+    const ok = (d) => (walkin ? d.accepting_walkin : d.accepting);
+    const eta = (d) => (walkin ? d.next_eta_walkin : d.next_eta);
+    const open = doctors.filter((d) => ok(d) && eta(d)).map(eta).sort();
     return open[0] || null;
 }

@@ -87,7 +87,8 @@ export default function RegistryPage() {
             <h2 className="q-h2">{t("queue.todayAll")}</h2>
             <div className="q-board">
                 {rows.map(({ doctor: d, tickets }) => {
-                    const waiting = tickets.filter((x) => x.status === "waiting");
+                    const waiting = tickets.filter((x) => x.status === "waiting" && x.arrived);
+                    const pending = tickets.filter((x) => x.status === "waiting" && !x.arrived);
                     const cur = tickets.find((x) => x.status === "called");
                     return (
                         <div key={d.id} className="q-board-col">
@@ -107,6 +108,20 @@ export default function RegistryPage() {
                                 {waiting.length > 8 && <li className="q-muted q-board-empty">+{waiting.length - 8}</li>}
                                 {waiting.length === 0 && <li className="q-muted q-board-empty">{t("queue.emptyQueue")}</li>}
                             </ul>
+                            {pending.length > 0 && (
+                                <div className="q-board-pending">
+                                    <div className="q-board-pending-title">{t("queue.pendingTitle")}</div>
+                                    {pending.map((x) => (
+                                        <div key={x.id} className="q-board-pending-row">
+                                            <b>{x.number}</b>
+                                            <span>{x.name}</span>
+                                            <button type="button" className="q-link q-link-ok" onClick={() => queueApi.arrive(x.id).then(load).catch((err) => setError(errorText(err, t)))}>
+                                                {t("queue.markArrived")}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     );
                 })}

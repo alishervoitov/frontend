@@ -90,19 +90,19 @@ export default function KioskPage() {
                     <h1 className="kiosk-title">{spec ? specLabel(t, spec) : t("queue.kioskChooseSpecialty")}</h1>
                     {error && <div className="alert-error">{error}</div>}
                     {!spec ? (
-                        <SpecialtyPicker doctors={doctors} onPick={setSpec} className="kiosk-spec" />
+                        <SpecialtyPicker doctors={doctors} onPick={setSpec} className="kiosk-spec" walkin />
                     ) : (
                     <>
                     <button type="button" className="q-back kiosk-back" onClick={() => setSpec(null)}>← {t("queue.allSpecialties")}</button>
                     <div className="kiosk-grid">
                         {doctors.filter((d) => (d.specialty || "other") === spec).map((d) => (
-                            <button key={d.id} className="kiosk-doc" disabled={!d.accepting || busy} onClick={() => take(d)}>
+                            <button key={d.id} className="kiosk-doc" disabled={!d.accepting_walkin || busy} onClick={() => take(d)}>
                                 <span className="kiosk-doc-spec">{specLabel(t, d.specialty)}</span>
                                 <span className="kiosk-doc-name">{d.name}</span>
                                 <span className="kiosk-doc-meta">
                                     {d.room ? `${t("queue.room")} ${d.room} · ` : ""}
-                                    {d.accepting
-                                        ? `${t("queue.waiting")}: ${d.waiting} · ~${hhmm(d.next_eta)}`
+                                    {d.accepting_walkin
+                                        ? `${t("queue.waiting")}: ${d.waiting} · ~${hhmm(d.next_eta_walkin)}`
                                         : t("queue.closed")}
                                 </span>
                             </button>

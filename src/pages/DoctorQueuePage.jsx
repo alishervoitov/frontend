@@ -80,7 +80,8 @@ export default function DoctorQueuePage() {
     if (!data) return <div className="page"><div className="empty-state">{error || t("me.loading")}</div></div>;
 
     const current = data.tickets.find((x) => x.status === "called");
-    const waiting = data.tickets.filter((x) => x.status === "waiting");
+    const waiting = data.tickets.filter((x) => x.status === "waiting" && x.arrived);
+    const pending = data.tickets.filter((x) => x.status === "waiting" && !x.arrived);
     const past = data.tickets.filter((x) => !["waiting", "called"].includes(x.status)).reverse();
     const d = data.doctor;
 
@@ -129,7 +130,7 @@ export default function DoctorQueuePage() {
                     </div>
                 </div>
                 <div className="q-summary">
-                    <div><span>{t("queue.waiting")}</span><b>{waiting.length}</b></div>
+                    <div><span>{t("queue.waiting")}</span><b>{waiting.length}{pending.length ? <small className="q-pending"> +{pending.length} {t("queue.onlineShort")}</small> : null}</b></div>
                     <div><span>{t("queue.avgNow")}</span><b>{d.avg_minutes} {t("queue.min")}</b></div>
                     <div><span>{t("queue.etaIfNow")}</span><b>{d.accepting ? `~${hhmm(d.next_eta)}` : "—"}</b></div>
                     <div><span>{t("queue.hours")}</span><b>{d.work_start}–{d.work_end}</b></div>
@@ -157,6 +158,27 @@ export default function DoctorQueuePage() {
                     </table>
                 )}
             </div>
+
+            {pending.length > 0 && (
+                <>
+                    <h2 className="q-h2">{t("queue.pendingTitle")}</h2>
+                    <p className="q-note q-note-top">{t("queue.pendingNote")}</p>
+                    <div className="table-card">
+                        <table>
+                            <tbody>
+                            {pending.map((x) => (
+                                <tr key={x.id}>
+                                    <td><b>{x.number}</b></td>
+                                    <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : x.name}</td>
+                                    <td className="cell-muted">{t("queue.ifArrives")} ~{hhmm(x.eta)}</td>
+                                    <td><button className="q-link q-link-ok" disabled={busy} onClick={() => act(() => queueApi.arrive(x.id))}>{t("queue.markArrived")}</button></td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </>
+            )}
 
             {past.length > 0 && (
                 <>

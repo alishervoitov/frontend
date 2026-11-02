@@ -173,7 +173,16 @@
     "createButton": "Yaratish",
     "selectAtLeastOne": "Kamida bitta bilvosita identifikator tanlang.",
     "groupSize": "Hajmi",
-    "hidden": "Yashirildi"
+    "hidden": "Yashirildi",
+    "filter": {"all": "Hammasi", "doctor": "Shifokorlar", "patient": "Bemorlar", "admin": "Adminlar", "inactive": "Faolsizlar"},
+    "searchUsers": "Ism, login yoki email",
+    "noUsers": "Foydalanuvchi topilmadi",
+    "status": "Holat",
+    "activate": "Faollashtirish",
+    "deactivate": "Faolsizlantirish",
+    "deactivateConfirm": "{{name}} hisobi faolsizlantirilsinmi? U tizimga kira olmaydi, ma'lumotlari saqlanib qoladi.",
+    "showMore": "Yana ko'rsatish ({{count}})",
+    "you": "Siz"
   },
   "recordTypes": {
     "visit": "Tashrif",
@@ -369,7 +378,9 @@
       "closed": "Shifokor bugun navbat qabul qilmayapti.",
       "retry": "Xatolik, qayta urinib ko'ring.",
       "load": "Ma'lumotlarni yuklab bo'lmadi.",
-      "generic": "Xatolik yuz berdi."
+      "generic": "Xatolik yuz berdi.",
+      "not_waiting": "Faqat kutilayotgan navbat uchun belgilash mumkin.",
+      "not_today": "Navbat bugungi kun uchun emas."
     },
     "chooseSpecialty": "Yo'nalishni tanlang",
     "allSpecialties": "Barcha yo'nalishlar",
@@ -412,6 +423,16 @@
       "urologist": "urolog buyrak siydik",
       "traumatologist": "travmatolog ortoped suyak sinish bo'g'im",
       "other": "boshqa"
-    }
+    },
+    "etaIfArrive": "Kelsangiz taxminan",
+    "arriveHint": "Shifoxonaga kelganingizda tugmani bosing. Kelmaguningizcha shifoxonadagi bemorlar qabul qilinaveradi, kelganingizda o'z raqamingiz bo'yicha navbatga qo'yilasiz.",
+    "arriveButton": "Shifoxonaga keldim",
+    "arriveConfirm": "Shifoxonaga yetib keldingizmi? Shifokor sizni chaqirganda xona oldida bo'ling.",
+    "arrivedNote": "Kelganingiz qayd etildi, navbatingizni kuting",
+    "onlineShort": "onlayn",
+    "pendingTitle": "Onlayn, hali kelmagan",
+    "pendingNote": "Bu bemorlar kelguncha chaqirilmaydi. Kelganda o'z raqami bo'yicha navbatga qo'shiladi.",
+    "ifArrives": "kelsa",
+    "markArrived": "Keldi"
   }
 }
