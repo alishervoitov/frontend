@@ -115,7 +115,7 @@ export default function RegistryPage() {
                                         <div key={x.id} className="q-board-pending-row">
                                             <b>{x.number}</b>
                                             <span>{x.name}</span>
-                                            <button type="button" className="q-link q-link-ok" onClick={() => queueApi.arrive(x.id).then(load).catch((err) => setError(errorText(err, t)))}>
+                                            <button type="button" className="q-act q-act-ok" onClick={() => queueApi.arrive(x.id).then(load).catch((err) => setError(errorText(err, t)))}>
                                                 {t("queue.markArrived")}
                                             </button>
                                         </div>

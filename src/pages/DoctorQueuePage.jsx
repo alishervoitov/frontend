@@ -124,7 +124,7 @@ export default function DoctorQueuePage() {
                         </button>
                         {current && (
                             <button className="btn btn-secondary" disabled={busy} onClick={() => act(() => queueApi.noShow(current.id))}>
-                                {t("queue.noShow")}
+                                {t("queue.markNoShow")}
                             </button>
                         )}
                     </div>
@@ -143,15 +143,16 @@ export default function DoctorQueuePage() {
                     <div className="empty-state">{t("queue.emptyQueue")}</div>
                 ) : (
                     <table>
-                        <thead><tr><th>№</th><th>{t("queue.patient")}</th><th>{t("queue.sourceCol")}</th><th>{t("queue.eta")}</th><th /></tr></thead>
+                        <thead><tr><th>№</th><th>{t("queue.patient")}</th><th>{t("queue.sourceCol")}</th><th>{t("admin.status")}</th><th>{t("queue.eta")}</th><th /></tr></thead>
                         <tbody>
                         {waiting.map((x) => (
                             <tr key={x.id}>
                                 <td><b>{x.number}</b></td>
                                 <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : (x.name || <span className="cell-muted">{t("queue.walkIn")}</span>)}</td>
                                 <td><span className={`q-src q-src-${x.source}`}>{t(`queue.source.${x.source}`)}</span></td>
+                                <td><span className="q-state q-state-here">{t("queue.statePresent")}</span></td>
                                 <td className="cell-muted">~{hhmm(x.eta)}</td>
-                                <td><button className="q-link" disabled={busy} onClick={() => act(() => queueApi.noShow(x.id))}>{t("queue.noShow")}</button></td>
+                                <td><button className="q-act q-act-danger" disabled={busy} onClick={() => act(() => queueApi.noShow(x.id))}>{t("queue.markNoShow")}</button></td>
                             </tr>
                         ))}
                         </tbody>
@@ -170,8 +171,9 @@ export default function DoctorQueuePage() {
                                 <tr key={x.id}>
                                     <td><b>{x.number}</b></td>
                                     <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : x.name}</td>
+                                    <td><span className="q-state q-state-away">{t("queue.stateAway")}</span></td>
                                     <td className="cell-muted">{t("queue.ifArrives")} ~{hhmm(x.eta)}</td>
-                                    <td><button className="q-link q-link-ok" disabled={busy} onClick={() => act(() => queueApi.arrive(x.id))}>{t("queue.markArrived")}</button></td>
+                                    <td><button className="q-act q-act-ok" disabled={busy} onClick={() => act(() => queueApi.arrive(x.id))}>{t("queue.markArrived")}</button></td>
                                 </tr>
                             ))}
                             </tbody>

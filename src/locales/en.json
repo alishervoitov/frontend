@@ -424,6 +424,9 @@
     "pendingTitle": "Online, not yet arrived",
     "pendingNote": "These patients aren't called until they arrive. Then they join the queue by their number.",
     "ifArrives": "if arrives",
-    "markArrived": "Arrived"
+    "markArrived": "Mark as arrived",
+    "markNoShow": "Mark as no-show",
+    "statePresent": "At the clinic",
+    "stateAway": "Not arrived yet"
   }
 }

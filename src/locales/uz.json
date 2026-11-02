@@ -433,6 +433,9 @@
     "pendingTitle": "Onlayn, hali kelmagan",
     "pendingNote": "Bu bemorlar kelguncha chaqirilmaydi. Kelganda o'z raqami bo'yicha navbatga qo'shiladi.",
     "ifArrives": "kelsa",
-    "markArrived": "Keldi"
+    "markArrived": "Keldi deb belgilash",
+    "markNoShow": "Kelmadi deb belgilash",
+    "statePresent": "Shifoxonada",
+    "stateAway": "Hali kelmagan"
   }
 }

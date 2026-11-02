@@ -193,3 +193,14 @@
 .q-board-pending { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border-strong); }
 .q-board-pending-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 4px; }
 .q-board-pending-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 8px; padding: 4px 0; font-size: 0.88rem; align-items: center; }
+
+/* Holat belgisi va amal tugmasi bir-biridan aniq ajralib tursin */
+.q-state { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.q-state-here { background: var(--success-tint); color: var(--success); }
+.q-state-away { background: var(--accent-tint); color: var(--accent); }
+.q-act { background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 5px 10px; font: inherit; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+.q-act:hover:not(:disabled) { background: var(--surface-sunken); }
+.q-act:disabled { opacity: 0.5; cursor: default; }
+.q-act-danger { color: var(--danger); }
+.q-act-ok { color: var(--primary); font-weight: 600; }
+.q-board-pending-row .q-act { padding: 3px 8px; font-size: 0.75rem; }
