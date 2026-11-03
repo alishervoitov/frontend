@@ -44,6 +44,8 @@ export default function Layout() {
     const [presentCount, setPresentCount] = useState(0);
     const [open, setOpen] = useState(false);
     const closeBtn = useRef(null);
+    const [userOpen, setUserOpen] = useState(false);
+    const userBox = useRef(null);
     const menuBtn = useRef(null);
 
     // Admin uchun ochiq xavfsizlik ogohlantirishlari soni (har daqiqada yangilanadi)
@@ -67,7 +69,16 @@ export default function Layout() {
     }, [isDoctor]);
 
     // Yon panel: sahifa almashganda yopiladi, Esc bilan yopiladi, ochiqligida orqa fon aylanmaydi
-    useEffect(() => { setOpen(false); }, [pathname]);
+    useEffect(() => { setOpen(false); setUserOpen(false); }, [pathname]);
+    // Kompyuterdagi foydalanuvchi menyusi: tashqariga bosilsa yoki Esc bilan yopiladi
+    useEffect(() => {
+        if (!userOpen) return undefined;
+        const out = (e) => { if (userBox.current && !userBox.current.contains(e.target)) setUserOpen(false); };
+        const esc = (e) => { if (e.key === "Escape") setUserOpen(false); };
+        document.addEventListener("mousedown", out);
+        document.addEventListener("keydown", esc);
+        return () => { document.removeEventListener("mousedown", out); document.removeEventListener("keydown", esc); };
+    }, [userOpen]);
     useEffect(() => {
         if (!open) return undefined;
         const prev = document.body.style.overflow;
@@ -114,12 +125,28 @@ export default function Layout() {
                     {user?.role === "patient" && <NotificationBell />}
                     <div className="topbar-desktop">
                         <LanguageSwitcher />
-                        {avatar("avatar-sm")}
-                        <Link to="/sessions" className="topbar-user topbar-user-link" title={t("sessions.title")}>
-                            <span>{name}</span>{" "}
-                            <span className={`badge badge-${user?.role}`}>{t(`roles.${user?.role}`)}</span>
-                        </Link>
-                        <button className="btn btn-secondary" onClick={logout}>{t("nav.logout")}</button>
+                        <div className="user-menu" ref={userBox}>
+                            <button type="button" className={`user-menu-btn ${userOpen ? "open" : ""}`} aria-haspopup="menu"
+                                    aria-expanded={userOpen} onClick={() => setUserOpen((v) => !v)}>
+                                {avatar("avatar-sm")}
+                                <span className="user-menu-name">{name}</span>
+                                <span className={`badge badge-${user?.role}`}>{t(`roles.${user?.role}`)}</span>
+                                <svg className="user-menu-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                            </button>
+                            {userOpen && (
+                                <div className="user-menu-pop" role="menu">
+                                    <div className="user-menu-head">
+                                        <b>{[user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.username}</b>
+                                        <span>{user?.username}</span>
+                                    </div>
+                                    <Link role="menuitem" to="/me" className="user-menu-item"><NavIcon name="profile" size={18} />{t("nav.myProfile")}</Link>
+                                    <Link role="menuitem" to="/sessions" className="user-menu-item"><NavIcon name="devices" size={18} />{t("sessions.title")}</Link>
+                                    <button role="menuitem" type="button" className="user-menu-item user-menu-logout" onClick={logout}>
+                                        <NavIcon name="logout" size={18} />{t("nav.logout")}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <button type="button" ref={menuBtn} className="menu-btn" aria-label={t("nav.openMenu")}
                             aria-expanded={open} aria-controls="side-menu" onClick={() => setOpen(true)}>
