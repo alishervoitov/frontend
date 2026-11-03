@@ -137,8 +137,8 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
                         const f = flagOf(r);
                         return (
                             <tr key={i} className={f && f !== "normal" ? `lab-row-${f}` : ""}>
-                                <td><input value={r.name} onChange={setRow(i, "name")} placeholder={t("labs.param")} /></td>
-                                <td>
+                                <td className="lab-c-name"><input value={r.name} onChange={setRow(i, "name")} placeholder={t("labs.param")} /></td>
+                                <td className="lab-c-value" data-label={t("labs.result")}>
                                     {r.options ? (
                                         <input list={`opt-${i}`} value={r.value} onChange={setRow(i, "value")} />
                                     ) : (
@@ -146,8 +146,8 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
                                     )}
                                     {r.options && <datalist id={`opt-${i}`}>{r.options.map((o) => <option key={o} value={o} />)}</datalist>}
                                 </td>
-                                <td><input className="lab-unit" value={r.unit} onChange={setRow(i, "unit")} /></td>
-                                <td>
+                                <td className="lab-c-unit" data-label={t("labs.unit")}><input className="lab-unit" value={r.unit} onChange={setRow(i, "unit")} /></td>
+                                <td className="lab-c-ref" data-label={t("labs.reference")}>
                                     {r.ref_text !== "" && r.ref_low === "" && r.ref_high === "" ? (
                                         <input value={r.ref_text} onChange={setRow(i, "ref_text")} />
                                     ) : (
@@ -158,8 +158,8 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
                                         </span>
                                     )}
                                 </td>
-                                <td className="lab-flag">{f && <span className={`lab-flag-${f}`}>{ARROW[f]}</span>}</td>
-                                <td><button type="button" className="q-link" onClick={() => removeRow(i)} title={t("labs.removeRow")}>✕</button></td>
+                                <td className="lab-flag lab-c-flag">{f && <span className={`lab-flag-${f}`}>{ARROW[f]}</span>}</td>
+                                <td className="lab-c-remove"><button type="button" className="q-link" onClick={() => removeRow(i)} title={t("labs.removeRow")}>✕</button></td>
                             </tr>
                         );
                     })}

@@ -39,10 +39,10 @@ export function LabResultCard({ result, open, onDelete }) {
                 <tbody>
                 {result.values.map((v) => (
                     <tr key={v.id} className={v.flag && v.flag !== "normal" ? `lab-row-${v.flag}` : ""}>
-                        <td>{v.name}</td>
-                        <td className="lab-value">{v.value} {ARROW[v.flag] && <span className="lab-arrow">{ARROW[v.flag]}</span>}</td>
-                        <td className="cell-muted">{v.unit}</td>
-                        <td className="cell-muted">{refLabel(v)}</td>
+                        <td className="lab-v-name">{v.name}</td>
+                        <td className="lab-value" data-label={t("labs.result")}>{v.value} {ARROW[v.flag] && <span className="lab-arrow">{ARROW[v.flag]}</span>}</td>
+                        <td className="cell-muted lab-v-unit">{v.unit}</td>
+                        <td className="cell-muted lab-v-ref" data-label={t("labs.reference")}>{refLabel(v)}</td>
                     </tr>
                 ))}
                 </tbody>

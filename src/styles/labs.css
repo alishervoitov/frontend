@@ -59,3 +59,46 @@
 .lab-badge-expired { background: var(--surface-sunken); color: var(--ink-muted); border: 1px dashed var(--border-strong); }
 .lab-valid-note { align-self: center; margin: 0; }
 .timeline-lab .lab-card { margin-bottom: 0; }
+
+/* ===== Telefon (≤ 640px): jadvallar o'rniga ixcham kartochkalar ===== */
+@media (max-width: 640px) {
+    .lab-card summary { padding: 14px 16px; }
+    .lab-card-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .lab-badges { justify-content: flex-start; }
+
+    /* Natijani ko'rish: har bir ko'rsatkich - 2 qatorli blok */
+    .lab-table thead { display: none; }
+    .lab-table, .lab-table tbody { display: block; }
+    .lab-table tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 10px 16px; border-top: 1px solid var(--border); }
+    .lab-table td { display: block; padding: 0; border: none; }
+    .lab-table .lab-v-name { grid-column: 1; font-weight: 500; }
+    .lab-table .lab-value { grid-column: 2; grid-row: 1; text-align: right; white-space: nowrap; }
+    .lab-table .lab-v-unit { grid-column: 2; grid-row: 2; text-align: right; font-size: 0.8rem; }
+    .lab-table .lab-v-ref { grid-column: 1; grid-row: 2; font-size: 0.8rem; }
+    .lab-table .lab-v-ref::before { content: attr(data-label) ": "; }
+    .lab-notes, .lab-foot { padding: 10px 16px; }
+
+    /* Laborant formasi */
+    .lab-step .q-form-grid.q-form-grid-2, .q-form-grid.q-form-grid-2 { grid-template-columns: 1fr; }
+    .lab-valid-note { margin-top: -8px; }
+    .lab-panels .au-tab { flex: 1 1 auto; text-align: center; }
+    .lab-patient-chip { flex-direction: column; align-items: flex-start; }
+    .lab-grid-wrap { border: none; overflow: visible; }
+    .lab-input-table { min-width: 0; display: block; }
+    .lab-input-table thead { display: none; }
+    .lab-input-table tbody { display: flex; flex-direction: column; gap: 10px; }
+    .lab-input-table tr { display: grid; grid-template-columns: 1fr 1fr 28px; grid-template-areas: "name name remove" "value unit flag" "ref ref ref"; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+    .lab-input-table td { display: block; padding: 0; border: none; }
+    .lab-input-table td[data-label]::before { content: attr(data-label); display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-muted); margin-bottom: 3px; }
+    .lab-c-name { grid-area: name; }
+    .lab-c-name input { font-weight: 600; }
+    .lab-c-value { grid-area: value; }
+    .lab-c-unit { grid-area: unit; }
+    .lab-c-unit .lab-unit { width: 100%; }
+    .lab-c-ref { grid-area: ref; }
+    .lab-c-ref .lab-ref input { width: 100%; }
+    .lab-c-flag { grid-area: flag; align-self: end; padding-bottom: 8px !important; }
+    .lab-c-remove { grid-area: remove; align-self: center; text-align: center; }
+    .lab-input-table input { font-size: 16px; } /* iOS'da avtomatik kattalashtirmaslik uchun */
+    .lab-search { font-size: 16px; }
+}
