@@ -9,6 +9,7 @@
     "queue": "Book a queue",
     "doctorQueue": "Queue",
     "registry": "Reception",
+    "queueStats": "Statistics",
     "lab": "Laboratory",
     "access": "Access history",
     "alerts": "Alerts"
@@ -673,5 +674,33 @@
     "error": "Couldn't run the check.",
     "hashCol": "Hash",
     "note": "Each entry stores the hash of the previous one (HMAC-SHA256 chain). Altering or deleting even one entry in the database breaks the chain. The system verifies it nightly and raises a security alert on any break."
+  },
+  "qstats": {
+    "title": "Queue statistics",
+    "period": "Period",
+    "days": "{{n}} days",
+    "tickets": "Tickets",
+    "ticketsSub": "{{done}} seen · {{cancelled}} cancelled",
+    "avgWait": "Average wait",
+    "median": "median",
+    "noShowRate": "No-shows",
+    "noShowSub": "{{n}} ticket holders didn't come",
+    "noShowShort": "No-show",
+    "avgService": "Visit length",
+    "avgServiceSub": "average per patient",
+    "empty": "No queue activity in this period.",
+    "byDay": "By day",
+    "series": {
+      "done": "Seen",
+      "no_show": "No-show"
+    },
+    "cancelled": "Cancelled",
+    "byHour": "Busiest hours",
+    "byHourHint": "By the time patients arrived at the clinic",
+    "arrivals": "{{n}} patients arrived",
+    "bySource": "By source",
+    "bySourceHint": "Online bookings usually have a higher no-show rate.",
+    "doctors": "Doctors (busiest first)",
+    "note": "Wait: from arrival at the clinic until called. No-show rate: no-shows / (seen + no-shows); cancelled and open tickets are excluded."
   }
 }

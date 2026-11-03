@@ -11,6 +11,7 @@
     "queue": "Navbat olish",
     "doctorQueue": "Navbat",
     "registry": "Registratura",
+    "queueStats": "Statistika",
     "lab": "Laboratoriya",
     "access": "Kirishlar tarixi",
     "alerts": "Ogohlantirishlar"
@@ -681,5 +682,33 @@
     "error": "Tekshiruvni bajarib bo'lmadi.",
     "hashCol": "Xesh",
     "note": "Har bir yozuv oldingisining xeshini saqlaydi (HMAC-SHA256 zanjiri). Bazada bitta yozuv o'zgartirilsa yoki o'chirilsa, zanjir uziladi. Tizim har kecha avtomatik tekshiradi va buzilish bo'lsa xavfsizlik ogohlantirishi yaratadi."
+  },
+  "qstats": {
+    "title": "Navbat statistikasi",
+    "period": "Davr",
+    "days": "{{n}} kun",
+    "tickets": "Chiptalar",
+    "ticketsSub": "{{done}} ta qabul · {{cancelled}} ta bekor",
+    "avgWait": "O'rtacha kutish",
+    "median": "mediana",
+    "noShowRate": "Kelmaganlar",
+    "noShowSub": "{{n}} ta chipta egasi kelmadi",
+    "noShowShort": "Kelmagan",
+    "avgService": "Qabul davomiyligi",
+    "avgServiceSub": "o'rtacha, bitta bemor",
+    "empty": "Bu davrda navbat bo'lmagan.",
+    "byDay": "Kunlar bo'yicha",
+    "series": {
+      "done": "Qabul qilindi",
+      "no_show": "Kelmadi"
+    },
+    "cancelled": "Bekor qilindi",
+    "byHour": "Eng band soatlar",
+    "byHourHint": "Bemorlar shifoxonaga kelgan vaqt bo'yicha",
+    "arrivals": "{{n}} ta bemor keldi",
+    "bySource": "Manba bo'yicha",
+    "bySourceHint": "Onlayn navbatda kelmaganlar ulushi odatda yuqoriroq bo'ladi.",
+    "doctors": "Shifokorlar (eng band birinchi)",
+    "note": "Kutish vaqti: bemor shifoxonaga kelgandan chaqirilguncha. Kelmaganlar ulushi: kelmadi / (qabul qilindi + kelmadi); bekor qilingan va ochiq navbatlar hisobga olinmaydi."
   }
 }

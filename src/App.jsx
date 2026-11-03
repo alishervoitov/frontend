@@ -21,6 +21,7 @@ import RegistryPage from "./pages/RegistryPage";
 import KioskPage from "./pages/KioskPage";
 import ArrivePage from "./pages/ArrivePage";
 import SessionsPage from "./pages/SessionsPage";
+import AdminQueueStatsPage from "./pages/AdminQueueStatsPage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
@@ -62,6 +63,14 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["doctor"]}>
                                     <DoctorQueuePage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/queue-stats"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <AdminQueueStatsPage />
                                 </ProtectedRoute>
                             }
                         />

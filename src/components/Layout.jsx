@@ -67,6 +67,11 @@ export default function Layout() {
                             {t("nav.registry")}
                         </Link>
                     )}
+                    {isAdmin && (
+                        <Link to="/admin/queue-stats" className={`topbar-link ${pathname.startsWith("/admin/queue-stats") ? "active" : ""}`}>
+                            {t("nav.queueStats")}
+                        </Link>
+                    )}
                     {isDoctorOrAdmin && (
                         <Link to="/patients" className={`topbar-link ${pathname.startsWith("/patients") ? "active" : ""}`}>
                             {t("nav.patients")}
