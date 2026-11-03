@@ -108,3 +108,15 @@
 .lab-foot .q-act { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lab-card summary:focus { outline: none; }
 .lab-card summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; border-radius: var(--radius-lg); }
+
+/* Profil: 3x4 hujjat rasmi ko'rinishidagi foto, ma'lumotlarning o'ng tomonida */
+.profile-photo-card { display: flex; gap: 24px; align-items: flex-start; }
+.profile-photo-fields { flex: 1; min-width: 0; }
+.avatar-portrait { width: 120px; height: 160px; font-size: 40px; border: 1px solid var(--border-strong); box-shadow: var(--shadow-sm); flex: none; }
+.avatar-portrait img { object-position: center top; }
+/* Telefonda rasm balandligi yozuvlar ustuni bilan teng */
+@media (max-width: 640px) {
+    .profile-photo-card { gap: 14px; align-items: stretch; }
+    .profile-photo-card .avatar-upload { display: flex; flex-direction: column; flex: none; }
+    .profile-photo-card .avatar-portrait { width: 96px; height: auto; flex: 1; min-height: 120px; font-size: 30px; }
+}

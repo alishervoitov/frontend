@@ -50,24 +50,25 @@ function PatientHome({ user, onAvatarUpdated }) {
 
     return (
         <div className="page">
-            <div className="profile-header-row">
-                <div className="patient-header" style={{ marginBottom: 0 }}>
-                    <h1>{t("me.hello", { name: user.first_name || user.username })}</h1>
-                    <div className="patient-meta">{t("me.patientSubtitle")}</div>
-                </div>
-                <AvatarUpload user={user} onUpdated={onAvatarUpdated} />
+            <div className="patient-header">
+                <h1>{t("me.hello", { name: user.first_name || user.username })}</h1>
+                <div className="patient-meta">{t("me.patientSubtitle")}</div>
             </div>
 
             {loading ? (
                 <div className="table-card"><div className="empty-state">{t("me.loading")}</div></div>
             ) : (
                 <>
-                    <div className="card">
+                    <div className="card profile-photo-card">
+                        <div className="profile-photo-fields">
                         <h2 style={{ marginBottom: 12 }}>{t("me.profileInfo")}</h2>
-                        <p className="timeline-field"><b>{t("me.gender")}:</b> {profile?.gender || t("me.notProvided")}</p>
+                        <p className="timeline-field"><b>{t("me.fullName", { defaultValue: "F.I.Sh." })}:</b> {[user.last_name, user.first_name].filter(Boolean).join(" ") || user.username}</p>
+                        <p className="timeline-field"><b>{t("me.gender")}:</b> {profile?.gender ? t(`me.genderValue.${profile.gender}`, { defaultValue: profile.gender }) : t("me.notProvided")}</p>
                         <p className="timeline-field"><b>{t("me.bloodType")}:</b> {profile?.blood_type || t("me.notProvided")}</p>
                         <p className="timeline-field"><b>{t("me.allergies")}:</b> {profile?.allergies || t("me.notProvided")}</p>
                         <p className="timeline-field"><b>{t("me.recordsCount")}:</b> {profile?.records_count ?? 0}</p>
+                        </div>
+                        <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="portrait" />
                     </div>
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />

@@ -48,6 +48,8 @@
   "roles": { "admin": "ADMIN", "doctor": "DOCTOR", "patient": "PATIENT",
     "lab": "LAB" },
   "me": {
+    "fullName": "Full name",
+    "genderValue": {"M": "Male", "F": "Female", "O": "Other"},
     "hello": "Hello, {{name}}!",
     "welcome": "Welcome, {{name}}!",
     "patientSubtitle": "This is your personal dashboard.",

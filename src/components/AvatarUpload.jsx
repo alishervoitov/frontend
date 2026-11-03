@@ -32,8 +32,9 @@ export default function AvatarUpload({ user, onUpdated, shape = "circle", size =
     }
 
     const initial = (user?.first_name || user?.username || "?")[0].toUpperCase();
-    const shapeClass = shape === "square" ? "avatar-square" : "avatar-circle";
-    const sizeClass = size === "fill" ? "avatar-fill" : size === "xl" ? "avatar-xl" : "avatar-lg";
+    // portrait: hujjat rasmi kabi 3x4 o'lchamdagi to'rtburchak
+    const shapeClass = shape === "portrait" ? "avatar-square avatar-portrait" : shape === "square" ? "avatar-square" : "avatar-circle";
+    const sizeClass = shape === "portrait" ? "" : size === "fill" ? "avatar-fill" : size === "xl" ? "avatar-xl" : "avatar-lg";
 
     return (
         <div className="avatar-upload">

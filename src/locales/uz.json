@@ -54,6 +54,8 @@
     "lab": "LABORANT"
   },
   "me": {
+    "fullName": "F.I.Sh.",
+    "genderValue": {"M": "Erkak", "F": "Ayol", "O": "Boshqa"},
     "hello": "Salom, {{name}}!",
     "welcome": "Xush kelibsiz, {{name}}!",
     "patientSubtitle": "Bu — sizning shaxsiy kabinetingiz.",
