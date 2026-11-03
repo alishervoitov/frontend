@@ -635,5 +635,33 @@
     "room": "Xona: {{room}}.",
     "rx_expiring": "«{{medication}}» retsepti {{days}} kundan keyin tugaydi.",
     "rx_today": "«{{medication}}» retsepti bugun tugaydi."
+  },
+  "sessions": {
+    "title": "Faol qurilmalar",
+    "lead": "Hisobingizga hozir kirilgan qurilmalar. Notanish qurilmani ko'rsangiz, uni chiqarib yuboring va parolingizni almashtiring.",
+    "thisDevice": "Shu qurilma",
+    "signedIn": "Kirgan",
+    "lastSeen": "Oxirgi faollik",
+    "now": "hozir",
+    "justNow": "hozirgina",
+    "signOut": "Chiqarish",
+    "signOutOthers": "Boshqa qurilmalardan chiqish ({{count}})",
+    "signOutAll": "Barcha qurilmalardan chiqish",
+    "confirmOne": "Shu qurilma hisobingizdan chiqarilsinmi?",
+    "confirmOthers": "Shu qurilmadan tashqari barcha qurilmalar hisobingizdan chiqarilsinmi?",
+    "confirmAll": "Barcha qurilmalardan, jumladan shu qurilmadan ham chiqasiz. Davom etasizmi?",
+    "revokedOne": "Qurilma hisobingizdan chiqarildi.",
+    "revokedOthers": "{{count}} ta qurilma hisobingizdan chiqarildi.",
+    "relogin": "Shu qurilmani ro'yxatda belgilash uchun bir marta chiqib, qaytadan kiring.",
+    "unknownDevice": "Noma'lum qurilma",
+    "note": "Chiqarilgan qurilma bir necha soniya ichida hisobdan uziladi va qayta kirish uchun parol so'raladi. Qurilma nomi brauzer ma'lumotidan taxminan aniqlanadi.",
+    "loadError": "Ro'yxatni yuklab bo'lmadi.",
+    "actionError": "Amalni bajarib bo'lmadi. Qayta urinib ko'ring.",
+    "kind": {
+      "desktop": "Kompyuter",
+      "mobile": "Telefon",
+      "tablet": "Planshet",
+      "unknown": "Qurilma"
+    }
   }
 }

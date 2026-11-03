@@ -627,5 +627,33 @@
     "room": "Room: {{room}}.",
     "rx_expiring": "The \"{{medication}}\" prescription ends in {{days}} day(s).",
     "rx_today": "The \"{{medication}}\" prescription ends today."
+  },
+  "sessions": {
+    "title": "Active devices",
+    "lead": "Devices currently signed in to your account. If you see one you don't recognise, sign it out and change your password.",
+    "thisDevice": "This device",
+    "signedIn": "Signed in",
+    "lastSeen": "Last active",
+    "now": "now",
+    "justNow": "just now",
+    "signOut": "Sign out",
+    "signOutOthers": "Sign out other devices ({{count}})",
+    "signOutAll": "Sign out of all devices",
+    "confirmOne": "Sign this device out of your account?",
+    "confirmOthers": "Sign out every device except this one?",
+    "confirmAll": "You'll be signed out everywhere, including this device. Continue?",
+    "revokedOne": "The device was signed out.",
+    "revokedOthers": "{{count}} device(s) signed out.",
+    "relogin": "To mark this device in the list, sign out and sign in again once.",
+    "unknownDevice": "Unknown device",
+    "note": "A signed-out device is disconnected within seconds and needs the password to sign in again. Device names are estimated from browser data.",
+    "loadError": "Couldn't load the list.",
+    "actionError": "Couldn't complete the action. Please try again.",
+    "kind": {
+      "desktop": "Computer",
+      "mobile": "Phone",
+      "tablet": "Tablet",
+      "unknown": "Device"
+    }
   }
 }

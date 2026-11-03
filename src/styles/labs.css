@@ -198,3 +198,28 @@
     .notif { position: static; }
     .notif-panel { position: fixed; left: 8px; right: 8px; top: var(--notif-top, 64px); width: auto; max-height: 70vh; }
 }
+
+/* Faol sessiyalar (qurilmalar) */
+.profile-links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.topbar-user-link { text-decoration: none; color: inherit; border-radius: var(--radius-sm); padding: 2px 4px; }
+.topbar-user-link:hover { background: var(--surface-sunken); }
+.sessions-page { max-width: 760px; }
+.sessions-lead { margin: -6px 0 18px; }
+.sessions-list { display: flex; flex-direction: column; gap: 12px; }
+.sessions-item { display: flex; align-items: center; gap: 16px; padding: 16px 20px; margin: 0; }
+.topbar-sessions-mobile { display: none; text-decoration: none; }
+.sessions-item.is-current { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary) inset; }
+.sessions-icon { font-size: 1.8rem; line-height: 1; }
+.sessions-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.sessions-name { font-weight: 600; color: var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.sessions-badge { font-size: 0.72rem; font-weight: 700; background: var(--primary-tint); color: var(--primary); padding: 2px 8px; border-radius: 999px; }
+.sessions-meta { font-size: 0.85rem; overflow-wrap: anywhere; }
+.sessions-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.sessions-note { font-size: 0.82rem; margin-top: 14px; }
+@media (max-width: 640px) {
+    .topbar-sessions-mobile { display: inline-flex; }
+    .sessions-item { flex-wrap: wrap; padding: 14px 16px; }
+    .sessions-body { flex-basis: calc(100% - 60px); }
+    .sessions-out { width: 100%; }
+    .sessions-actions .btn { width: 100%; }
+}

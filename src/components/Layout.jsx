@@ -96,10 +96,13 @@ export default function Layout() {
                     <div className="avatar-circle avatar-sm">
                         {user?.avatar_url ? <img src={user.avatar_url} alt="avatar" /> : <span>{initial}</span>}
                     </div>
-                    <span className="topbar-user">
-            <span>{user?.first_name || user?.username}</span>{" "}
+                    <Link to="/sessions" className="notif-btn topbar-sessions-mobile" aria-label={t("sessions.title")} title={t("sessions.title")}>
+                        <span aria-hidden="true">🛡️</span>
+                    </Link>
+                    <Link to="/sessions" className="topbar-user topbar-user-link" title={t("sessions.title")}>
+                        <span>{user?.first_name || user?.username}</span>{" "}
                         <span className={`badge badge-${user?.role}`}>{t(`roles.${user?.role}`)}</span>
-          </span>
+                    </Link>
                     <button className="btn btn-secondary" onClick={logout}>{t("nav.logout")}</button>
                 </div>
             </div>

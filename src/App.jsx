@@ -20,6 +20,7 @@ import DoctorQueuePage from "./pages/DoctorQueuePage";
 import RegistryPage from "./pages/RegistryPage";
 import KioskPage from "./pages/KioskPage";
 import ArrivePage from "./pages/ArrivePage";
+import SessionsPage from "./pages/SessionsPage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
@@ -47,6 +48,7 @@ export default function App() {
                         }
                     >
                         <Route path="/me" element={<MePage />} />
+                        <Route path="/sessions" element={<SessionsPage />} />
                         <Route
                             path="/queue"
                             element={
