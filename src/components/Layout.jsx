@@ -4,6 +4,7 @@ import client from "../api/client";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import NotificationBell from "./NotificationBell";
 
 export default function Layout() {
     const { user, logout } = useAuth();
@@ -78,6 +79,7 @@ export default function Layout() {
                     )}
                 </div>
                 <div className="topbar-right">
+                    {user?.role === "patient" && <NotificationBell />}
                     <LanguageSwitcher />
                     <div className="avatar-circle avatar-sm">
                         {user?.avatar_url ? <img src={user.avatar_url} alt="avatar" /> : <span>{initial}</span>}

@@ -582,5 +582,23 @@
     "empty": "No alerts.",
     "loadError": "Could not load data.",
     "note": "Thresholds are set in the server settings (SECURITY_ALERTS). Every alert is also written to security.log."
+  },
+  "notif": {
+    "title": "Notifications",
+    "readAll": "Mark all read",
+    "now": "just now",
+    "minAgo": "{{n}} min ago",
+    "hourAgo": "{{n}} h ago",
+    "dayAgo": "{{n}} d ago",
+    "empty": "No notifications yet.",
+    "lab_ready": "Your lab result is ready: {{title}}.",
+    "lab_abnormal": "{{count}} value(s) out of range.",
+    "queue_near": "{{ahead}} people ahead of you (No. {{number}}, {{doctor}}).",
+    "queue_next": "You are next: No. {{number}}, {{doctor}}. Please wait by the room.",
+    "queue_come": "Come to the clinic and tap \"I'm at the clinic\".",
+    "queue_called": "You are being called: No. {{number}}, {{doctor}}.",
+    "room": "Room: {{room}}.",
+    "rx_expiring": "The \"{{medication}}\" prescription ends in {{days}} day(s).",
+    "rx_today": "The \"{{medication}}\" prescription ends today."
   }
 }

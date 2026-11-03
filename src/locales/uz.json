@@ -590,5 +590,23 @@
     "empty": "Ogohlantirishlar yo'q.",
     "loadError": "Ma'lumotni yuklab bo'lmadi.",
     "note": "Chegaralar server sozlamasida (SECURITY_ALERTS) o'zgartiriladi. Ogohlantirish yaratilganda security.log fayliga ham yoziladi."
+  },
+  "notif": {
+    "title": "Bildirishnomalar",
+    "readAll": "Hammasini o'qish",
+    "now": "hozirgina",
+    "minAgo": "{{n}} daqiqa oldin",
+    "hourAgo": "{{n}} soat oldin",
+    "dayAgo": "{{n}} kun oldin",
+    "empty": "Hozircha bildirishnomalar yo'q.",
+    "lab_ready": "Tahlil natijangiz tayyor: {{title}}.",
+    "lab_abnormal": "{{count}} ta ko'rsatkich me'yordan tashqarida.",
+    "queue_near": "Navbatingizga {{ahead}} kishi qoldi (№{{number}}, {{doctor}}).",
+    "queue_next": "Navbatingiz keyingi: №{{number}}, {{doctor}}. Xona oldida bo'ling.",
+    "queue_come": "Shifoxonaga yetib kelgach, «Shifoxonaga keldim» tugmasini bosing.",
+    "queue_called": "Sizni chaqirishyapti: №{{number}}, {{doctor}}.",
+    "room": "Xona: {{room}}.",
+    "rx_expiring": "«{{medication}}» retsepti {{days}} kundan keyin tugaydi.",
+    "rx_today": "«{{medication}}» retsepti bugun tugaydi."
   }
 }
