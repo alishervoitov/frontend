@@ -102,3 +102,9 @@
     .lab-input-table input { font-size: 16px; } /* iOS'da avtomatik kattalashtirmaslik uchun */
     .lab-search { font-size: 16px; }
 }
+
+/* Uzun fayl nomi kartani kengaytirmasin; bosilgandagi qora ramka faqat klaviatura bilan */
+.timeline-item, .lab-card { min-width: 0; }
+.lab-foot .q-act { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-card summary:focus { outline: none; }
+.lab-card summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; border-radius: var(--radius-lg); }
