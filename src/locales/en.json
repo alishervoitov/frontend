@@ -586,7 +586,8 @@
     "rules": {
       "mass_access": "Many patient records",
       "off_hours": "Night-time access",
-      "bulk_export": "Many exports"
+      "bulk_export": "Many exports",
+      "audit_tamper": "Audit log tampered"
     },
     "ruleText": {
       "mass_access": "{{n}} or more different patients within {{m}} min",
@@ -655,5 +656,22 @@
       "tablet": "Tablet",
       "unknown": "Device"
     }
+  },
+  "integrity": {
+    "verify": "Verify integrity",
+    "checking": "Verifying...",
+    "ok": "Chain intact: none of the {{count}} entries has been altered or deleted.",
+    "okHint": "Every entry's hash was recomputed and its link to the previous entry checked.",
+    "bad": "Warning! The audit log has been tampered with: {{count}} problem(s) found.",
+    "type": {
+      "modified": "entry content was altered",
+      "link": "preceding entries were deleted or reordered",
+      "truncated": "entries were removed from the end (checkpoint mismatch)"
+    },
+    "head": "Head hash",
+    "checkpoint": "Last checkpoint",
+    "error": "Couldn't run the check.",
+    "hashCol": "Hash",
+    "note": "Each entry stores the hash of the previous one (HMAC-SHA256 chain). Altering or deleting even one entry in the database breaks the chain. The system verifies it nightly and raises a security alert on any break."
   }
 }

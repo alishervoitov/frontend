@@ -594,7 +594,8 @@
     "rules": {
       "mass_access": "Ko'p bemor kartasi",
       "off_hours": "Tungi murojaat",
-      "bulk_export": "Ko'p eksport"
+      "bulk_export": "Ko'p eksport",
+      "audit_tamper": "Audit jurnali buzilgan"
     },
     "ruleText": {
       "mass_access": "{{m}} daqiqada {{n}} va undan ortiq turli bemor",
@@ -663,5 +664,22 @@
       "tablet": "Planshet",
       "unknown": "Qurilma"
     }
+  },
+  "integrity": {
+    "verify": "Yaxlitlikni tekshirish",
+    "checking": "Tekshirilmoqda...",
+    "ok": "Zanjir butun: {{count}} ta yozuvning birortasi o'zgartirilmagan yoki o'chirilmagan.",
+    "okHint": "Har bir yozuvning xeshi qayta hisoblandi va oldingi yozuv bilan bog'lanishi tekshirildi.",
+    "bad": "Diqqat! Audit jurnali buzilgan: {{count}} ta muammo topildi.",
+    "type": {
+      "modified": "yozuv mazmuni o'zgartirilgan",
+      "link": "bundan oldingi yozuv(lar) o'chirilgan yoki joyi o'zgargan",
+      "truncated": "jurnal oxiridan yozuvlar o'chirilgan (nazorat nuqtasiga mos emas)"
+    },
+    "head": "Oxirgi xesh",
+    "checkpoint": "Oxirgi nazorat nuqtasi",
+    "error": "Tekshiruvni bajarib bo'lmadi.",
+    "hashCol": "Xesh",
+    "note": "Har bir yozuv oldingisining xeshini saqlaydi (HMAC-SHA256 zanjiri). Bazada bitta yozuv o'zgartirilsa yoki o'chirilsa, zanjir uziladi. Tizim har kecha avtomatik tekshiradi va buzilish bo'lsa xavfsizlik ogohlantirishi yaratadi."
   }
 }
