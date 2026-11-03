@@ -5,6 +5,7 @@ import { errorText, hhmm, queueApi } from "../api/queue";
 import { SPECIALTIES, specLabel } from "../api/specialty";
 
 const POLL_MS = 15000;
+const FRESH_MS = 3 * 60 * 1000; // shu vaqt ichida kelganlar "Yangi" deb belgilanadi
 
 function Settings({ initial, onSaved }) {
     const { t } = useTranslation();
@@ -55,8 +56,12 @@ export default function DoctorQueuePage() {
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [info, setInfo] = useState("");
 
-    const load = useCallback(() => queueApi.doctorQueue().then(setData).catch(() => setError(t("queue.errors.load"))), [t]);
+    const load = useCallback(() => queueApi.doctorQueue().then((d) => {
+        setData(d);
+        window.dispatchEvent(new Event("queue-changed"));
+    }).catch(() => setError(t("queue.errors.load"))), [t]);
 
     useEffect(() => {
         load();
@@ -67,8 +72,12 @@ export default function DoctorQueuePage() {
     async function act(fn) {
         setBusy(true);
         setError("");
+        setInfo("");
         try {
-            await fn();
+            const res = await fn();
+            if (res?.called && res.skipped?.length) {
+                setInfo(t("queue.skippedInfo", { called: res.called.number, list: res.skipped.map((n) => `№${n}`).join(", ") }));
+            }
             await load();
         } catch (err) {
             setError(errorText(err, t));
@@ -94,6 +103,7 @@ export default function DoctorQueuePage() {
                 </button>
             </div>
             {error && <div className="alert-error">{error}</div>}
+            {info && <div className="q-hint q-info" role="status">{info}</div>}
             {!data.settings.specialty && !showSettings && (
                 <div className="q-hint">
                     {t("queue.setSpecialtyHint")}{" "}
@@ -146,11 +156,17 @@ export default function DoctorQueuePage() {
                         <thead><tr><th>№</th><th>{t("queue.patient")}</th><th>{t("queue.sourceCol")}</th><th>{t("admin.status")}</th><th>{t("queue.eta")}</th><th /></tr></thead>
                         <tbody>
                         {waiting.map((x) => (
-                            <tr key={x.id}>
+                            <tr key={x.id} className={x.source === "online" && x.arrived_at && Date.now() - new Date(x.arrived_at) < FRESH_MS ? "q-row-new" : ""}>
                                 <td><b>{x.number}</b></td>
                                 <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : (x.name || <span className="cell-muted">{t("queue.walkIn")}</span>)}</td>
                                 <td><span className={`q-src q-src-${x.source}`}>{t(`queue.source.${x.source}`)}</span></td>
-                                <td><span className="q-state q-state-here">{t("queue.statePresent")}</span></td>
+                                <td>
+                                    <span className="q-state q-state-here">{t("queue.statePresent")}</span>
+                                    {x.source === "online" && x.arrived_at && Date.now() - new Date(x.arrived_at) < FRESH_MS && (
+                                        <span className="q-state q-state-new">{t("queue.justArrived")}</span>
+                                    )}
+                                    {x.source === "online" && x.arrived_at && <div className="q-muted q-arrived-at">{t("queue.arrivedAt", { time: hhmm(x.arrived_at) })}</div>}
+                                </td>
                                 <td className="cell-muted">~{hhmm(x.eta)}</td>
                                 <td><button className="q-act q-act-danger" disabled={busy} onClick={() => act(() => queueApi.noShow(x.id))}>{t("queue.markNoShow")}</button></td>
                             </tr>

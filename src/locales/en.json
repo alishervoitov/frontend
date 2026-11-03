@@ -432,6 +432,10 @@
     "pendingNote": "These patients aren't called until they arrive. Then they join the queue by their number.",
     "ifArrives": "if arrives",
     "markArrived": "Mark as arrived",
+    "presentBadge": "Patients waiting at the clinic",
+    "justArrived": "Just arrived",
+    "arrivedAt": "Arrived: {{time}}",
+    "skippedInfo": "No. {{called}} called. {{list}} not at the clinic yet — they'll join the queue by their number on arrival.",
     "markNoShow": "Mark as no-show",
     "statePresent": "At the clinic",
     "stateAway": "Not arrived yet"

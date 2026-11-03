@@ -23,6 +23,17 @@ export default function Layout() {
         window.addEventListener("alerts-changed", load);
         return () => { clearInterval(id); window.removeEventListener("alerts-changed", load); };
     }, [isAdmin]);
+    // Shifokor uchun: shifoxonaga kelib kutayotgan bemorlar soni
+    const isDoctor = user?.role === "doctor";
+    const [presentCount, setPresentCount] = useState(0);
+    useEffect(() => {
+        if (!isDoctor) return undefined;
+        const load = () => client.get("/queue/doctor/count/").then((r) => setPresentCount(r.data.present)).catch(() => {});
+        load();
+        const id = setInterval(load, 20000);
+        window.addEventListener("queue-changed", load);
+        return () => { clearInterval(id); window.removeEventListener("queue-changed", load); };
+    }, [isDoctor]);
     const initial = (user?.first_name || user?.username || "?")[0]?.toUpperCase();
 
     return (
@@ -48,6 +59,7 @@ export default function Layout() {
                     {user?.role === "doctor" && (
                         <Link to="/doctor/queue" className={`topbar-link q-nav ${pathname.startsWith("/doctor/queue") ? "active" : ""}`}>
                             {t("nav.doctorQueue")}
+                            {presentCount > 0 && <span className="nav-badge nav-badge-ok" title={t("queue.presentBadge")}>{presentCount}</span>}
                         </Link>
                     )}
                     {isAdmin && (

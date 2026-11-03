@@ -441,6 +441,10 @@
     "pendingNote": "Bu bemorlar kelguncha chaqirilmaydi. Kelganda o'z raqami bo'yicha navbatga qo'shiladi.",
     "ifArrives": "kelsa",
     "markArrived": "Keldi deb belgilash",
+    "presentBadge": "Shifoxonada kutayotgan bemorlar",
+    "justArrived": "Yangi keldi",
+    "arrivedAt": "Keldi: {{time}}",
+    "skippedInfo": "№{{called}} chaqirildi. {{list}} hali shifoxonaga kelmagan — kelganda o'z raqami bo'yicha navbatga qo'shiladi.",
     "markNoShow": "Kelmadi deb belgilash",
     "statePresent": "Shifoxonada",
     "stateAway": "Hali kelmagan"

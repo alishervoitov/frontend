@@ -204,3 +204,10 @@
 .q-act-danger { color: var(--danger); }
 .q-act-ok { color: var(--primary); font-weight: 600; }
 .q-board-pending-row .q-act { padding: 3px 8px; font-size: 0.75rem; }
+
+/* Shifokor: yangi kelgan bemor va menyudagi raqam */
+.nav-badge-ok { background: var(--success); }
+.q-state-new { margin-left: 6px; background: var(--accent-tint); color: var(--accent); }
+.q-row-new td { background: var(--success-tint); }
+.q-arrived-at { font-size: 0.75rem; margin-top: 3px; }
+.q-info { border-left: 3px solid var(--primary); }
