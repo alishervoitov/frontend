@@ -18,6 +18,8 @@
     "groupSecurity": "Security",
     "groupAccount": "Account",
     "myProfile": "My profile",
+    "myProfileHint": "Details and photo",
+    "sessionsHint": "Where you're signed in",
     "lab": "Laboratory",
     "access": "Access history",
     "alerts": "Alerts"

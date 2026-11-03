@@ -18,6 +18,8 @@
     "groupSecurity": "Безопасность",
     "groupAccount": "Аккаунт",
     "myProfile": "Мой профиль",
+    "myProfileHint": "Данные и фото",
+    "sessionsHint": "С каких устройств выполнен вход",
     "lab": "Лаборатория",
     "access": "История доступа",
     "alerts": "Оповещения"

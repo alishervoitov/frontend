@@ -126,23 +126,36 @@ export default function Layout() {
                     <div className="topbar-desktop">
                         <LanguageSwitcher />
                         <div className="user-menu" ref={userBox}>
-                            <button type="button" className={`user-menu-btn ${userOpen ? "open" : ""}`} aria-haspopup="menu"
+                            <button type="button" className={`user-menu-btn role-${user?.role} ${userOpen ? "open" : ""}`} aria-haspopup="menu"
                                     aria-expanded={userOpen} onClick={() => setUserOpen((v) => !v)}>
-                                {avatar("avatar-sm")}
-                                <span className="user-menu-name">{name}</span>
-                                <span className={`badge badge-${user?.role}`}>{t(`roles.${user?.role}`)}</span>
-                                <svg className="user-menu-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                                {avatar("avatar-sm user-menu-avatar")}
+                                <span className="user-menu-text">
+                                    <span className="user-menu-name">{name}</span>
+                                    <span className="user-menu-role">{t(`roles.${user?.role}`)}</span>
+                                </span>
+                                <svg className="user-menu-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
                             </button>
                             {userOpen && (
-                                <div className="user-menu-pop" role="menu">
-                                    <div className="user-menu-head">
-                                        <b>{[user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.username}</b>
-                                        <span>{user?.username}</span>
+                                <div className={`user-menu-pop role-${user?.role}`} role="menu">
+                                    <div className="user-menu-card">
+                                        {avatar("avatar-md user-menu-avatar")}
+                                        <div className="user-menu-card-text">
+                                            <b>{[user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.username}</b>
+                                            <span>@{user?.username}</span>
+                                            <span className={`badge badge-${user?.role}`}>{t(`roles.${user?.role}`)}</span>
+                                        </div>
                                     </div>
-                                    <Link role="menuitem" to="/me" className="user-menu-item"><NavIcon name="profile" size={18} />{t("nav.myProfile")}</Link>
-                                    <Link role="menuitem" to="/sessions" className="user-menu-item"><NavIcon name="devices" size={18} />{t("sessions.title")}</Link>
+                                    <Link role="menuitem" to="/me" className="user-menu-item">
+                                        <span className="user-menu-ico"><NavIcon name="profile" size={18} /></span>
+                                        <span className="user-menu-item-text"><b>{t("nav.myProfile")}</b><small>{t("nav.myProfileHint")}</small></span>
+                                    </Link>
+                                    <Link role="menuitem" to="/sessions" className="user-menu-item">
+                                        <span className="user-menu-ico"><NavIcon name="devices" size={18} /></span>
+                                        <span className="user-menu-item-text"><b>{t("sessions.title")}</b><small>{t("nav.sessionsHint")}</small></span>
+                                    </Link>
                                     <button role="menuitem" type="button" className="user-menu-item user-menu-logout" onClick={logout}>
-                                        <NavIcon name="logout" size={18} />{t("nav.logout")}
+                                        <span className="user-menu-ico"><NavIcon name="logout" size={18} /></span>
+                                        <span className="user-menu-item-text"><b>{t("nav.logout")}</b></span>
                                     </button>
                                 </div>
                             )}

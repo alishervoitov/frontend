@@ -284,17 +284,43 @@
 
 /* Kompyuter: foydalanuvchi menyusi (profil, faol qurilmalar, chiqish) */
 .user-menu { position: relative; }
-.user-menu-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid transparent; border-radius: 999px; padding: 3px 10px 3px 3px; cursor: pointer; font: inherit; color: var(--ink-muted); font-size: 0.85rem; }
-.user-menu-btn:hover, .user-menu-btn.open { background: var(--surface-sunken); border-color: var(--border); }
-.user-menu-name { color: var(--ink); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.user-menu-chevron { transition: transform 0.15s; }
-.user-menu-btn.open .user-menu-chevron { transform: rotate(180deg); }
-.user-menu-pop { position: absolute; right: 0; top: calc(100% + 8px); min-width: 230px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 6px; z-index: 60; }
-.user-menu-head { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 10px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
-.user-menu-head b { color: var(--ink); font-size: 0.92rem; }
-.user-menu-head span { color: var(--ink-faint); font-size: 0.8rem; }
-.user-menu-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; border: none; background: none; border-radius: var(--radius-sm); color: var(--ink); text-decoration: none; font: inherit; font-size: 0.9rem; cursor: pointer; text-align: left; }
+.user-menu-btn { --role: var(--primary); --role-tint: var(--primary-tint);
+    display: inline-flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 4px 12px 4px 4px; cursor: pointer; font: inherit; color: var(--ink-muted);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s; }
+.user-menu-btn:hover { border-color: var(--border-strong); box-shadow: var(--shadow-sm); }
+.user-menu-btn.open { border-color: var(--role); box-shadow: 0 0 0 3px var(--role-tint); }
+.user-menu-avatar { background: var(--role-tint) !important; color: var(--role) !important; font-weight: 700; }
+.user-menu-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; text-align: left; }
+.user-menu-name { color: var(--ink); font-weight: 600; font-size: 0.88rem; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-menu-role { color: var(--role); font-size: 0.72rem; font-weight: 600; }
+.user-menu-chevron { color: var(--ink-faint); transition: transform 0.15s; }
+.user-menu-btn.open .user-menu-chevron { transform: rotate(180deg); color: var(--role); }
+.user-menu-pop { --role: var(--primary); --role-tint: var(--primary-tint);
+    position: absolute; right: 0; top: calc(100% + 10px); width: 280px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 8px; z-index: 60;
+    animation: user-menu-in 0.14s ease-out; }
+@keyframes user-menu-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .user-menu-pop { animation: none; } }
+.user-menu-card { display: flex; gap: 12px; align-items: center; padding: 12px; margin-bottom: 6px; border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--role-tint), var(--surface)); }
+.user-menu-card .avatar-md { width: 48px; height: 48px; font-size: 18px; box-shadow: 0 0 0 3px var(--surface); }
+.user-menu-card-text { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; }
+.user-menu-card-text b { color: var(--ink); font-size: 0.95rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.user-menu-card-text > span:not(.badge) { color: var(--ink-faint); font-size: 0.78rem; }
+.user-menu-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border: none; background: none;
+    border-radius: var(--radius-md); color: var(--ink); text-decoration: none; font: inherit; cursor: pointer; text-align: left; }
 .user-menu-item:hover { background: var(--surface-sunken); }
-.user-menu-item .nav-icon { color: var(--ink-muted); }
-.user-menu-logout { color: var(--danger); border-top: 1px solid var(--border); border-radius: 0 0 var(--radius-sm) var(--radius-sm); margin-top: 4px; }
-.user-menu-logout .nav-icon { color: var(--danger); }
+.user-menu-ico { width: 34px; height: 34px; flex: none; border-radius: var(--radius-sm); display: inline-flex; align-items: center; justify-content: center;
+    background: var(--surface-sunken); color: var(--ink-muted); }
+.user-menu-item:hover .user-menu-ico { background: var(--role-tint); color: var(--role); }
+.user-menu-item-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.user-menu-item-text b { font-weight: 600; font-size: 0.9rem; }
+.user-menu-item-text small { color: var(--ink-faint); font-size: 0.76rem; }
+.user-menu-logout { margin-top: 6px; border-top: 1px solid var(--border); border-radius: 0 0 var(--radius-md) var(--radius-md); padding-top: 12px; color: var(--danger); }
+.user-menu-logout .user-menu-ico { background: var(--danger-tint); color: var(--danger); }
+.user-menu-logout:hover .user-menu-ico { background: var(--danger); color: #fff; }
+/* Rol ranglari (tugma va menyu uchun umumiy; standart qoidalardan keyin turishi kerak) */
+.user-menu-btn.role-admin, .user-menu-pop.role-admin { --role: var(--accent); --role-tint: var(--accent-tint); }
+.user-menu-btn.role-patient, .user-menu-pop.role-patient { --role: var(--success); --role-tint: var(--success-tint); }
+.user-menu-btn.role-lab, .user-menu-pop.role-lab { --role: #6B4FA0; --role-tint: #EEE8F7; }

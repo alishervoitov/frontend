@@ -20,6 +20,8 @@
     "groupSecurity": "Xavfsizlik",
     "groupAccount": "Hisob",
     "myProfile": "Mening profilim",
+    "myProfileHint": "Ma'lumotlar va rasm",
+    "sessionsHint": "Qaysi qurilmalardan kirilgan",
     "lab": "Laboratoriya",
     "access": "Kirishlar tarixi",
     "alerts": "Ogohlantirishlar"
