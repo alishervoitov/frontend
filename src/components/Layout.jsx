@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import client from "../api/client";
 import { useTranslation } from "react-i18next";
@@ -34,6 +34,14 @@ export default function Layout() {
         window.addEventListener("queue-changed", load);
         return () => { clearInterval(id); window.removeEventListener("queue-changed", load); };
     }, [isDoctor]);
+    // Telefonda menyu suriladigan qator: faol bo'lim ko'rinib tursin
+    const navRef = useRef(null);
+    useEffect(() => {
+        const el = navRef.current?.querySelector(".topbar-link.active");
+        if (el && navRef.current.scrollWidth > navRef.current.clientWidth) {
+            el.scrollIntoView({ block: "nearest", inline: "center" });
+        }
+    }, [pathname]);
     const initial = (user?.first_name || user?.username || "?")[0]?.toUpperCase();
 
     return (
@@ -41,59 +49,61 @@ export default function Layout() {
             <div className="topbar">
                 <div className="topbar-left">
                     <Link to="/me" className="topbar-brand">{t("app.name")}</Link>
-                    {user?.role === "patient" && (
-                        <Link to="/queue" className={`topbar-link q-nav ${pathname.startsWith("/queue") ? "active" : ""}`}>
-                            {t("nav.queue")}
-                        </Link>
-                    )}
-                    {user?.role === "patient" && (
-                        <Link to="/my-access" className={`topbar-link q-nav ${pathname.startsWith("/my-access") ? "active" : ""}`}>
-                            {t("nav.access")}
-                        </Link>
-                    )}
-                    {user?.role === "lab" && (
-                        <Link to="/lab" className={`topbar-link q-nav ${pathname.startsWith("/lab") ? "active" : ""}`}>
-                            {t("nav.lab")}
-                        </Link>
-                    )}
-                    {user?.role === "doctor" && (
-                        <Link to="/doctor/queue" className={`topbar-link q-nav ${pathname.startsWith("/doctor/queue") ? "active" : ""}`}>
-                            {t("nav.doctorQueue")}
-                            {presentCount > 0 && <span className="nav-badge nav-badge-ok" title={t("queue.presentBadge")}>{presentCount}</span>}
-                        </Link>
-                    )}
-                    {isAdmin && (
-                        <Link to="/registry" className={`topbar-link q-nav ${pathname.startsWith("/registry") ? "active" : ""}`}>
-                            {t("nav.registry")}
-                        </Link>
-                    )}
-                    {isAdmin && (
-                        <Link to="/admin/queue-stats" className={`topbar-link ${pathname.startsWith("/admin/queue-stats") ? "active" : ""}`}>
-                            {t("nav.queueStats")}
-                        </Link>
-                    )}
-                    {isDoctorOrAdmin && (
-                        <Link to="/patients" className={`topbar-link ${pathname.startsWith("/patients") ? "active" : ""}`}>
-                            {t("nav.patients")}
-                        </Link>
-                    )}
-                    {isAdmin && (
-                        <>
-                            <Link to="/admin/users" className={`topbar-link ${pathname.startsWith("/admin/users") ? "active" : ""}`}>
-                                {t("nav.users")}
+                    <nav className="topbar-nav" ref={navRef} aria-label={t("nav.menu", { defaultValue: "Menu" })}>
+                        {user?.role === "patient" && (
+                            <Link to="/queue" className={`topbar-link q-nav ${pathname.startsWith("/queue") ? "active" : ""}`}>
+                                {t("nav.queue")}
                             </Link>
-                            <Link to="/admin/audit" className={`topbar-link ${pathname.startsWith("/admin/audit") ? "active" : ""}`}>
-                                {t("nav.audit")}
+                        )}
+                        {user?.role === "patient" && (
+                            <Link to="/my-access" className={`topbar-link q-nav ${pathname.startsWith("/my-access") ? "active" : ""}`}>
+                                {t("nav.access")}
                             </Link>
-                            <Link to="/admin/alerts" className={`topbar-link q-nav ${pathname.startsWith("/admin/alerts") ? "active" : ""}`}>
-                                {t("nav.alerts")}
-                                {alertCount > 0 && <span className="nav-badge">{alertCount}</span>}
+                        )}
+                        {user?.role === "lab" && (
+                            <Link to="/lab" className={`topbar-link q-nav ${pathname.startsWith("/lab") ? "active" : ""}`}>
+                                {t("nav.lab")}
                             </Link>
-                            <Link to="/admin/anonymize" className={`topbar-link ${pathname.startsWith("/admin/anonymize") ? "active" : ""}`}>
-                                {t("nav.anonymize")}
+                        )}
+                        {user?.role === "doctor" && (
+                            <Link to="/doctor/queue" className={`topbar-link q-nav ${pathname.startsWith("/doctor/queue") ? "active" : ""}`}>
+                                {t("nav.doctorQueue")}
+                                {presentCount > 0 && <span className="nav-badge nav-badge-ok" title={t("queue.presentBadge")}>{presentCount}</span>}
                             </Link>
-                        </>
-                    )}
+                        )}
+                        {isAdmin && (
+                            <Link to="/registry" className={`topbar-link q-nav ${pathname.startsWith("/registry") ? "active" : ""}`}>
+                                {t("nav.registry")}
+                            </Link>
+                        )}
+                        {isAdmin && (
+                            <Link to="/admin/queue-stats" className={`topbar-link ${pathname.startsWith("/admin/queue-stats") ? "active" : ""}`}>
+                                {t("nav.queueStats")}
+                            </Link>
+                        )}
+                        {isDoctorOrAdmin && (
+                            <Link to="/patients" className={`topbar-link ${pathname.startsWith("/patients") ? "active" : ""}`}>
+                                {t("nav.patients")}
+                            </Link>
+                        )}
+                        {isAdmin && (
+                            <>
+                                <Link to="/admin/users" className={`topbar-link ${pathname.startsWith("/admin/users") ? "active" : ""}`}>
+                                    {t("nav.users")}
+                                </Link>
+                                <Link to="/admin/audit" className={`topbar-link ${pathname.startsWith("/admin/audit") ? "active" : ""}`}>
+                                    {t("nav.audit")}
+                                </Link>
+                                <Link to="/admin/alerts" className={`topbar-link q-nav ${pathname.startsWith("/admin/alerts") ? "active" : ""}`}>
+                                    {t("nav.alerts")}
+                                    {alertCount > 0 && <span className="nav-badge">{alertCount}</span>}
+                                </Link>
+                                <Link to="/admin/anonymize" className={`topbar-link ${pathname.startsWith("/admin/anonymize") ? "active" : ""}`}>
+                                    {t("nav.anonymize")}
+                                </Link>
+                            </>
+                        )}
+                    </nav>
                 </div>
                 <div className="topbar-right">
                     {user?.role === "patient" && <NotificationBell />}

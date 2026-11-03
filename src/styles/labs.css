@@ -236,3 +236,33 @@
 .integrity-body code, .integrity-hash { font-family: var(--font-mono); font-size: 0.78rem; }
 .integrity-note { font-size: 0.82rem; margin: 0 0 16px; }
 .integrity-row-bad td { background: var(--danger-tint); }
+
+/* Asosiy menyu: kompyuterda bir qatorda, telefonda alohida suriladigan qator (barcha bo'limlar ko'rinadi) */
+.topbar-nav { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; row-gap: 4px; min-width: 0; flex: 1 1 auto; }
+@media (min-width: 901px) {
+    .topbar-left { flex-wrap: nowrap; flex: 1 1 auto; }
+    .topbar-brand { flex: none; }
+}
+@media (max-width: 900px) {
+    .topbar { flex-wrap: wrap; row-gap: 8px; padding: 10px 16px 0; }
+    .topbar-left { display: contents; }
+    .topbar-brand { order: 1; }
+    .topbar-right { order: 2; margin-left: auto; gap: 8px; }
+    .topbar-right .btn { padding: 7px 12px; font-size: 0.85rem; }
+    .topbar-nav {
+        order: 3; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; gap: 20px;
+        margin: 0 -16px; padding: 2px 16px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        border-top: 1px solid var(--border);
+    }
+    .topbar-nav::-webkit-scrollbar { display: none; }
+    .topbar .topbar-nav .topbar-link { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; flex: none; padding: 10px 0 9px; }
+}
+
+/* Kichik telefon: yuqori qator (brend + tugmalar) bitta qatorga sig'sin */
+@media (max-width: 480px) {
+    .topbar-brand { font-size: 1.05rem; }
+    .topbar-right { gap: 6px; }
+    .topbar-right .notif-btn { width: 32px; height: 32px; font-size: 0.9rem; }
+    .topbar-right .btn-secondary[style] { padding: 4px 7px !important; }
+    .topbar-right > .btn { padding: 6px 10px; }
+}

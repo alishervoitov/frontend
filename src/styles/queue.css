@@ -284,3 +284,24 @@
     .qs-grid2 { grid-template-columns: 1fr; }
     .qs-tile b { font-size: 1.35rem; }
 }
+
+/* Foydalanuvchilar jadvali: telefonda har bir foydalanuvchi alohida kartochka */
+@media (max-width: 640px) {
+    .table-card .au-table { min-width: 0; }
+    .au-table thead { display: none; }
+    .au-table, .au-table tbody, .au-table tr, .au-table td { display: block; width: 100%; }
+    .au-table tr { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+    .au-table tbody tr:last-child { border-bottom: none; }
+    .au-table td { padding: 0; border: none; max-width: none; }
+    .au-table tbody tr:hover td { background: none; }
+    .au-table .au-name { grid-column: 1; font-weight: 600; color: var(--ink); }
+    .au-table .au-role { grid-column: 2; grid-row: 1; text-align: right; }
+    .au-table td[data-label]:not(.au-name):not(.au-role):not(.au-actions)::before { content: attr(data-label) ": "; color: var(--ink-faint); font-size: 0.8rem; }
+    .au-table td.au-empty { display: none; }
+    .au-table td:not(.au-name):not(.au-role) { grid-column: 1 / -1; font-size: 0.85rem; }
+    .au-table .au-actions { margin-top: 6px; }
+}
+/* Audit jurnali: telefonda jadval suriladi, ustunlar siqilmaydi */
+@media (max-width: 700px) {
+    .table-card table.audit-table { min-width: 760px; }
+}

@@ -100,12 +100,12 @@ export default function AdminUsersPage() {
                             const name = `${u.first_name || ""} ${u.last_name || ""}`.trim();
                             return (
                                 <tr key={u.id} className={u.is_active === false ? "au-inactive" : ""}>
-                                    <td className="au-clip">{name || <span className="cell-muted">—</span>}</td>
-                                    <td className="cell-muted au-clip">{u.username}</td>
-                                    <td className="cell-muted au-clip">{u.email || "—"}</td>
-                                    <td><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
-                                    <td>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
-                                    <td>
+                                    <td className="au-clip au-name" data-label={t("patients.fullName")}>{name || <span className="cell-muted">—</span>}</td>
+                                    <td className="cell-muted au-clip" data-label={t("patients.username")}>{u.username}</td>
+                                    <td className="cell-muted au-clip" data-label={t("admin.email")}>{u.email || "—"}</td>
+                                    <td className="au-role" data-label={t("admin.role")}><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
+                                    <td className={u.role === "doctor" ? "" : "au-empty"} data-label={t("queue.specialty")}>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
+                                    <td className="au-actions" data-label={t("admin.status")}>
                                         {u.id === me?.id ? (
                                             <span className="cell-muted">{t("admin.you")}</span>
                                         ) : (

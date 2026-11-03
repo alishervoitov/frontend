@@ -73,7 +73,7 @@ export default function AdminAuditLogPage() {
                 ) : logs.length === 0 ? (
                     <div className="empty-state">{t("admin.noEntries")}</div>
                 ) : (
-                    <table>
+                    <table className="audit-table">
                         <thead>
                         <tr>
                             <th>{t("admin.time")}</th>
