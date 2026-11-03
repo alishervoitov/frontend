@@ -519,6 +519,10 @@
       "fileSize": "The file must not exceed 10 MB.",
       "upload": "Result saved, but the file could not be uploaded.",
       "generic": "Could not save."
-    }
+    },
+    "validUntil": "Valid until",
+    "validUntilShort": "Valid until {{date}}",
+    "expired": "Expired",
+    "validNote": "Default: blood and urine 10 days, chemistry 14 days, other 30 days. Expired results are left out of the PDF."
   }
 }

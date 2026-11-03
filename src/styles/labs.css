@@ -52,3 +52,10 @@
 @media (max-width: 700px) {
     .lab-table th, .lab-table td { padding: 8px 12px; }
 }
+
+/* Muddat va kasallik tarixidagi tahlillar */
+.lab-badges { display: inline-flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.lab-badge-valid { background: var(--primary-tint); color: var(--primary); font-weight: 500; }
+.lab-badge-expired { background: var(--surface-sunken); color: var(--ink-muted); border: 1px dashed var(--border-strong); }
+.lab-valid-note { align-self: center; margin: 0; }
+.timeline-lab .lab-card { margin-bottom: 0; }

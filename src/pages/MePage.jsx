@@ -6,7 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import client, { downloadPatientHistoryPdf } from "../api/client";
 import PrescriptionsSection from "../components/PrescriptionsSection";
 import RecordAttachments from "../components/RecordAttachments";
-import LabResultsSection from "../components/LabResultsSection";
+import { LabResultCard } from "../components/LabResultsSection";
+import { labApi, mergeHistory } from "../api/labs";
 
 export default function MePage() {
     const { user, setUser } = useAuth();
@@ -21,6 +22,7 @@ function PatientHome({ user, onAvatarUpdated }) {
     const { t } = useTranslation();
     const [profile, setProfile] = useState(null);
     const [records, setRecords] = useState([]);
+    const [labs, setLabs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [downloading, setDownloading] = useState(false);
 
@@ -28,10 +30,12 @@ function PatientHome({ user, onAvatarUpdated }) {
         Promise.all([
             client.get("/records/patients/me/"),
             client.get("/records/medical-records/"),
+            labApi.results().catch(() => []),
         ])
-            .then(([p, r]) => { setProfile(p.data); setRecords(r.data); })
+            .then(([p, r, l]) => { setProfile(p.data); setRecords(r.data); setLabs(l); })
             .finally(() => setLoading(false));
     }, []);
+    const history = mergeHistory(records, labs);
 
     async function handleDownload() {
         setDownloading(true);
@@ -68,8 +72,6 @@ function PatientHome({ user, onAvatarUpdated }) {
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />
 
-                    <LabResultsSection />
-
                     <div className="page-head">
                         <h2>{t("me.myHistory")}</h2>
                         <button className="btn btn-secondary" style={{ width: "auto" }} onClick={handleDownload} disabled={downloading}>
@@ -77,11 +79,18 @@ function PatientHome({ user, onAvatarUpdated }) {
                         </button>
                     </div>
 
-                    {records.length === 0 ? (
+                    {history.length === 0 ? (
                         <div className="table-card"><div className="empty-state">{t("me.noRecords")}</div></div>
                     ) : (
                         <div className="timeline">
-                            {records.map((r) => (
+                            {history.map(({ kind, item: r }, i) => kind === "lab" ? (
+                                <div key={`lab-${r.id}`} className="timeline-item timeline-lab">
+                                    <div className="timeline-date">
+                                        {new Date(r.collected_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+                                    </div>
+                                    <LabResultCard result={r} open={i === 0} />
+                                </div>
+                            ) : (
                                 <div key={r.id} className="timeline-item">
                                     <div className="timeline-date">
                                         {new Date(r.visit_date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}

@@ -58,6 +58,26 @@ export const PANELS = {
 
 export const PANEL_CODES = ["cbc", "biochem", "urine", "custom"];
 
+// Standart amal qilish muddati (kun), backend DEFAULT_VALIDITY_DAYS bilan bir xil
+export const VALIDITY_DAYS = { cbc: 10, urine: 10, biochem: 14, custom: 30 };
+
+export function defaultValidUntil(panel, collectedLocal) {
+    const d = new Date(collectedLocal || Date.now());
+    d.setDate(d.getDate() + (VALIDITY_DAYS[panel] ?? 30));
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+// Kasallik tarixi uchun: shifokor yozuvlari va tahlil natijalari bitta ro'yxatda, eng yangisi tepada.
+// Eski "lab_result" turidagi matnli yozuvlar o'rniga laborant kiritgan haqiqiy natijalar ko'rsatiladi.
+export function mergeHistory(records, labs) {
+    const items = [
+        ...records.filter((r) => r.record_type !== "lab_result").map((r) => ({ kind: "record", date: r.visit_date, item: r })),
+        ...labs.map((l) => ({ kind: "lab", date: l.collected_at, item: l })),
+    ];
+    return items.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
 function pickRange(p, gender) {
     if (p.ref) return p.ref;
     if (gender === "M") return p.m;

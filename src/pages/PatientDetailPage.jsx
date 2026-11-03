@@ -4,7 +4,8 @@ import client, { downloadPatientHistoryPdf} from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import RecordAttachments from "../components/RecordAttachments";
 import PrescriptionsSection from "../components/PrescriptionsSection";
-import LabResultsSection from "../components/LabResultsSection";
+import { LabResultCard } from "../components/LabResultsSection";
+import { labApi, mergeHistory } from "../api/labs";
 
 const RECORD_TYPES = [
     { value: "visit", label: "Tashrif" },
@@ -22,6 +23,7 @@ export default function PatientDetailPage() {
 
     const [patient, setPatient] = useState(null);
     const [records, setRecords] = useState([]);
+    const [labs, setLabs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [showForm, setShowForm] = useState(false);
@@ -32,10 +34,12 @@ export default function PatientDetailPage() {
         Promise.all([
             client.get(`/records/patients/${id}/`),
             client.get(`/records/medical-records/`, { params: { patient: id } }),
+            labApi.results(id).catch(() => []),
         ])
-            .then(([patientRes, recordsRes]) => {
+            .then(([patientRes, recordsRes, labsRes]) => {
                 setPatient(patientRes.data);
                 setRecords(recordsRes.data);
+                setLabs(labsRes);
             })
             .catch(() => setError("Ma'lumotlarni yuklab bo'lmadi."))
             .finally(() => setLoading(false));
@@ -95,14 +99,20 @@ export default function PatientDetailPage() {
             )}
 
             <PrescriptionsSection patientId={id} isDoctor={isDoctor} />
-            <LabResultsSection patientId={id} />
             <h2 style={{ marginTop: 28, marginBottom: 16 }}>Kasallik tarixi</h2>
 
-            {records.length === 0 ? (
+            {mergeHistory(records, labs).length === 0 ? (
                 <div className="table-card"><div className="empty-state">Hozircha tibbiy yozuvlar yo'q.</div></div>
             ) : (
                 <div className="timeline">
-                    {records.map((r) => (
+                    {mergeHistory(records, labs).map(({ kind, item: r }, i) => kind === "lab" ? (
+                        <div key={`lab-${r.id}`} className="timeline-item timeline-lab">
+                            <div className="timeline-date">
+                                {new Date(r.collected_at).toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" })}
+                            </div>
+                            <LabResultCard result={r} open={i === 0} />
+                        </div>
+                    ) : (
                         <div key={r.id} className="timeline-item">
                             <div className="timeline-date">
                                 {new Date(r.visit_date).toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" })}
@@ -244,7 +254,7 @@ function NewRecordForm({ patientId, onCreated }) {
             <div className="field">
                 <label>Yozuv turi</label>
                 <select value={form.record_type} onChange={update("record_type")}>
-                    {RECORD_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+                    {RECORD_TYPES.filter((t) => t.value !== "lab_result").map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                 </select>
             </div>
             <div className="field">

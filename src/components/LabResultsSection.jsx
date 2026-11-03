@@ -18,11 +18,18 @@ export function LabResultCard({ result, open, onDelete }) {
                             {onDelete && ` · ${result.patient_name}`}
                         </div>
                     </div>
+                    <span className="lab-badges">
+                    {result.valid_until && (
+                        result.is_expired
+                            ? <span className="lab-badge lab-badge-expired">{t("labs.expired")}</span>
+                            : <span className="lab-badge lab-badge-valid">{t("labs.validUntilShort", { date: result.valid_until })}</span>
+                    )}
                     {result.abnormal_count > 0 ? (
                         <span className="lab-badge lab-badge-warn">{t("labs.abnormalCount", { count: result.abnormal_count })}</span>
                     ) : (
                         <span className="lab-badge lab-badge-ok">{t("labs.allNormal")}</span>
                     )}
+                    </span>
                 </div>
             </summary>
             <table className="lab-table">

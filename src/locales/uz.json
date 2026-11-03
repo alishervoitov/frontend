@@ -527,6 +527,10 @@
       "fileSize": "Fayl 10 MB dan oshmasligi kerak.",
       "upload": "Natija saqlandi, lekin faylni yuklab bo'lmadi.",
       "generic": "Saqlashda xatolik."
-    }
+    },
+    "validUntil": "Amal qilish muddati",
+    "validUntilShort": "{{date}} gacha amal qiladi",
+    "expired": "Muddati o'tgan",
+    "validNote": "Standart: qon va siydik 10 kun, biokimyo 14 kun, boshqa 30 kun. Muddati o'tgan tahlil PDF'ga chiqmaydi."
   }
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { flagOf, labApi, PANEL_CODES, panelRows } from "../api/labs";
+import { defaultValidUntil, flagOf, labApi, PANEL_CODES, panelRows } from "../api/labs";
 import { LabResultCard } from "../components/LabResultsSection";
 
 const ARROW = { low: "↓", high: "↑", abnormal: "!", normal: "✓" };
@@ -45,6 +45,13 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
     const [panel, setPanel] = useState("cbc");
     const [title, setTitle] = useState(t("labs.panels.cbc"));
     const [collectedAt, setCollectedAt] = useState(nowLocal());
+    const [validUntil, setValidUntil] = useState(() => defaultValidUntil("cbc", nowLocal()));
+    const [validTouched, setValidTouched] = useState(false);
+
+    // Laborant muddatni o'zi o'zgartirmagan bo'lsa, tur va sana bo'yicha standart muddat qo'yiladi
+    useEffect(() => {
+        if (!validTouched) setValidUntil(defaultValidUntil(panel, collectedAt));
+    }, [panel, collectedAt, validTouched]);
     const [rows, setRows] = useState(() => panelRows("cbc", patient.gender, t));
     const [notes, setNotes] = useState("");
     const [file, setFile] = useState(null);
@@ -73,7 +80,7 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
             const clean = (x) => (String(x).trim() === "" ? null : String(x).trim().replace(",", "."));
             const result = await labApi.create({
                 patient: patient.id, panel, title: title.trim() || t(`labs.panels.${panel}`),
-                collected_at: new Date(collectedAt).toISOString(), notes,
+                collected_at: new Date(collectedAt).toISOString(), valid_until: validUntil || null, notes,
                 values: filled.map((r) => ({
                     name: r.name.trim(), value: String(r.value).trim(), unit: r.unit,
                     ref_low: clean(r.ref_low), ref_high: clean(r.ref_high), ref_text: r.ref_text || "",
@@ -111,6 +118,13 @@ function ResultForm({ patient, onSaved, onChangePatient }) {
             <div className="q-form-grid q-form-grid-2">
                 <div className="field"><label>{t("labs.title")}</label><input value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required /></div>
                 <div className="field"><label>{t("labs.collectedAt")}</label><input type="datetime-local" value={collectedAt} max={nowLocal()} onChange={(e) => setCollectedAt(e.target.value)} required /></div>
+            </div>
+            <div className="q-form-grid q-form-grid-2">
+                <div className="field">
+                    <label>{t("labs.validUntil")}</label>
+                    <input type="date" value={validUntil} min={collectedAt.slice(0, 10)} onChange={(e) => { setValidTouched(true); setValidUntil(e.target.value); }} required />
+                </div>
+                <p className="q-note lab-valid-note">{t("labs.validNote")}</p>
             </div>
 
             <h2 className="lab-h2">3. {t("labs.enterValues")}</h2>
