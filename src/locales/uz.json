@@ -720,5 +720,26 @@
     "bySourceHint": "Onlayn navbatda kelmaganlar ulushi odatda yuqoriroq bo'ladi.",
     "doctors": "Shifokorlar (eng band birinchi)",
     "note": "Kutish vaqti: bemor shifoxonaga kelgandan chaqirilguncha. Kelmaganlar ulushi: kelmadi / (qabul qilindi + kelmadi); bekor qilingan va ochiq navbatlar hisobga olinmaydi."
+  },
+  "reg": {
+    "statDoctors": "Shifokorlar qabulda",
+    "statWaiting": "Navbatda",
+    "statServing": "Hozir qabulda",
+    "statDone": "Qabul qilindi",
+    "statPending": "Onlayn, hali kelmagan",
+    "search": "Ism yoki yo'nalish: stomatolog, pediatr...",
+    "noDoctor": "Shifokor topilmadi",
+    "waitingN": "navbatda {{n}}",
+    "closedShort": "yopiq",
+    "closedToday": "Bugun qabul yo'q",
+    "chooseDoctor": "Shifokorni tanlang",
+    "issueFor": "{{name}} ga chipta berish",
+    "issued": "Chipta berildi",
+    "nextTicket": "Keyingi chipta",
+    "quickIssue": "Shu shifokorga chipta berish",
+    "free": "bo'sh",
+    "inLine": "navbatda",
+    "doneToday": "qabul qilindi",
+    "next": "keyingi"
   }
 }

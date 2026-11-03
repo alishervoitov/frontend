@@ -712,5 +712,26 @@
     "bySourceHint": "Online bookings usually have a higher no-show rate.",
     "doctors": "Doctors (busiest first)",
     "note": "Wait: from arrival at the clinic until called. No-show rate: no-shows / (seen + no-shows); cancelled and open tickets are excluded."
+  },
+  "reg": {
+    "statDoctors": "Doctors on duty",
+    "statWaiting": "In line",
+    "statServing": "Being seen",
+    "statDone": "Seen",
+    "statPending": "Online, not arrived",
+    "search": "Name or specialty: dentist, pediatrician...",
+    "noDoctor": "No doctor found",
+    "waitingN": "{{n}} in line",
+    "closedShort": "closed",
+    "closedToday": "Not seeing patients today",
+    "chooseDoctor": "Choose a doctor",
+    "issueFor": "Issue ticket for {{name}}",
+    "issued": "Ticket issued",
+    "nextTicket": "Next ticket",
+    "quickIssue": "Issue a ticket for this doctor",
+    "free": "free",
+    "inLine": "in line",
+    "doneToday": "seen",
+    "next": "next"
   }
 }

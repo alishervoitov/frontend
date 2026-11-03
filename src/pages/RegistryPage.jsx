@@ -1,22 +1,107 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
 import TicketSlip from "../components/TicketSlip";
 import PrintedCheckinQr from "../components/PrintedCheckinQr";
-import { groupBySpecialty, specLabel } from "../api/specialty";
+import { groupBySpecialty, matchesQuery, specLabel } from "../api/specialty";
+import "../styles/registry.css";
 
 const POLL_MS = 20000;
+const SHOW_WAITING = 5;
+
+// Brauzerlarda o'zbekcha sana formati yo'q ("M11 3, Tue"), shuning uchun qo'lda
+const UZ_MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
+const UZ_DAYS = ["yakshanba", "dushanba", "seshanba", "chorshanba", "payshanba", "juma", "shanba"];
+function formatToday(lang) {
+    const d = new Date();
+    if ((lang || "uz").startsWith("uz")) return `${d.getDate()}-${UZ_MONTHS[d.getMonth()]}, ${UZ_DAYS[d.getDay()]}`;
+    return d.toLocaleDateString(lang, { weekday: "long", day: "numeric", month: "long" });
+}
+
+const initials = (name) => (name || "?").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
+// Bitta shifokorning bugungi navbati
+function DoctorCard({ row, onQuickIssue, onArrive, busyId }) {
+    const { t } = useTranslation();
+    const d = row.doctor;
+    const waiting = row.tickets.filter((x) => x.status === "waiting" && x.arrived);
+    const pending = row.tickets.filter((x) => x.status === "waiting" && !x.arrived);
+    const cur = row.tickets.find((x) => x.status === "called");
+    const done = row.tickets.filter((x) => x.status === "done").length;
+    return (
+        <article className={`reg-doc ${d.accepting_walkin ? "" : "is-closed"}`}>
+            <header className="reg-doc-head">
+                <span className="reg-avatar" aria-hidden="true">{initials(d.name)}</span>
+                <div className="reg-doc-id">
+                    <b>{d.name}</b>
+                    <span>{specLabel(t, d.specialty)}{d.room ? ` · ${t("queue.room")} ${d.room}` : ""}</span>
+                </div>
+                <button type="button" className="reg-quick" disabled={!d.accepting_walkin}
+                        title={t("reg.quickIssue")} aria-label={`${t("reg.quickIssue")}: ${d.name}`} onClick={() => onQuickIssue(d)}>+</button>
+            </header>
+
+            <div className={`reg-now ${cur ? "" : "is-idle"}`}>
+                <div className="reg-now-num">{cur ? cur.number : "—"}</div>
+                <div className="reg-now-text">
+                    <span>{t("queue.nowServing")}</span>
+                    <b>{cur ? (cur.name || t("queue.walkIn")) : t("reg.free")}</b>
+                </div>
+            </div>
+
+            <div className="reg-meta">
+                <span><b>{waiting.length}</b> {t("reg.inLine")}</span>
+                <span><b>{done}</b> {t("reg.doneToday")}</span>
+                <span>{d.accepting_walkin ? <>{t("reg.next")} <b>~{hhmm(d.next_eta_walkin)}</b></> : <span className="reg-closed">{t("reg.closedToday")}</span>}</span>
+            </div>
+
+            {waiting.length > 0 ? (
+                <ol className="reg-line">
+                    {waiting.slice(0, SHOW_WAITING).map((x) => (
+                        <li key={x.id}>
+                            <span className="reg-num">{x.number}</span>
+                            <span className="reg-line-name">{x.name || t("queue.walkIn")}</span>
+                            <span className={`q-src q-src-${x.source}`}>{t(`queue.source.${x.source}`)}</span>
+                            <span className="reg-eta">~{hhmm(x.eta)}</span>
+                        </li>
+                    ))}
+                    {waiting.length > SHOW_WAITING && <li className="reg-more">+{waiting.length - SHOW_WAITING}</li>}
+                </ol>
+            ) : (
+                <div className="reg-empty">{t("queue.emptyQueue")}</div>
+            )}
+
+            {pending.length > 0 && (
+                <div className="reg-pending">
+                    <div className="reg-pending-title">{t("queue.pendingTitle")} · {pending.length}</div>
+                    {pending.map((x) => (
+                        <div key={x.id} className="reg-pending-row">
+                            <span className="reg-num reg-num-ghost">{x.number}</span>
+                            <span className="reg-line-name">{x.name}</span>
+                            <button type="button" className="q-act q-act-ok" disabled={busyId === x.id} onClick={() => onArrive(x)}>
+                                {t("queue.markArrived")}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </article>
+    );
+}
 
 export default function RegistryPage() {
-    const { t } = useTranslation();
-    const [rows, setRows] = useState([]);
-    const [doctor, setDoctor] = useState("");
+    const { t, i18n } = useTranslation();
+    const [rows, setRows] = useState(null);
+    const [doctorId, setDoctorId] = useState(null);
+    const [query, setQuery] = useState("");
     const [name, setName] = useState("");
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
+    const [busyId, setBusyId] = useState(null);
 
-    const load = useCallback(() => queueApi.registry().then(setRows).catch(() => setError(t("queue.errors.load"))), [t]);
+    const load = useCallback(() => queueApi.registry().then((r) => { setRows(r); setError(""); })
+        .catch(() => setError(t("queue.errors.load"))), [t]);
 
     useEffect(() => {
         load();
@@ -24,13 +109,28 @@ export default function RegistryPage() {
         return () => clearInterval(id);
     }, [load]);
 
+    const doctors = useMemo(() => (rows || []).map((r) => r.doctor), [rows]);
+    const selected = doctors.find((d) => d.id === doctorId) || null;
+    const groups = groupBySpecialty(doctors.filter((d) => matchesQuery(d, query)));
+
+    const totals = useMemo(() => {
+        const all = (rows || []).flatMap((r) => r.tickets);
+        return {
+            doctors: doctors.filter((d) => d.accepting_walkin).length,
+            waiting: all.filter((x) => x.status === "waiting" && x.arrived).length,
+            serving: all.filter((x) => x.status === "called").length,
+            pending: all.filter((x) => x.status === "waiting" && !x.arrived).length,
+            done: all.filter((x) => x.status === "done").length,
+        };
+    }, [rows, doctors]);
+
     async function issue(e) {
         e.preventDefault();
-        if (!doctor) return;
+        if (!selected) return;
         setBusy(true);
         setError("");
         try {
-            const tk = await queueApi.registryIssue(Number(doctor), name);
+            const tk = await queueApi.registryIssue(selected.id, name.trim());
             setTicket(tk);
             setName("");
             load();
@@ -41,94 +141,108 @@ export default function RegistryPage() {
         }
     }
 
+    async function arrive(x) {
+        setBusyId(x.id);
+        try { await queueApi.arrive(x.id); await load(); } catch (err) { setError(errorText(err, t)); } finally { setBusyId(null); }
+    }
+
+    function quickIssue(d) {
+        setTicket(null);
+        setDoctorId(d.id);
+        setQuery("");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => document.getElementById("reg-name")?.focus(), 250);
+    }
+
+    const today = formatToday(i18n.language);
+
     return (
-        <div className="page">
-            <div className="page-head">
-                <h1>{t("queue.registryTitle")}</h1>
-                <a className="btn btn-secondary q-btn-auto" href="/kiosk" target="_blank" rel="noreferrer">{t("queue.openKiosk")}</a>
+        <div className="page reg-page">
+            <div className="reg-top">
+                <div>
+                    <h1>{t("queue.registryTitle")}</h1>
+                    <p className="reg-date">{today}</p>
+                </div>
+                <div className="reg-top-actions">
+                    <Link className="btn btn-secondary q-btn-auto" to="/admin/queue-stats">{t("nav.queueStats")}</Link>
+                    <a className="btn btn-secondary q-btn-auto" href="/kiosk" target="_blank" rel="noreferrer">{t("queue.openKiosk")} ↗</a>
+                </div>
             </div>
+
+            <div className="reg-stats">
+                <div><span>{t("reg.statDoctors")}</span><b>{totals.doctors}</b></div>
+                <div><span>{t("reg.statWaiting")}</span><b>{totals.waiting}</b></div>
+                <div><span>{t("reg.statServing")}</span><b>{totals.serving}</b></div>
+                <div><span>{t("reg.statDone")}</span><b>{totals.done}</b></div>
+                <div className={totals.pending ? "is-warn" : ""}><span>{t("reg.statPending")}</span><b>{totals.pending}</b></div>
+            </div>
+
             {error && <div className="alert-error">{error}</div>}
 
-            <div className="q-registry">
-                <form className="card q-issue" onSubmit={issue}>
-                    <h2 className="q-h2">{t("queue.issueTitle")}</h2>
-                    <div className="field">
-                        <label>{t("queue.doctor")}</label>
-                        <select value={doctor} onChange={(e) => setDoctor(e.target.value)} required>
-                            <option value="">{t("queue.selectDoctor")}</option>
-                            {groupBySpecialty(rows.map((r) => r.doctor)).map(([code, list]) => (
-                                <optgroup key={code} label={specLabel(t, code)}>
-                                    {list.map((d) => (
-                                        <option key={d.id} value={d.id}>
-                                            {d.name} ({t("queue.waiting").toLowerCase()}: {d.waiting})
-                                        </option>
-                                    ))}
-                                </optgroup>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="field">
-                        <label>{t("queue.visitorName")}</label>
-                        <input value={name} maxLength={100} onChange={(e) => setName(e.target.value)} placeholder={t("queue.optional")} />
-                    </div>
-                    <button className="btn btn-primary" disabled={busy || !doctor}>{t("queue.issue")}</button>
-                </form>
-
-                {ticket && (
-                    <div className="q-issued">
-                        <div className="q-print-area"><TicketSlip ticket={ticket} /></div>
-                        <div className="btn-row">
-                            <button className="btn btn-primary q-btn-auto" onClick={() => window.print()}>{t("queue.print")}</button>
-                            <button className="btn btn-secondary q-btn-auto" onClick={() => setTicket(null)}>{t("queue.close")}</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            <h2 className="q-h2">{t("queue.todayAll")}</h2>
-            <div className="q-board">
-                {rows.map(({ doctor: d, tickets }) => {
-                    const waiting = tickets.filter((x) => x.status === "waiting" && x.arrived);
-                    const pending = tickets.filter((x) => x.status === "waiting" && !x.arrived);
-                    const cur = tickets.find((x) => x.status === "called");
-                    return (
-                        <div key={d.id} className="q-board-col">
-                            <div className="q-board-head">
-                                <b>{d.name}</b>
-                                <span className="q-muted">{specLabel(t, d.specialty)}{d.room ? ` · ${t("queue.room")} ${d.room}` : ""}</span>
+            <div className="reg-layout">
+                <aside className="reg-panel card">
+                    {ticket ? (
+                        <div className="reg-issued">
+                            <div className="reg-issued-ok">✓ {t("reg.issued")}</div>
+                            <div className="q-print-area"><TicketSlip ticket={ticket} /></div>
+                            <div className="reg-issued-actions">
+                                <button className="btn btn-primary" onClick={() => window.print()}>{t("queue.print")}</button>
+                                <button className="btn btn-secondary" onClick={() => setTicket(null)}>{t("reg.nextTicket")}</button>
                             </div>
-                            <div className="q-board-now">{t("queue.nowServing")}: <b>{cur ? cur.number : "—"}</b></div>
-                            <ul>
-                                {waiting.slice(0, 8).map((x) => (
-                                    <li key={x.id}>
-                                        <b>{x.number}</b>
-                                        <span>{x.name || t("queue.walkIn")}</span>
-                                        <span className="q-muted">~{hhmm(x.eta)}</span>
-                                    </li>
-                                ))}
-                                {waiting.length > 8 && <li className="q-muted q-board-empty">+{waiting.length - 8}</li>}
-                                {waiting.length === 0 && <li className="q-muted q-board-empty">{t("queue.emptyQueue")}</li>}
-                            </ul>
-                            {pending.length > 0 && (
-                                <div className="q-board-pending">
-                                    <div className="q-board-pending-title">{t("queue.pendingTitle")}</div>
-                                    {pending.map((x) => (
-                                        <div key={x.id} className="q-board-pending-row">
-                                            <b>{x.number}</b>
-                                            <span>{x.name}</span>
-                                            <button type="button" className="q-act q-act-ok" onClick={() => queueApi.arrive(x.id).then(load).catch((err) => setError(errorText(err, t)))}>
-                                                {t("queue.markArrived")}
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </div>
-                    );
-                })}
+                    ) : (
+                        <form onSubmit={issue}>
+                            <h2 className="reg-panel-title">{t("queue.issueTitle")}</h2>
+                            <label className="reg-label" htmlFor="reg-search">1. {t("queue.doctor")}</label>
+                            <input id="reg-search" className="reg-search" type="search" value={query}
+                                   onChange={(e) => setQuery(e.target.value)} placeholder={t("reg.search")} />
+                            <div className="reg-pick" role="radiogroup" aria-label={t("queue.doctor")}>
+                                {rows === null && <div className="reg-empty">{t("me.loading")}</div>}
+                                {rows !== null && groups.length === 0 && <div className="reg-empty">{t("reg.noDoctor")}</div>}
+                                {groups.map(([code, list]) => (
+                                    <div key={code} className="reg-pick-group">
+                                        <div className="reg-pick-spec">{specLabel(t, code)}</div>
+                                        {list.map((d) => (
+                                            <button type="button" key={d.id} role="radio" aria-checked={d.id === doctorId}
+                                                    disabled={!d.accepting_walkin}
+                                                    className={`reg-pick-item ${d.id === doctorId ? "is-selected" : ""}`}
+                                                    onClick={() => setDoctorId(d.id)}>
+                                                <span className="reg-radio" aria-hidden="true" />
+                                                <span className="reg-pick-name">
+                                                    <b>{d.name}</b>
+                                                    <small>{d.room ? `${t("queue.room")} ${d.room} · ` : ""}{t("reg.waitingN", { n: d.waiting })}</small>
+                                                </span>
+                                                <span className="reg-pick-eta">
+                                                    {d.accepting_walkin ? `~${hhmm(d.next_eta_walkin)}` : t("reg.closedShort")}
+                                                </span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                            <label className="reg-label" htmlFor="reg-name">2. {t("queue.visitorName")}</label>
+                            <input id="reg-name" value={name} maxLength={100} onChange={(e) => setName(e.target.value)} placeholder={t("queue.optional")} />
+                            <button className="btn btn-primary reg-submit" disabled={busy || !selected}>
+                                {selected ? t("reg.issueFor", { name: selected.name }) : t("reg.chooseDoctor")}
+                            </button>
+                        </form>
+                    )}
+                </aside>
+
+                <section className="reg-board" aria-label={t("queue.todayAll")}>
+                    <h2 className="reg-board-title">{t("queue.todayAll")}</h2>
+                    <div className="reg-grid">
+                        {(rows || []).map((r) => (
+                            <DoctorCard key={r.doctor.id} row={r} onQuickIssue={quickIssue} onArrive={arrive} busyId={busyId} />
+                        ))}
+                    </div>
+                </section>
             </div>
 
-            <PrintedCheckinQr />
+            <details className="reg-backup">
+                <summary>{t("queue.printedTitle")}</summary>
+                <PrintedCheckinQr />
+            </details>
         </div>
     );
 }
