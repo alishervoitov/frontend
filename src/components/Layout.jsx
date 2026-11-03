@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import client from "../api/client";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -9,6 +11,17 @@ export default function Layout() {
     const { t } = useTranslation();
     const isDoctorOrAdmin = user?.role === "doctor" || user?.role === "admin";
     const isAdmin = user?.role === "admin";
+    const [alertCount, setAlertCount] = useState(0);
+
+    // Admin uchun ochiq xavfsizlik ogohlantirishlari soni (har daqiqada yangilanadi)
+    useEffect(() => {
+        if (!isAdmin) return undefined;
+        const load = () => client.get("/monitoring/alerts/count/").then((r) => setAlertCount(r.data.open_count)).catch(() => {});
+        load();
+        const id = setInterval(load, 60000);
+        window.addEventListener("alerts-changed", load);
+        return () => { clearInterval(id); window.removeEventListener("alerts-changed", load); };
+    }, [isAdmin]);
     const initial = (user?.first_name || user?.username || "?")[0]?.toUpperCase();
 
     return (
@@ -53,6 +66,10 @@ export default function Layout() {
                             </Link>
                             <Link to="/admin/audit" className={`topbar-link ${pathname.startsWith("/admin/audit") ? "active" : ""}`}>
                                 {t("nav.audit")}
+                            </Link>
+                            <Link to="/admin/alerts" className={`topbar-link q-nav ${pathname.startsWith("/admin/alerts") ? "active" : ""}`}>
+                                {t("nav.alerts")}
+                                {alertCount > 0 && <span className="nav-badge">{alertCount}</span>}
                             </Link>
                             <Link to="/admin/anonymize" className={`topbar-link ${pathname.startsWith("/admin/anonymize") ? "active" : ""}`}>
                                 {t("nav.anonymize")}

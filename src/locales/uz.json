@@ -12,7 +12,8 @@
     "doctorQueue": "Navbat",
     "registry": "Registratura",
     "lab": "Laboratoriya",
-    "access": "Kirishlar tarixi"
+    "access": "Kirishlar tarixi",
+    "alerts": "Ogohlantirishlar"
   },
   "auth": {
     "loginTitle": "Bemor kasallik tarixi tizimiga kirish",
@@ -559,5 +560,35 @@
       "login_failed": "Kirish urinishi"
     },
     "note": "Murojaat sizga noto'g'ri tuyulsa, shifoxona ma'muriyatiga murojaat qiling. Sizning o'z harakatlaringiz bu ro'yxatda ko'rsatilmaydi."
+  },
+  "alerts": {
+    "title": "Xavfsizlik ogohlantirishlari",
+    "lead": "Tizim audit jurnalini avtomatik kuzatadi va xodimlarning shubhali harakatlari haqida ogohlantiradi. Ogohlantirish har doim ham buzilish degani emas: vaziyatni tekshirib, \"Ko'rib chiqildi\" deb belgilang.",
+    "rules": {
+      "mass_access": "Ko'p bemor kartasi",
+      "off_hours": "Tungi murojaat",
+      "bulk_export": "Ko'p eksport"
+    },
+    "ruleText": {
+      "mass_access": "{{m}} daqiqada {{n}} va undan ortiq turli bemor",
+      "off_hours": "{{from}}:00 – {{to}}:00 oralig'ida bemor ma'lumotiga murojaat",
+      "bulk_export": "{{m}} daqiqada {{n}} va undan ortiq PDF eksport"
+    },
+    "filter": {
+      "open": "Ochiq",
+      "acknowledged": "Ko'rib chiqilgan",
+      "all": "Hammasi"
+    },
+    "severity": {
+      "high": "Yuqori",
+      "medium": "O'rta",
+      "low": "Past"
+    },
+    "ack": "Ko'rib chiqildi",
+    "ackedBy": "ko'rib chiqdi: {{name}}",
+    "emptyOpen": "Ochiq ogohlantirishlar yo'q.",
+    "empty": "Ogohlantirishlar yo'q.",
+    "loadError": "Ma'lumotni yuklab bo'lmadi.",
+    "note": "Chegaralar server sozlamasida (SECURITY_ALERTS) o'zgartiriladi. Ogohlantirish yaratilganda security.log fayliga ham yoziladi."
   }
 }

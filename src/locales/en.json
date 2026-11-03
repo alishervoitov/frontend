@@ -10,7 +10,8 @@
     "doctorQueue": "Queue",
     "registry": "Reception",
     "lab": "Laboratory",
-    "access": "Access history"
+    "access": "Access history",
+    "alerts": "Alerts"
   },
   "auth": {
     "loginTitle": "Sign in to the patient records system",
@@ -551,5 +552,35 @@
       "login_failed": "Sign-in attempt"
     },
     "note": "If an access looks wrong to you, contact the clinic administration. Your own actions are not listed here."
+  },
+  "alerts": {
+    "title": "Security alerts",
+    "lead": "The system watches the audit log and flags suspicious staff activity. An alert is not always a breach: check the situation and mark it as reviewed.",
+    "rules": {
+      "mass_access": "Many patient records",
+      "off_hours": "Night-time access",
+      "bulk_export": "Many exports"
+    },
+    "ruleText": {
+      "mass_access": "{{n}} or more different patients within {{m}} min",
+      "off_hours": "Patient data accessed between {{from}}:00 and {{to}}:00",
+      "bulk_export": "{{n}} or more PDF exports within {{m}} min"
+    },
+    "filter": {
+      "open": "Open",
+      "acknowledged": "Reviewed",
+      "all": "All"
+    },
+    "severity": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "ack": "Mark reviewed",
+    "ackedBy": "reviewed by {{name}}",
+    "emptyOpen": "No open alerts.",
+    "empty": "No alerts.",
+    "loadError": "Could not load data.",
+    "note": "Thresholds are set in the server settings (SECURITY_ALERTS). Every alert is also written to security.log."
   }
 }

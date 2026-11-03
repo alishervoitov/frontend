@@ -144,3 +144,34 @@
     .access-time { min-width: 40px; font-size: 0.8rem; }
 }
 .profile-access-link { display: inline-block; margin: 8px 0 0; font-size: 0.9rem; }
+
+/* Xavfsizlik ogohlantirishlari (admin) */
+.alert-rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.alert-rules div { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; }
+.alert-rules span { color: var(--ink-muted); }
+.alert-list { display: flex; flex-direction: column; gap: 10px; }
+.alert-card { display: flex; gap: 16px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--border-strong); border-radius: var(--radius-md); padding: 14px 18px; }
+.alert-high { border-left-color: var(--danger); }
+.alert-medium { border-left-color: var(--accent); }
+.alert-done { opacity: 0.6; }
+.alert-main { flex: 1; min-width: 0; }
+.alert-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.alert-sev { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; }
+.alert-sev-high { background: var(--danger-tint); color: var(--danger); }
+.alert-sev-medium { background: var(--accent-tint); color: var(--accent); }
+.alert-sev-low { background: var(--surface-sunken); color: var(--ink-muted); }
+.alert-count { font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-muted); }
+.alert-who { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-weight: 500; }
+.alert-detail { font-size: 0.9rem; color: var(--ink); margin-top: 2px; overflow-wrap: anywhere; }
+.alert-time { font-size: 0.8rem; color: var(--ink-muted); margin-top: 4px; }
+.nav-badge { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 5px; border-radius: 999px; background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 700; line-height: 18px; text-align: center; vertical-align: 1px; }
+@media (max-width: 640px) {
+    .alert-rules { grid-template-columns: 1fr; }
+    .alert-card { flex-direction: column; align-items: flex-start; }
+}
+
+/* Admin menyusi uzun: havolalar bir qatorda, kerak bo'lsa ikkinchi qatorga o'tadi */
+.topbar { gap: 16px; }
+.topbar-left { gap: 20px; flex-wrap: wrap; row-gap: 4px; min-width: 0; }
+.topbar-link { white-space: nowrap; }
+.topbar-right { flex: none; }
