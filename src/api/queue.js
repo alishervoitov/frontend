@@ -17,6 +17,17 @@ export const queueApi = {
     registry: () => client.get("/queue/registry/").then((r) => r.data),
     registryIssue: (doctor, visitor_name) =>
         client.post("/queue/registry/", { doctor, visitor_name }).then((r) => r.data),
+    checkin: (code) => client.post("/queue/checkin/", { code }).then((r) => r.data),
+    printedQr: () => client.get("/queue/admin/printed-checkin/", { params: { base: window.location.origin } }).then((r) => r.data),
+    printedQrCreate: () => client.post("/queue/admin/printed-checkin/", null, { params: { base: window.location.origin } }).then((r) => r.data),
+    printedQrRevoke: () => client.delete("/queue/admin/printed-checkin/").then((r) => r.data),
+};
+
+// QR havolasi kod bilan ochilganda, bemor hali tizimga kirmagan bo'lsa, kod shu yerda saqlanadi
+const PENDING_CHECKIN = "shifosafe_pending_checkin";
+export const pendingCheckin = {
+    get: () => { try { return sessionStorage.getItem(PENDING_CHECKIN) || ""; } catch { return ""; } },
+    set: (v) => { try { v ? sessionStorage.setItem(PENDING_CHECKIN, v) : sessionStorage.removeItem(PENDING_CHECKIN); } catch { /* */ } },
 };
 
 // Kiosk hisobsiz ishlaydi: JWT yuborilmaydi, faqat kiosk kaliti
@@ -48,6 +59,7 @@ async function kioskFetch(path, options = {}) {
 export const kioskApi = {
     doctors: () => kioskFetch("doctors/"),
     take: (doctor) => kioskFetch("tickets/", { method: "POST", body: JSON.stringify({ doctor }) }),
+    checkinCode: () => kioskFetch(`checkin-code/?base=${encodeURIComponent(window.location.origin)}`),
 };
 
 export function errorText(err, t) {

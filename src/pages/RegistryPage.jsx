@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
 import TicketSlip from "../components/TicketSlip";
+import PrintedCheckinQr from "../components/PrintedCheckinQr";
 import { groupBySpecialty, specLabel } from "../api/specialty";
 
 const POLL_MS = 20000;
@@ -126,6 +127,8 @@ export default function RegistryPage() {
                     );
                 })}
             </div>
+
+            <PrintedCheckinQr />
         </div>
     );
 }

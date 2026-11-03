@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { pendingCheckin } from "../api/queue";
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -23,6 +24,7 @@ export default function LoginPage() {
             if (user.role === "admin") navigate("/admin/users");
             else if (user.role === "doctor") navigate("/patients");
             else if (user.role === "lab") navigate("/lab");
+            else if (pendingCheckin.get()) navigate("/arrive"); // QR skanerlangan, kirish so'raldi
             else navigate("/me");
         } catch (err) {
             const detail = err.response?.data?.detail;

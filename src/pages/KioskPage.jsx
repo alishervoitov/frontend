@@ -7,6 +7,45 @@ import SpecialtyPicker from "../components/SpecialtyPicker";
 import { specLabel } from "../api/specialty";
 
 const RESET_MS = 20000;
+
+// Onlayn navbat olganlar uchun aylanuvchi QR: muddati tugashidan oldin yangilanadi
+function CheckinQr() {
+    const { t } = useTranslation();
+    const [qr, setQr] = useState(null);
+    const [left, setLeft] = useState(0);
+
+    useEffect(() => {
+        let timer;
+        let alive = true;
+        const fetchCode = () => kioskApi.checkinCode()
+            .then((d) => {
+                if (!alive) return;
+                setQr(d);
+                setLeft(d.expires_in);
+                timer = setTimeout(fetchCode, Math.max(2, d.expires_in - 1) * 1000);
+            })
+            .catch(() => { if (alive) { setQr(null); timer = setTimeout(fetchCode, 10000); } });
+        fetchCode();
+        return () => { alive = false; clearTimeout(timer); };
+    }, []);
+
+    useEffect(() => {
+        const id = setInterval(() => setLeft((s) => Math.max(0, s - 1)), 1000);
+        return () => clearInterval(id);
+    }, []);
+
+    if (!qr) return null;
+    return (
+        <div className="kiosk-qr">
+            <div className="kiosk-qr-code" dangerouslySetInnerHTML={{ __html: qr.svg }} />
+            <div className="kiosk-qr-text">
+                <h2>{t("queue.kioskQrTitle")}</h2>
+                <p>{t("queue.kioskQrHint")}</p>
+                <div className="kiosk-qr-timer"><span style={{ width: `${Math.min(100, (left / 45) * 100)}%` }} /></div>
+            </div>
+        </div>
+    );
+}
 const POLL_MS = 30000;
 
 function KeySetup({ onDone }) {
@@ -87,6 +126,7 @@ export default function KioskPage() {
                 </div>
             ) : (
                 <>
+                    {!spec && <CheckinQr />}
                     <h1 className="kiosk-title">{spec ? specLabel(t, spec) : t("queue.kioskChooseSpecialty")}</h1>
                     {error && <div className="alert-error">{error}</div>}
                     {!spec ? (

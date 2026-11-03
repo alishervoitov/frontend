@@ -6,7 +6,7 @@ import SpecialtyPicker from "../components/SpecialtyPicker";
 
 const POLL_MS = 30000;
 
-function MyTicket({ ticket, onCancel, onArrive }) {
+function MyTicket({ ticket, onCancel }) {
     const { t } = useTranslation();
     const active = ticket.status === "waiting" || ticket.status === "called";
     return (
@@ -28,9 +28,9 @@ function MyTicket({ ticket, onCancel, onArrive }) {
                     </div>
                 )}
                 {ticket.status === "waiting" && !ticket.arrived && (
-                    <div className="q-arrive">
-                        <p>{t("queue.arriveHint")}</p>
-                        <button className="btn btn-primary q-btn-auto" onClick={() => onArrive(ticket)}>{t("queue.arriveButton")}</button>
+                    <div className="q-arrive q-arrive-qr">
+                        <span className="q-arrive-qr-icon" aria-hidden="true">▣</span>
+                        <p>{t("queue.arriveQrHint")}</p>
                     </div>
                 )}
                 {ticket.status === "waiting" && ticket.arrived && <div className="q-arrived">✓ {t("queue.arrivedNote")}</div>}
@@ -83,17 +83,6 @@ export default function QueuePage() {
             setError(errorText(err, t));
         } finally {
             setBusy(null);
-        }
-    }
-
-    async function arrive(ticket) {
-        if (!window.confirm(t("queue.arriveConfirm"))) return;
-        setError("");
-        try {
-            await queueApi.arrive(ticket.id);
-            await load();
-        } catch (err) {
-            setError(errorText(err, t));
         }
     }
 
@@ -158,7 +147,7 @@ export default function QueuePage() {
                 <section className="q-section">
                     <h2 className="q-h2">{t("queue.myTickets")}</h2>
                     <div className="q-my-list">
-                        {mine.map((tk) => <MyTicket key={tk.id} ticket={tk} onCancel={cancel} onArrive={arrive} />)}
+                        {mine.map((tk) => <MyTicket key={tk.id} ticket={tk} onCancel={cancel} />)}
                     </div>
                     <p className="q-note">{t("queue.etaNote")}</p>
                 </section>

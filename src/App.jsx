@@ -19,6 +19,7 @@ import QueuePage from "./pages/QueuePage";
 import DoctorQueuePage from "./pages/DoctorQueuePage";
 import RegistryPage from "./pages/RegistryPage";
 import KioskPage from "./pages/KioskPage";
+import ArrivePage from "./pages/ArrivePage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
@@ -36,6 +37,8 @@ export default function App() {
                     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                     <Route path="/reset-password/:uid/:token" element={<ResetPasswordPage />} />
                     <Route path="/kiosk" element={<KioskPage />} />
+                    {/* QR skanerlanganda: kirmagan bo'lsa kodni saqlab login sahifasiga yuboradi */}
+                    <Route path="/arrive" element={<ArrivePage />} />
                     <Route
                         element={
                             <ProtectedRoute>
