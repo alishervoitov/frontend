@@ -120,3 +120,27 @@
     .profile-photo-card .avatar-upload { display: flex; flex-direction: column; flex: none; }
     .profile-photo-card .avatar-portrait { width: 96px; height: auto; flex: 1; min-height: 120px; font-size: 30px; }
 }
+
+/* "Kartamni kim ko'rdi" */
+.access-lead { color: var(--ink-muted); margin: -8px 0 20px; line-height: 1.6; max-width: 680px; }
+.access-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.access-summary { font-size: 0.9rem; color: var(--ink); background: var(--primary-tint); padding: 6px 12px; border-radius: 999px; }
+.access-day { margin-bottom: 20px; }
+.access-date { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; color: var(--ink-muted); margin: 0 0 8px; text-transform: none; }
+.access-list { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.access-row { display: flex; gap: 16px; padding: 12px 18px; border-top: 1px solid var(--border); border-left: 3px solid transparent; }
+.access-row:first-child { border-top: none; }
+.access-export { border-left-color: var(--accent); }
+.access-update, .access-delete { border-left-color: var(--danger); }
+.access-create { border-left-color: var(--primary); }
+.access-time { font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-muted); min-width: 46px; padding-top: 1px; }
+.access-body { flex: 1; min-width: 0; }
+.access-who { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.access-what { font-size: 0.9rem; color: var(--ink); margin-top: 2px; overflow-wrap: anywhere; }
+.access-detail { color: var(--ink-muted); }
+.access-foot { margin-top: 18px; }
+@media (max-width: 640px) {
+    .access-row { gap: 10px; padding: 10px 14px; }
+    .access-time { min-width: 40px; font-size: 0.8rem; }
+}
+.profile-access-link { display: inline-block; margin: 8px 0 0; font-size: 0.9rem; }

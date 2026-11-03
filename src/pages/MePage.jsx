@@ -67,6 +67,7 @@ function PatientHome({ user, onAvatarUpdated }) {
                         <p className="timeline-field"><b>{t("me.bloodType")}:</b> {profile?.blood_type || t("me.notProvided")}</p>
                         <p className="timeline-field"><b>{t("me.allergies")}:</b> {profile?.allergies || t("me.notProvided")}</p>
                         <p className="timeline-field"><b>{t("me.recordsCount")}:</b> {profile?.records_count ?? 0}</p>
+                        <Link to="/my-access" className="q-back profile-access-link">{t("access.link")} →</Link>
                         </div>
                         <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="portrait" />
                     </div>

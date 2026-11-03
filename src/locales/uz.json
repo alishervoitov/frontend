@@ -11,7 +11,8 @@
     "queue": "Navbat olish",
     "doctorQueue": "Navbat",
     "registry": "Registratura",
-    "lab": "Laboratoriya"
+    "lab": "Laboratoriya",
+    "access": "Kirishlar tarixi"
   },
   "auth": {
     "loginTitle": "Bemor kasallik tarixi tizimiga kirish",
@@ -534,5 +535,29 @@
     "validUntilShort": "{{date}} gacha amal qiladi",
     "expired": "Muddati o'tgan",
     "validNote": "Standart: qon va siydik 10 kun, biokimyo 14 kun, boshqa 30 kun. Muddati o'tgan tahlil PDF'ga chiqmaydi."
+  },
+  "access": {
+    "title": "Kirishlar tarixi",
+    "link": "Kirishlar tarixi",
+    "lead": "Bu yerda shifokor, laborant va administratorlar tibbiy ma'lumotlaringizga qachon va qanday murojaat qilgani ko'rsatiladi. Har bir murojaat avtomatik qayd etiladi va uni o'chirib bo'lmaydi.",
+    "period": {
+      "30": "30 kun",
+      "90": "90 kun",
+      "all": "Hammasi"
+    },
+    "summary": "{{events}} ta murojaat, {{people}} nafar xodim",
+    "empty": "Bu davrda kartangizga hech kim murojaat qilmagan.",
+    "loadError": "Ma'lumotni yuklab bo'lmadi.",
+    "unknownUser": "O'chirilgan foydalanuvchi",
+    "actions": {
+      "view": "Ko'rdi",
+      "create": "Qo'shdi",
+      "update": "O'zgartirdi",
+      "delete": "O'chirdi",
+      "export": "Yuklab oldi",
+      "login": "Kirdi",
+      "login_failed": "Kirish urinishi"
+    },
+    "note": "Murojaat sizga noto'g'ri tuyulsa, shifoxona ma'muriyatiga murojaat qiling. Sizning o'z harakatlaringiz bu ro'yxatda ko'rsatilmaydi."
   }
 }
