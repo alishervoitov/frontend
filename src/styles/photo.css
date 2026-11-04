@@ -39,3 +39,39 @@
     .patient-header.with-photo { gap: 12px; }
     .patient-header.with-photo .pph-lg { width: 84px; }
 }
+
+.pph-initials { align-self: center; font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--primary); opacity: 0.8; letter-spacing: 0.02em; }
+.pph:has(.pph-initials) { background: linear-gradient(160deg, var(--primary-tint), #D3E4DF); place-items: center; border-color: transparent; }
+.pph-click { position: relative; display: block; padding: 0; border: none; background: none; cursor: pointer; border-radius: 8px; }
+.pph-click:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.pph-cam { position: absolute; right: -6px; bottom: -6px; width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: #fff; display: grid; place-items: center; box-shadow: 0 0 0 3px var(--surface), var(--shadow-sm); transition: transform .15s; }
+.pph-click:hover .pph-cam { transform: scale(1.08); }
+
+/* ===== Bemor kartasi sarlavhasi ===== */
+.pd-head { display: grid; grid-template-columns: auto 1fr; gap: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm); margin-bottom: 26px; }
+.pd-head .pph-lg { width: 112px; }
+.pd-main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.pd-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pd-title h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; }
+.pd-login { color: var(--ink-muted); font-family: var(--font-mono); font-size: 0.85rem; }
+.pd-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.pd-fact { background: var(--surface); padding: 10px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pd-fact span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+.pd-fact b { font-size: 1rem; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pd-fact small { color: var(--ink-muted); font-size: 0.78rem; }
+.pd-blood b { color: var(--danger); }
+.pd-allergy { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border-radius: var(--radius-md); background: #FFF4E8; border: 1px solid #F0D2AE; color: #8A4B12; font-size: 0.92rem; }
+.pd-allergy b { white-space: nowrap; }
+.pd-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.pd-actions .btn { width: auto; }
+@media (max-width: 860px) {
+    .pd-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+    .pd-head { grid-template-columns: 1fr; padding: 16px; gap: 14px; }
+    .pd-head > .pph-box { flex-direction: row; align-items: flex-end; gap: 14px; }
+    .pd-head .pph-lg { width: 90px; }
+    .pd-head .pph-box-actions { align-items: flex-start; }
+    .pd-title h1 { font-size: 1.35rem; }
+    .pd-actions .btn { flex: 1 1 auto; }
+}

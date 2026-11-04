@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import client from "../api/client";
+import { fmtDate, fmtTime } from "../api/dates";
 
 const FILTERS = ["open", "acknowledged", "all"];
 
 function fmt(iso) {
-    return new Date(iso).toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    return `${fmtDate(iso, { year: false, short: true })}, ${fmtTime(iso)}`;
 }
 
 export default function AdminAlertsPage() {

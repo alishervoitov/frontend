@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { fmtTime } from "../api/dates";
+import { fmtDate, fmtTime } from "../api/dates";
 import client, { downloadPatientHistoryPdf} from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import RecordAttachments from "../components/RecordAttachments";
@@ -10,6 +10,14 @@ import { LabResultCard } from "../components/LabResultsSection";
 import { labApi, mergeHistory } from "../api/labs";
 import EmergencyAccessModal from "../components/EmergencyAccessModal";
 import { PatientPhotoBox } from "../components/PatientPhoto";
+
+function ageOf(dob) {
+    if (!dob) return null;
+    const b = new Date(dob), n = new Date();
+    let a = n.getFullYear() - b.getFullYear();
+    if (n.getMonth() < b.getMonth() || (n.getMonth() === b.getMonth() && n.getDate() < b.getDate())) a -= 1;
+    return a >= 0 ? a : null;
+}
 
 // Bemor ruxsat bermagan: karta yopiq, faqat favqulodda kirish mumkin
 function LockedCard({ id, onOpened }) {
@@ -90,20 +98,11 @@ export default function PatientDetailPage() {
     if (error) return <div className="page"><div className="alert-error">{error}</div></div>;
     if (!patient) return null;
 
+    const fullName = [patient.user.first_name, patient.user.last_name].filter(Boolean).join(" ") || patient.user.username;
+    const age = ageOf(patient.date_of_birth);
+
     return (
         <div className="page">
-            <div className="patient-header with-photo">
-                <PatientPhotoBox patientId={patient.id} version={patient.photo_updated_at} editable={user?.role === "admin"} />
-                <div>
-                <h1>{patient.user.first_name} {patient.user.last_name}</h1>
-                <div className="patient-meta">
-                    Foydalanuvchi: <b>{patient.user.username}</b> · Jinsi: <b>{patient.gender || "—"}</b> ·{" "}
-                    Qon guruhi: <b>{patient.blood_type || "—"}</b> ·{" "}
-                    Tug'ilgan sana: <b>{patient.date_of_birth || "—"}</b>
-                </div>
-                </div>
-            </div>
-
             {patient.access?.via === "emergency" && (
                 <div className="cs-access-bar emergency" role="status">
                     <span className="cs-siren" aria-hidden="true">!</span>
@@ -113,24 +112,61 @@ export default function PatientDetailPage() {
                 </div>
             )}
 
-            <div className="btn-row">
-                {canEditProfile && (
-                    <button className="btn btn-secondary" onClick={() => setShowEdit(!showEdit)}>
-                        {showEdit ? "Bekor qilish" : "Profilni tahrirlash"}
-                    </button>
-                )}
-                {isDoctor && (
-                    <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
-                        {showForm ? "Bekor qilish" : "+ Yangi yozuv qo'shish"}
-                    </button>
-                )}
-                <button
-                    className="btn btn-secondary"
-                    onClick={() => downloadPatientHistoryPdf(id, `kasallik_tarixi_${patient.user.username}.pdf`)}
-                >
-                    ⬇ PDF yuklab olish
-                </button>
-            </div>
+            <section className="pd-head">
+                <PatientPhotoBox patientId={patient.id} version={patient.photo_updated_at} name={fullName}
+                                 editable={user?.role === "admin" || isDoctor} />
+                <div className="pd-main">
+                    <div className="pd-title">
+                        <h1>{fullName}</h1>
+                        {patient.access?.via && (
+                            <span className={`cs-via cs-via-${patient.access.via}`}>{t(`consent.via.${patient.access.via}`)}</span>
+                        )}
+                    </div>
+                    <div className="pd-facts">
+                        <div className="pd-fact">
+                            <span>{t("pd.age")}</span>
+                            <b>{age !== null ? t("pd.years", { n: age }) : "—"}</b>
+                            {patient.date_of_birth && <small>{fmtDate(patient.date_of_birth)}</small>}
+                        </div>
+                        <div className="pd-fact">
+                            <span>{t("patientDetail.genderLabel")}</span>
+                            <b>{patient.gender ? t(`me.genderValue.${patient.gender}`, { defaultValue: patient.gender }) : "—"}</b>
+                        </div>
+                        <div className={`pd-fact ${patient.blood_type ? "pd-blood" : ""}`}>
+                            <span>{t("patientDetail.bloodTypeLabel")}</span>
+                            <b>{patient.blood_type || "—"}</b>
+                        </div>
+                        <div className="pd-fact">
+                            <span>{t("patientDetail.userLabel")}</span>
+                            <b className="pd-login">@{patient.user.username}</b>
+                        </div>
+                    </div>
+                    {patient.allergies && (
+                        <div className="pd-allergy" role="note">
+                            <span aria-hidden="true">⚠</span>
+                            <div><b>{t("pd.allergies")}:</b> {patient.allergies}</div>
+                        </div>
+                    )}
+                    <div className="pd-actions">
+                        {isDoctor && (
+                            <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
+                                {showForm ? t("patientDetail.cancel") : t("patientDetail.addRecord")}
+                            </button>
+                        )}
+                        {canEditProfile && (
+                            <button className="btn btn-secondary" onClick={() => setShowEdit(!showEdit)}>
+                                {showEdit ? t("patientDetail.cancel") : t("patientDetail.editProfile")}
+                            </button>
+                        )}
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => downloadPatientHistoryPdf(id, `kasallik_tarixi_${patient.user.username}.pdf`)}
+                        >
+                            ⬇ {t("patientDetail.downloadPdf")}
+                        </button>
+                    </div>
+                </div>
+            </section>
 
             {showEdit && (
                 <EditProfileForm
@@ -156,14 +192,14 @@ export default function PatientDetailPage() {
                     {mergeHistory(records, labs).map(({ kind, item: r }, i) => kind === "lab" ? (
                         <div key={`lab-${r.id}`} className="timeline-item timeline-lab">
                             <div className="timeline-date">
-                                {new Date(r.collected_at).toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" })}
+                                {fmtDate(r.collected_at)}
                             </div>
                             <LabResultCard result={r} open={i === 0} />
                         </div>
                     ) : (
                         <div key={r.id} className="timeline-item">
                             <div className="timeline-date">
-                                {new Date(r.visit_date).toLocaleDateString("uz-UZ", { year: "numeric", month: "long", day: "numeric" })}
+                                {fmtDate(r.visit_date)}
                             </div>
                             <div className="timeline-card">
                                 <div className="timeline-title">

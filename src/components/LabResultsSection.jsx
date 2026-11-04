@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { labApi, refLabel } from "../api/labs";
+import { fmtDate, fmtDateTime } from "../api/dates";
 
 const ARROW = { low: "↓", high: "↑", abnormal: "!" };
 
 export function LabResultCard({ result, open, onDelete }) {
     const { t } = useTranslation();
-    const date = new Date(result.collected_at).toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+    const date = fmtDateTime(result.collected_at);
     return (
         <details className="lab-card" open={open}>
             <summary>
@@ -22,7 +23,7 @@ export function LabResultCard({ result, open, onDelete }) {
                     {result.valid_until && (
                         result.is_expired
                             ? <span className="lab-badge lab-badge-expired">{t("labs.expired")}</span>
-                            : <span className="lab-badge lab-badge-valid">{t("labs.validUntilShort", { date: result.valid_until })}</span>
+                            : <span className="lab-badge lab-badge-valid">{t("labs.validUntilShort", { date: fmtDate(result.valid_until, { short: true }) })}</span>
                     )}
                     {result.abnormal_count > 0 ? (
                         <span className="lab-badge lab-badge-warn">{t("labs.abnormalCount", { count: result.abnormal_count })}</span>

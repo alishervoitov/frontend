@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import client from "../api/client";
+import { fmtDateTime } from "../api/dates";
 
 export default function AdminAuditLogPage() {
     const { t } = useTranslation();
@@ -59,7 +60,7 @@ export default function AdminAuditLogPage() {
                         )}
                         <span className="integrity-meta">
                             {t("integrity.head")}: <code>{(check.head || "").slice(0, 16)}…</code>
-                            {check.last_checkpoint && <> · {t("integrity.checkpoint")}: #{check.last_checkpoint.last_id} ({new Date(check.last_checkpoint.created_at).toLocaleString()})</>}
+                            {check.last_checkpoint && <> · {t("integrity.checkpoint")}: #{check.last_checkpoint.last_id} ({fmtDateTime(check.last_checkpoint.created_at)})</>}
                         </span>
                     </div>
                 </div>
@@ -89,7 +90,7 @@ export default function AdminAuditLogPage() {
                         {logs.map((l) => (
                             <tr key={l.id} className={broken.has(l.id) ? "integrity-row-bad" : ""}>
                                 <td className="cell-muted" style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
-                                    {new Date(l.timestamp).toLocaleString()}
+                                    {fmtDateTime(l.timestamp)}
                                 </td>
                                 <td>{l.actor_name || "—"}</td>
                                 <td>{ACTION_LABELS[l.action] || l.action}</td>

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import client from "../api/client";
+import { fmtDate, fmtTime } from "../api/dates";
 
 const PERIODS = ["30", "90", "all"];
 
 function dayKey(iso) {
-    return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    return fmtDate(iso);
 }
 
 // "Kartamni kim ko'rdi": bemor o'z tibbiy ma'lumotlariga kim va qachon murojaat qilganini ko'radi
@@ -64,7 +65,7 @@ export default function AccessLogPage() {
                             {g.rows.map((r) => (
                                 <div key={r.id} className={`access-row access-${r.action}`}>
                                     <span className="access-time">
-                                        {new Date(r.timestamp).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}
+                                        {fmtTime(r.timestamp)}
                                     </span>
                                     <div className="access-body">
                                         <div className="access-who">

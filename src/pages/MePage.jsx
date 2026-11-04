@@ -1,5 +1,6 @@
 import AvatarUpload from "../components/AvatarUpload";
 import { PatientPhotoBox } from "../components/PatientPhoto";
+import { fmtDate } from "../api/dates";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -93,14 +94,14 @@ function PatientHome({ user, onAvatarUpdated }) {
                             {history.map(({ kind, item: r }, i) => kind === "lab" ? (
                                 <div key={`lab-${r.id}`} className="timeline-item timeline-lab">
                                     <div className="timeline-date">
-                                        {new Date(r.collected_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+                                        {fmtDate(r.collected_at)}
                                     </div>
                                     <LabResultCard result={r} open={i === 0} />
                                 </div>
                             ) : (
                                 <div key={r.id} className="timeline-item">
                                     <div className="timeline-date">
-                                        {new Date(r.visit_date).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+                                        {fmtDate(r.visit_date)}
                                     </div>
                                     <div className="timeline-card">
                                         <div className="timeline-title">{r.title}</div>

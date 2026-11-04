@@ -914,5 +914,10 @@
     "error": "Rasmni saqlab bo'lmadi.",
     "tooBig": "Fayl 10 MB dan katta.",
     "throttled": "Juda ko'p urinish. Birozdan keyin qayta urinib ko'ring."
+  },
+  "pd": {
+    "age": "Yoshi",
+    "years": "{{n}} yosh",
+    "allergies": "Allergiya"
   }
 }

@@ -24,8 +24,11 @@ function Silhouette() {
     );
 }
 
-// 3x4 rasm. version = photo_updated_at (null - rasm yo'q, undefined - noma'lum, baribir urinib ko'riladi)
-export function PatientPhoto({ patientId, version, className = "", alt = "" }) {
+const initialsOf = (name) => (name || "").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
+
+// 3x4 rasm. version = photo_updated_at (null - rasm yo'q, undefined - noma'lum, baribir urinib ko'riladi).
+// Rasm yo'q bo'lsa: ism bosh harflari (name berilgan bo'lsa) yoki siluet
+export function PatientPhoto({ patientId, version, className = "", alt = "", name }) {
     const [src, setSrc] = useState(null);
     useEffect(() => {
         setSrc(null);
@@ -36,7 +39,8 @@ export function PatientPhoto({ patientId, version, className = "", alt = "" }) {
     }, [patientId, version]);
     return (
         <div className={`pph ${className}`}>
-            {src ? <img src={src} alt={alt} draggable={false} /> : <Silhouette />}
+            {src ? <img src={src} alt={alt} draggable={false} />
+                : name ? <span className="pph-initials" aria-hidden="true">{initialsOf(name)}</span> : <Silhouette />}
         </div>
     );
 }
@@ -184,7 +188,7 @@ export function PhotoEditor({ patientId, onClose, onSaved }) {
 }
 
 // Rasm + boshqaruv tugmalari (bemorning o'zi yoki registratura)
-export function PatientPhotoBox({ patientId, version, editable, onChange, className = "" }) {
+export function PatientPhotoBox({ patientId, version, editable, onChange, className = "", name }) {
     const { t } = useTranslation();
     const [editing, setEditing] = useState(false);
     const [ver, setVer] = useState(version);
@@ -201,7 +205,17 @@ export function PatientPhotoBox({ patientId, version, editable, onChange, classN
 
     return (
         <div className={`pph-box ${className}`}>
-            <PatientPhoto patientId={patientId} version={ver} className="pph-lg" />
+            {editable ? (
+                <button type="button" className="pph-click" onClick={() => setEditing(true)}
+                        aria-label={ver ? t("photo.change") : t("photo.add")} title={ver ? t("photo.change") : t("photo.add")}>
+                    <PatientPhoto patientId={patientId} version={ver} className="pph-lg" name={name} />
+                    <span className="pph-cam" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
+                    </span>
+                </button>
+            ) : (
+                <PatientPhoto patientId={patientId} version={ver} className="pph-lg" name={name} />
+            )}
             {editable && (
                 <div className="pph-box-actions">
                     <button type="button" className="pph-btn" onClick={() => setEditing(true)}>

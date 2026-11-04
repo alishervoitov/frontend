@@ -906,5 +906,10 @@
     "error": "Could not save the photo.",
     "tooBig": "The file is larger than 10 MB.",
     "throttled": "Too many attempts. Try again later."
+  },
+  "pd": {
+    "age": "Age",
+    "years": "{{n}} years",
+    "allergies": "Allergies"
   }
 }
