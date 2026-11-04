@@ -137,3 +137,7 @@
 .reg-pick { flex-shrink: 0; }
 .reg-now .reg-unid { color: #FFD7C4; }
 .reg-now-text .reg-unid { text-transform: none; letter-spacing: 0; font-size: inherit; opacity: 1; }
+.pp-chosen { align-items: flex-start; }
+.pp-chosen .pp-row-text { align-self: center; }
+.pp-photo-btn { align-self: flex-start; background: none; border: none; padding: 2px 0 0; color: var(--primary); font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
+.pp-photo-btn:hover { text-decoration: underline; }

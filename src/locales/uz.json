@@ -898,5 +898,21 @@
       "fileTitle": "zaxira kodlar",
       "fileNote": "Har bir kod bir marta ishlaydi. Bu faylni boshqalarga ko'rsatmang."
     }
+  },
+  "photo": {
+    "add": "Rasm qo'shish",
+    "change": "Rasmni o'zgartirish",
+    "delete": "O'chirish",
+    "deleteConfirm": "Rasm o'chirilsinmi?",
+    "editTitle": "Bemor rasmi (3×4)",
+    "rules": "Yuz to'g'ridan qaragan, yorug' joyda, bosh kiyimsiz rasm. JPEG, PNG yoki WEBP, 10 MB gacha.",
+    "dragHint": "Rasmni surib, yuzni oval ichiga joylang. Kattalashtirish uchun pastdagi chiziqni yoki sichqoncha g'ildiragini ishlating.",
+    "choose": "Rasm tanlash",
+    "other": "Boshqa rasm",
+    "zoom": "Kattalashtirish",
+    "save": "Saqlash",
+    "error": "Rasmni saqlab bo'lmadi.",
+    "tooBig": "Fayl 10 MB dan katta.",
+    "throttled": "Juda ko'p urinish. Birozdan keyin qayta urinib ko'ring."
   }
 }

@@ -31,6 +31,7 @@ import AdminAlertsPage from "./pages/AdminAlertsPage";
 import "./styles/labs.css";
 import "./styles/consent.css";
 import "./styles/mfa.css";
+import "./styles/photo.css";
 import "./styles/queue.css";
 
 export default function App() {

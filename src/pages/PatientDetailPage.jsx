@@ -9,6 +9,7 @@ import PrescriptionsSection from "../components/PrescriptionsSection";
 import { LabResultCard } from "../components/LabResultsSection";
 import { labApi, mergeHistory } from "../api/labs";
 import EmergencyAccessModal from "../components/EmergencyAccessModal";
+import { PatientPhotoBox } from "../components/PatientPhoto";
 
 // Bemor ruxsat bermagan: karta yopiq, faqat favqulodda kirish mumkin
 function LockedCard({ id, onOpened }) {
@@ -91,12 +92,15 @@ export default function PatientDetailPage() {
 
     return (
         <div className="page">
-            <div className="patient-header">
+            <div className="patient-header with-photo">
+                <PatientPhotoBox patientId={patient.id} version={patient.photo_updated_at} editable={user?.role === "admin"} />
+                <div>
                 <h1>{patient.user.first_name} {patient.user.last_name}</h1>
                 <div className="patient-meta">
                     Foydalanuvchi: <b>{patient.user.username}</b> · Jinsi: <b>{patient.gender || "—"}</b> ·{" "}
                     Qon guruhi: <b>{patient.blood_type || "—"}</b> ·{" "}
                     Tug'ilgan sana: <b>{patient.date_of_birth || "—"}</b>
+                </div>
                 </div>
             </div>
 

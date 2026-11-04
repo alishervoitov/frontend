@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { queueApi } from "../api/queue";
 import { fmtDate } from "../api/dates";
+import { PatientPhoto, PhotoEditor } from "./PatientPhoto";
 
 const EMPTY = { last_name: "", first_name: "", date_of_birth: "", phone: "", gender: "" };
 
@@ -31,6 +32,7 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
     const [errors, setErrors] = useState({});
     const [dupes, setDupes] = useState(null);
     const [busy, setBusy] = useState(false);
+    const [photoEdit, setPhotoEdit] = useState(false);
 
     useEffect(() => {
         const query = q.trim();
@@ -75,12 +77,20 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
     if (value) {
         return (
             <div className="pp-chosen">
-                <span className="pp-avatar" aria-hidden="true">{(value.full_name || "?").charAt(0).toUpperCase()}</span>
+                {/* Registrator yuzni rasm bilan solishtiradi; rasm bo'lmasa shu yerda oladi */}
+                <PatientPhoto patientId={value.id} version={value.photo_updated_at ?? null} className="pph-md" />
                 <span className="pp-row-text">
                     <b>{value.full_name}</b>
                     <small>{value.date_of_birth ? fmtDate(value.date_of_birth) : t("pp.noDob")}{value.phone ? ` · ${value.phone}` : ""}</small>
+                    <button type="button" className="pp-photo-btn" onClick={() => setPhotoEdit(true)}>
+                        {value.photo_updated_at ? t("photo.change") : `+ ${t("photo.add")}`}
+                    </button>
                 </span>
                 <button type="button" className="pp-change" onClick={() => onChange(null)}>{t("pp.change")}</button>
+                {photoEdit && (
+                    <PhotoEditor patientId={value.id} onClose={() => setPhotoEdit(false)}
+                                 onSaved={(v) => { setPhotoEdit(false); onChange({ ...value, photo_updated_at: v }); }} />
+                )}
             </div>
         );
     }

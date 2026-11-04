@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
 import { SPECIALTIES, specLabel } from "../api/specialty";
+import { PatientPhoto } from "../components/PatientPhoto";
 
 const POLL_MS = 15000;
 const FRESH_MS = 3 * 60 * 1000; // shu vaqt ichida kelganlar "Yangi" deb belgilanadi
@@ -118,6 +119,8 @@ export default function DoctorQueuePage() {
                     {current ? (
                         <>
                             <div className="q-current-num">{current.number}</div>
+                            {/* Kirgan odam kartadagi bemor ekanini yuzidan tasdiqlash */}
+                            {current.patient_id && <PatientPhoto patientId={current.patient_id} className="pph-md q-current-photo" />}
                             <div className="q-current-name">
                                 {current.patient_id ? (
                                     <Link to={`/patients/${current.patient_id}`}>{current.name}</Link>

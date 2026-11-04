@@ -1,0 +1,41 @@
+/* ===== Bemorning 3x4 rasmi ===== */
+.pph { position: relative; overflow: hidden; background: var(--surface-sunken); border: 1px solid var(--border-strong); border-radius: 8px; aspect-ratio: 3 / 4; display: grid; place-items: end center; flex: none; }
+.pph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pph-silhouette { width: 78%; fill: var(--border-strong); }
+.pph-lg { width: 120px; }
+.pph-md { width: 72px; border-radius: 6px; }
+.pph-sm { width: 36px; border-radius: 4px; }
+.pph-box { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: none; }
+.pph-box-actions { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.pph-btn { background: none; border: none; padding: 2px 4px; color: var(--primary); font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+.pph-btn:hover { text-decoration: underline; }
+.pph-btn-muted { color: var(--ink-muted); font-weight: 500; }
+
+.cs-modal.pph-modal { border-top-color: var(--primary); width: min(420px, 100%); }
+.pph-modal h2 { margin: 0 0 4px; font-size: 1.15rem; }
+.pph-hint { color: var(--ink-muted); font-size: 0.86rem; margin: 0 0 14px; line-height: 1.5; }
+.pph-stage { display: flex; justify-content: center; padding: 14px; background: repeating-conic-gradient(var(--surface-sunken) 0 25%, var(--surface) 0 50%) 0 0 / 16px 16px; border-radius: var(--radius-md); }
+.pph-frame { position: relative; overflow: hidden; border-radius: 6px; background: var(--surface); box-shadow: 0 0 0 1px var(--border-strong), var(--shadow-md); cursor: pointer; touch-action: none; user-select: none; }
+.pph-frame.has-img { cursor: grab; }
+.pph-frame.has-img:active { cursor: grabbing; }
+.pph-frame img { position: absolute; left: 0; top: 0; max-width: none; pointer-events: none; }
+.pph-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+.pph-empty .pph-silhouette { width: 70%; }
+.pph-guide { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pph-zoom { display: flex; align-items: center; gap: 10px; margin: 14px 0 4px; color: var(--ink-muted); font-weight: 700; }
+.pph-zoom input { flex: 1; accent-color: var(--primary); }
+.pph-actions { margin-top: 14px; align-items: center; }
+.pph-spacer { flex: 1; }
+
+/* Karta sarlavhasi: rasm + ism */
+.patient-header.with-photo { display: flex; gap: 18px; align-items: flex-start; }
+.patient-header.with-photo > div:last-child { min-width: 0; }
+
+@media (max-width: 760px) {
+    .pph-actions { flex-direction: column-reverse; align-items: stretch; }
+    .pph-spacer { display: none; }
+}
+@media (max-width: 480px) {
+    .patient-header.with-photo { gap: 12px; }
+    .patient-header.with-photo .pph-lg { width: 84px; }
+}

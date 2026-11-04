@@ -1,4 +1,5 @@
 import AvatarUpload from "../components/AvatarUpload";
+import { PatientPhotoBox } from "../components/PatientPhoto";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,7 +73,8 @@ function PatientHome({ user, onAvatarUpdated }) {
                             <Link to="/sessions" className="q-back profile-access-link">{t("sessions.title")} →</Link>
                         </div>
                         </div>
-                        <AvatarUpload user={user} onUpdated={onAvatarUpdated} shape="portrait" />
+                        {/* Karta rasmi (3x4): registratura va shifokor shaxsni shu bilan tasdiqlaydi */}
+                        {profile && <PatientPhotoBox patientId={profile.id} version={profile.photo_updated_at} editable />}
                     </div>
 
                     <PrescriptionsSection patientId={profile?.id} isDoctor={false} />

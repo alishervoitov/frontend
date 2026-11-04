@@ -890,5 +890,21 @@
       "fileTitle": "backup codes",
       "fileNote": "Each code works once. Do not share this file."
     }
+  },
+  "photo": {
+    "add": "Add photo",
+    "change": "Change photo",
+    "delete": "Remove",
+    "deleteConfirm": "Remove the photo?",
+    "editTitle": "Patient photo (3×4)",
+    "rules": "Face looking straight at the camera, good light, no headwear. JPEG, PNG or WEBP, up to 10 MB.",
+    "dragHint": "Drag the photo so the face sits inside the oval. Use the slider or mouse wheel to zoom.",
+    "choose": "Choose photo",
+    "other": "Another photo",
+    "zoom": "Zoom",
+    "save": "Save",
+    "error": "Could not save the photo.",
+    "tooBig": "The file is larger than 10 MB.",
+    "throttled": "Too many attempts. Try again later."
   }
 }

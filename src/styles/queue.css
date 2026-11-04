@@ -308,3 +308,4 @@
 
 /* Registraturada hali bemorga bog'lanmagan chipta */
 .q-unid { color: var(--accent); font-style: italic; }
+.q-current-photo { margin: 4px 0; border-color: rgba(255,255,255,0.35); }
