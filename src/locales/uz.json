@@ -741,5 +741,12 @@
     "inLine": "navbatda",
     "doneToday": "qabul qilindi",
     "next": "keyingi"
+  },
+  "errorPage": {
+    "title": "Xatolik yuz berdi",
+    "text": "Bu sahifani ko'rsatishda kutilmagan xato chiqdi. Ma'lumotlaringiz saqlangan — sahifani qayta yuklab ko'ring yoki boshqa bo'limga o'ting.",
+    "reload": "Sahifani qayta yuklash",
+    "retry": "Qayta urinish",
+    "home": "Bosh sahifa"
   }
 }

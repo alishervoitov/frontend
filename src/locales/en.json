@@ -733,5 +733,12 @@
     "inLine": "in line",
     "doneToday": "seen",
     "next": "next"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "text": "An unexpected error occurred while showing this page. Your data is safe — reload the page or open another section.",
+    "reload": "Reload page",
+    "retry": "Try again",
+    "home": "Home"
   }
 }

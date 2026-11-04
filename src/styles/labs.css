@@ -324,3 +324,14 @@
 .user-menu-btn.role-admin, .user-menu-pop.role-admin { --role: var(--accent); --role-tint: var(--accent-tint); }
 .user-menu-btn.role-patient, .user-menu-pop.role-patient { --role: var(--success); --role-tint: var(--success-tint); }
 .user-menu-btn.role-lab, .user-menu-pop.role-lab { --role: #6B4FA0; --role-tint: #EEE8F7; }
+
+/* Xato chegarasi (ErrorBoundary) */
+.eb { display: flex; justify-content: center; padding: 48px 16px; }
+.eb-full { min-height: 100vh; align-items: center; background: var(--bg); }
+.eb-card { max-width: 480px; width: 100%; text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 32px 24px; }
+.eb-icon { width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 50%; background: var(--danger-tint); color: var(--danger); font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.eb-card h1 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 8px; color: var(--ink); }
+.eb-card p { color: var(--ink-muted); margin: 0 0 20px; line-height: 1.5; }
+.eb-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.eb-actions .btn { width: auto; text-decoration: none; }
+.eb-details { margin-top: 18px; text-align: left; font-size: 0.75rem; max-height: 200px; overflow: auto; background: var(--surface-sunken); padding: 10px; border-radius: var(--radius-sm); white-space: pre-wrap; }

@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 import NotificationBell from "./NotificationBell";
 import NavIcon from "./NavIcon";
+import { RouteErrorBoundary } from "./ErrorBoundary";
 
 // Rol bo'yicha menyu: kompyuterda yuqori qatorda, telefon/planshetda yon panelda (guruhlangan)
 function menuFor(role, t, counts) {
@@ -220,7 +221,8 @@ export default function Layout() {
                     </button>
                 </div>
             </aside>
-            <Outlet />
+            {/* Sahifadagi xato menyuni ham olib ketmasin */}
+            <RouteErrorBoundary><Outlet /></RouteErrorBoundary>
         </div>
     );
 }
