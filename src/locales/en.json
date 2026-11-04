@@ -911,5 +911,16 @@
     "age": "Age",
     "years": "{{n}} years",
     "allergies": "Allergies"
+  },
+  "pe": {
+    "medicalBtn": "Medical data",
+    "medicalTitle": "Edit medical data",
+    "doctorHint": "As a doctor you can change allergies and blood type. Date of birth, ID number, address and phone are edited by the registry.",
+    "personal": "Personal data",
+    "medical": "Medical data",
+    "unknown": "Unknown",
+    "allergiesPh": "E.g. penicillin, nuts. Leave empty if none",
+    "error": "Could not save. Check the fields.",
+    "auditNote": "Every change is written to the audit log (which field changed, without values)."
   }
 }

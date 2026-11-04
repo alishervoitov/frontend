@@ -75,3 +75,19 @@
     .pd-title h1 { font-size: 1.35rem; }
     .pd-actions .btn { flex: 1 1 auto; }
 }
+
+/* Profilni tahrirlash formasi */
+.pe-form h2 { margin: 0 0 6px; font-size: 1.15rem; }
+.pe-hint { color: var(--ink-muted); font-size: 0.88rem; line-height: 1.5; margin: 0 0 14px; }
+.pe-foot { margin: 12px 0 0; font-size: 0.8rem; }
+.pe-group { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px 2px; margin: 0 0 14px; }
+.pe-group legend { padding: 0 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+.pe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.pe-wide { grid-column: 1 / -1; }
+.pe-form .field input, .pe-form .field select, .pe-form .field textarea { width: 100%; }
+.pe-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.pe-actions .btn { width: auto; }
+@media (max-width: 560px) {
+    .pe-grid { grid-template-columns: 1fr; }
+    .pe-actions .btn { flex: 1; }
+}

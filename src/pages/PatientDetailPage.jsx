@@ -155,7 +155,7 @@ export default function PatientDetailPage() {
                         )}
                         {canEditProfile && (
                             <button className="btn btn-secondary" onClick={() => setShowEdit(!showEdit)}>
-                                {showEdit ? t("patientDetail.cancel") : t("patientDetail.editProfile")}
+                                {showEdit ? t("patientDetail.cancel") : isDoctor ? t("pe.medicalBtn") : t("patientDetail.editProfile")}
                             </button>
                         )}
                         <button
@@ -171,7 +171,9 @@ export default function PatientDetailPage() {
             {showEdit && (
                 <EditProfileForm
                     patient={patient}
-                    onSaved={(updated) => { setPatient(updated); setShowEdit(false); }}
+                    medicalOnly={isDoctor}
+                    onCancel={() => setShowEdit(false)}
+                    onSaved={(updated) => { setPatient((p) => ({ ...p, ...updated })); setShowEdit(false); }}
                 />
             )}
 
@@ -219,85 +221,98 @@ export default function PatientDetailPage() {
     );
 }
 
-function EditProfileForm({ patient, onSaved }) {
-    const [form, setForm] = useState({
-        date_of_birth: patient.date_of_birth || "",
-        gender: patient.gender || "",
-        blood_type: patient.blood_type || "",
-        national_id: patient.national_id || "",
-        address: patient.address || "",
-        emergency_contact: patient.emergency_contact || "",
-        allergies: patient.allergies || "",
-    });
+const BLOOD_TYPES = ["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"];
+const MEDICAL_FIELDS = ["blood_type", "allergies"];
+const PERSONAL_FIELDS = ["date_of_birth", "gender", "national_id", "address", "emergency_contact"];
+
+// medicalOnly: shifokor faqat tibbiy maydonlarni ko'radi va yuboradi (backend ham boshqasini rad etadi)
+function EditProfileForm({ patient, onSaved, onCancel, medicalOnly }) {
+    const { t } = useTranslation();
+    const fields = medicalOnly ? MEDICAL_FIELDS : [...PERSONAL_FIELDS, ...MEDICAL_FIELDS];
+    const [form, setForm] = useState(Object.fromEntries(fields.map((f) => [f, patient[f] || ""])));
     const [error, setError] = useState("");
     const [saving, setSaving] = useState(false);
-
-    function update(field) {
-        return (e) => setForm({ ...form, [field]: e.target.value });
-    }
+    const set = (field) => (e) => setForm({ ...form, [field]: e.target.value });
 
     async function handleSubmit(e) {
         e.preventDefault();
         setError("");
         setSaving(true);
+        // Faqat o'zgargan maydonlar
+        const changed = Object.fromEntries(Object.entries(form).filter(([k, v]) => v !== (patient[k] || "")));
+        if (!Object.keys(changed).length) { onCancel(); return; }
         try {
-            const res = await client.patch(`/records/patients/${patient.id}/`, form);
+            const res = await client.patch(`/records/patients/${patient.id}/`, changed);
             onSaved(res.data);
-        } catch {
-            setError("Profilni saqlab bo'lmadi. Maydonlarni tekshiring.");
-        } finally {
+        } catch (err) {
+            setError(err?.response?.data?.detail || t("pe.error"));
             setSaving(false);
         }
     }
 
+    const bloodOptions = form.blood_type && !BLOOD_TYPES.includes(form.blood_type) ? [form.blood_type, ...BLOOD_TYPES] : BLOOD_TYPES;
+
     return (
-        <form onSubmit={handleSubmit} className="card">
-            <h2 style={{ marginBottom: 14 }}>Profilni tahrirlash</h2>
+        <form onSubmit={handleSubmit} className="card pe-form">
+            <h2>{medicalOnly ? t("pe.medicalTitle") : t("patientDetail.editProfileTitle")}</h2>
+            {medicalOnly && <p className="pe-hint">{t("pe.doctorHint")}</p>}
             {error && <div className="alert-error">{error}</div>}
 
-            <div className="form-row" style={{ display: "flex", gap: 12 }}>
-                <div className="field" style={{ flex: 1 }}>
-                    <label>Tug'ilgan sana</label>
-                    <input type="date" value={form.date_of_birth} onChange={update("date_of_birth")} />
-                </div>
-                <div className="field" style={{ flex: 1 }}>
-                    <label>Jinsi</label>
-                    <select value={form.gender} onChange={update("gender")}>
-                        <option value="">Tanlanmagan</option>
-                        <option value="M">Erkak</option>
-                        <option value="F">Ayol</option>
-                        <option value="O">Boshqa</option>
-                    </select>
-                </div>
-            </div>
+            {!medicalOnly && (
+                <fieldset className="pe-group">
+                    <legend>{t("pe.personal")}</legend>
+                    <div className="pe-grid">
+                        <div className="field">
+                            <label htmlFor="pe-dob">{t("patientDetail.birthDate")}</label>
+                            <input id="pe-dob" type="date" value={form.date_of_birth} onChange={set("date_of_birth")} />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="pe-gender">{t("patientDetail.genderLabel")}</label>
+                            <select id="pe-gender" value={form.gender} onChange={set("gender")}>
+                                <option value="">{t("patientDetail.genderNotSet")}</option>
+                                <option value="M">{t("patientDetail.male")}</option>
+                                <option value="F">{t("patientDetail.female")}</option>
+                                <option value="O">{t("patientDetail.other")}</option>
+                            </select>
+                        </div>
+                        <div className="field">
+                            <label htmlFor="pe-nid">{t("patientDetail.nationalId")}</label>
+                            <input id="pe-nid" value={form.national_id} onChange={set("national_id")} autoComplete="off" />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="pe-em">{t("patientDetail.emergencyContact")}</label>
+                            <input id="pe-em" type="tel" value={form.emergency_contact} onChange={set("emergency_contact")} />
+                        </div>
+                        <div className="field pe-wide">
+                            <label htmlFor="pe-addr">{t("patientDetail.address")}</label>
+                            <input id="pe-addr" value={form.address} onChange={set("address")} />
+                        </div>
+                    </div>
+                </fieldset>
+            )}
 
-            <div className="form-row" style={{ display: "flex", gap: 12 }}>
-                <div className="field" style={{ flex: 1 }}>
-                    <label>Qon guruhi</label>
-                    <input value={form.blood_type} onChange={update("blood_type")} placeholder="masalan A(II) Rh+" />
+            <fieldset className="pe-group">
+                <legend>{t("pe.medical")}</legend>
+                <div className="pe-grid">
+                    <div className="field">
+                        <label htmlFor="pe-blood">{t("patientDetail.bloodTypeLabel")}</label>
+                        <select id="pe-blood" value={form.blood_type} onChange={set("blood_type")}>
+                            <option value="">{t("pe.unknown")}</option>
+                            {bloodOptions.map((b) => <option key={b} value={b}>{b}</option>)}
+                        </select>
+                    </div>
+                    <div className="field pe-wide">
+                        <label htmlFor="pe-all">{t("pd.allergies")}</label>
+                        <textarea id="pe-all" rows={2} value={form.allergies} onChange={set("allergies")} placeholder={t("pe.allergiesPh")} />
+                    </div>
                 </div>
-                <div className="field" style={{ flex: 1 }}>
-                    <label>Shaxsni tasdiqlovchi hujjat raqami</label>
-                    <input value={form.national_id} onChange={update("national_id")} />
-                </div>
-            </div>
+            </fieldset>
 
-            <div className="field">
-                <label>Manzil</label>
-                <input value={form.address} onChange={update("address")} />
+            <div className="pe-actions">
+                <button type="button" className="btn btn-secondary" onClick={onCancel} disabled={saving}>{t("patientDetail.cancel")}</button>
+                <button className="btn btn-primary" disabled={saving}>{saving ? t("me.loading") : t("patientDetail.save")}</button>
             </div>
-            <div className="field">
-                <label>Favqulodda holatda bog'lanish uchun raqam</label>
-                <input value={form.emergency_contact} onChange={update("emergency_contact")} />
-            </div>
-            <div className="field">
-                <label>Ma'lum allergiyalar</label>
-                <input value={form.allergies} onChange={update("allergies")} />
-            </div>
-
-            <button className="btn btn-primary" style={{ width: "auto" }} disabled={saving}>
-                {saving ? "Saqlanmoqda..." : "Saqlash"}
-            </button>
+            {!medicalOnly && <p className="pe-hint pe-foot">{t("pe.auditNote")}</p>}
         </form>
     );
 }

@@ -919,5 +919,16 @@
     "age": "Yoshi",
     "years": "{{n}} yosh",
     "allergies": "Allergiya"
+  },
+  "pe": {
+    "medicalBtn": "Tibbiy ma'lumotlar",
+    "medicalTitle": "Tibbiy ma'lumotlarni tahrirlash",
+    "doctorHint": "Shifokor sifatida allergiya va qon guruhini o'zgartira olasiz. Tug'ilgan sana, hujjat raqami, manzil va telefonni registratura tahrirlaydi.",
+    "personal": "Shaxsiy ma'lumotlar",
+    "medical": "Tibbiy ma'lumotlar",
+    "unknown": "Noma'lum",
+    "allergiesPh": "Masalan: penitsillin, yong'oq. Yo'q bo'lsa bo'sh qoldiring",
+    "error": "Saqlab bo'lmadi. Maydonlarni tekshiring.",
+    "auditNote": "Har bir o'zgarish audit jurnaliga yoziladi (qaysi maydon o'zgargani, qiymatlarsiz)."
   }
 }
