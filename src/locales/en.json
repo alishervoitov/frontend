@@ -22,7 +22,8 @@
     "sessionsHint": "Where you're signed in",
     "lab": "Laboratory",
     "access": "Access history",
-    "alerts": "Alerts"
+    "alerts": "Alerts",
+    "consent": "Permissions"
   },
   "auth": {
     "loginTitle": "Sign in to the patient records system",
@@ -598,12 +599,14 @@
       "mass_access": "Many patient records",
       "off_hours": "Night-time access",
       "bulk_export": "Many exports",
-      "audit_tamper": "Audit log tampered"
+      "audit_tamper": "Audit log tampered",
+      "emergency_access": "Emergency access"
     },
     "ruleText": {
       "mass_access": "{{n}} or more different patients within {{m}} min",
       "off_hours": "Patient data accessed between {{from}}:00 and {{to}}:00",
-      "bulk_export": "{{n}} or more PDF exports within {{m}} min"
+      "bulk_export": "{{n}} or more PDF exports within {{m}} min",
+      "emergency_access": "A doctor opened a record without patient consent — the reason is logged, please review"
     },
     "filter": {
       "open": "Open",
@@ -638,7 +641,8 @@
     "queue_called": "You are being called: No. {{number}}, {{doctor}}.",
     "room": "Room: {{room}}.",
     "rx_expiring": "The \"{{medication}}\" prescription ends in {{days}} day(s).",
-    "rx_today": "The \"{{medication}}\" prescription ends today."
+    "rx_today": "The \"{{medication}}\" prescription ends today.",
+    "emergency_access": "Dr. {{doctor}} opened your record in an emergency. Reason: “{{reason}}”"
   },
   "sessions": {
     "title": "Active devices",
@@ -740,5 +744,64 @@
     "reload": "Reload page",
     "retry": "Try again",
     "home": "Home"
+  },
+  "consent": {
+    "title": "Permissions",
+    "lead": "Only doctors you choose can see your record. A doctor you queued for today can also see it until the end of the day. You can revoke access at any time.",
+    "grantTitle": "Give a doctor access",
+    "doctor": "Doctor",
+    "chooseDoctor": "Choose a doctor",
+    "duration": "Duration",
+    "dur": {
+      "1": "1 day",
+      "7": "7 days",
+      "30": "30 days",
+      "none": "No expiry"
+    },
+    "grantBtn": "Give access",
+    "granted": "{{name}} can now see your record.",
+    "error": "Could not give access.",
+    "whoTitle": "Who can see my record",
+    "noGrants": "You haven't given access to anyone yet.",
+    "until": "until {{date}}",
+    "untilShort": "until {{v}}",
+    "forever": "No expiry",
+    "migrated": "From earlier treatment",
+    "revoke": "Revoke",
+    "revokeConfirm": "Revoke access for {{name}}?",
+    "visitsTitle": "Through today's queue",
+    "visitUntil": "Until end of today",
+    "emTitle": "Emergency access",
+    "noEm": "Nobody has used emergency access on your record.",
+    "emActive": "{{name}} opened your record in an emergency (until {{time}})",
+    "note": "Emergency access is only for urgent cases: the doctor must give a reason, access closes by itself after 60 minutes, and every case is sent to the security team.",
+    "cancel": "Cancel",
+    "back": "Patient list",
+    "doctorHint": "The list shows only patients who gave you access or are in your queue today. Search to find another patient.",
+    "noPatients": "No patient has given you access yet.",
+    "accessCol": "Access",
+    "via": {
+      "grant": "Consent",
+      "visit": "Today's queue",
+      "emergency": "Emergency",
+      "none": "No access"
+    },
+    "lockedTitle": "Record locked",
+    "lockedText": "The patient has not given you access to their record. Ask them to grant it under “Permissions”. In an urgent case, use emergency access — it will be logged.",
+    "emOpenUntil": "Emergency access: the record is open until {{time}}. All your actions are being logged.",
+    "em": {
+      "open": "Emergency access",
+      "title": "Emergency access",
+      "fact1": "The record opens for 60 minutes, then closes automatically.",
+      "fact2": "The patient is notified immediately.",
+      "fact3": "The security team is alerted and the reason is written to the audit log.",
+      "reason": "Reason",
+      "placeholder": "E.g. patient brought in unconscious, need to know allergies",
+      "more": "At least {{n}} more characters",
+      "enough": "Enough",
+      "submit": "Open record",
+      "error": "Could not open the record.",
+      "throttled": "You have reached today's emergency access limit."
+    }
   }
 }

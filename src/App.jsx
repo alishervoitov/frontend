@@ -25,8 +25,10 @@ import SessionsPage from "./pages/SessionsPage";
 import AdminQueueStatsPage from "./pages/AdminQueueStatsPage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
+import ConsentPage from "./pages/ConsentPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
 import "./styles/labs.css";
+import "./styles/consent.css";
 import "./styles/queue.css";
 
 export default function App() {
@@ -82,6 +84,14 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["admin"]}>
                                     <AdminAlertsPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/my-consent"
+                            element={
+                                <ProtectedRoute allowedRoles={["patient"]}>
+                                    <ConsentPage />
                                 </ProtectedRoute>
                             }
                         />

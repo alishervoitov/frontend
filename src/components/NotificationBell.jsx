@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import client from "../api/client";
 
 const POLL_MS = 30000;
-const ICON = { lab_ready: "🧪", queue_near: "⏳", queue_called: "📣", rx_expiring: "💊" };
+const ICON = { lab_ready: "🧪", queue_near: "⏳", queue_called: "📣", rx_expiring: "💊", emergency_access: "🚨" };
 
 function ago(t, iso) {
     const min = Math.max(0, Math.round((Date.now() - new Date(iso)) / 60000));
@@ -30,6 +30,8 @@ export function notificationText(t, n) {
             return p.days_left === 0
                 ? t("notif.rx_today", { medication: p.medication })
                 : t("notif.rx_expiring", { medication: p.medication, days: p.days_left });
+        case "emergency_access":
+            return t("notif.emergency_access", { doctor: p.doctor, reason: p.reason });
         default:
             return n.kind;
     }

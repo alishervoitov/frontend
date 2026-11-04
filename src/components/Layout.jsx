@@ -12,7 +12,7 @@ import { RouteErrorBoundary } from "./ErrorBoundary";
 function menuFor(role, t, counts) {
     const L = (to, key, icon, extra = {}) => ({ to, label: t(key), icon, ...extra });
     if (role === "patient") {
-        return [{ items: [L("/queue", "nav.queue", "queue"), L("/my-access", "nav.access", "access")] }];
+        return [{ items: [L("/queue", "nav.queue", "queue"), L("/my-consent", "nav.consent", "consent"), L("/my-access", "nav.access", "access")] }];
     }
     if (role === "lab") return [{ items: [L("/lab", "nav.lab", "lab")] }];
     if (role === "doctor") {

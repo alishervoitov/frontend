@@ -1,11 +1,38 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { fmtTime } from "../api/dates";
 import client, { downloadPatientHistoryPdf} from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import RecordAttachments from "../components/RecordAttachments";
 import PrescriptionsSection from "../components/PrescriptionsSection";
 import { LabResultCard } from "../components/LabResultsSection";
 import { labApi, mergeHistory } from "../api/labs";
+import EmergencyAccessModal from "../components/EmergencyAccessModal";
+
+// Bemor ruxsat bermagan: karta yopiq, faqat favqulodda kirish mumkin
+function LockedCard({ id, onOpened }) {
+    const { t } = useTranslation();
+    const [open, setOpen] = useState(false);
+    return (
+        <div className="page">
+            <div className="cs-locked">
+                <div className="cs-locked-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                        <rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    </svg>
+                </div>
+                <h1>{t("consent.lockedTitle")}</h1>
+                <p>{t("consent.lockedText")}</p>
+                <div className="btn-row">
+                    <Link className="btn btn-secondary" to="/patients">{t("consent.back")}</Link>
+                    <button type="button" className="btn cs-btn-danger" onClick={() => setOpen(true)}>{t("consent.em.open")}</button>
+                </div>
+            </div>
+            {open && <EmergencyAccessModal patientId={id} onClose={() => setOpen(false)} onOpened={() => { setOpen(false); onOpened(); }} />}
+        </div>
+    );
+}
 
 const RECORD_TYPES = [
     { value: "visit", label: "Tashrif" },
@@ -17,6 +44,7 @@ const RECORD_TYPES = [
 
 export default function PatientDetailPage() {
     const { id } = useParams();
+    const { t } = useTranslation();
     const { user } = useAuth();
     const isDoctor = user?.role === "doctor";
     const canEditProfile = user?.role === "doctor" || user?.role === "admin";
@@ -28,9 +56,12 @@ export default function PatientDetailPage() {
     const [error, setError] = useState("");
     const [showForm, setShowForm] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [locked, setLocked] = useState(false);
 
     function loadData() {
         setLoading(true);
+        setLocked(false);
+        setError("");
         Promise.all([
             client.get(`/records/patients/${id}/`),
             client.get(`/records/medical-records/`, { params: { patient: id } }),
@@ -41,7 +72,10 @@ export default function PatientDetailPage() {
                 setRecords(recordsRes.data);
                 setLabs(labsRes);
             })
-            .catch(() => setError("Ma'lumotlarni yuklab bo'lmadi."))
+            .catch((err) => {
+                if (err?.response?.data?.code === "consent_required") setLocked(true);
+                else setError("Ma'lumotlarni yuklab bo'lmadi.");
+            })
             .finally(() => setLoading(false));
     }
 
@@ -51,6 +85,7 @@ export default function PatientDetailPage() {
     }, [id]);
 
     if (loading) return <div className="page">Yuklanmoqda...</div>;
+    if (locked) return <LockedCard id={id} onOpened={loadData} />;
     if (error) return <div className="page"><div className="alert-error">{error}</div></div>;
     if (!patient) return null;
 
@@ -64,6 +99,15 @@ export default function PatientDetailPage() {
                     Tug'ilgan sana: <b>{patient.date_of_birth || "—"}</b>
                 </div>
             </div>
+
+            {patient.access?.via === "emergency" && (
+                <div className="cs-access-bar emergency" role="status">
+                    <span className="cs-siren" aria-hidden="true">!</span>
+                    {t("consent.emOpenUntil", {
+                        time: fmtTime(patient.access.until),
+                    })}
+                </div>
+            )}
 
             <div className="btn-row">
                 {canEditProfile && (

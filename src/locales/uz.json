@@ -24,7 +24,8 @@
     "sessionsHint": "Qaysi qurilmalardan kirilgan",
     "lab": "Laboratoriya",
     "access": "Kirishlar tarixi",
-    "alerts": "Ogohlantirishlar"
+    "alerts": "Ogohlantirishlar",
+    "consent": "Ruxsatlar"
   },
   "auth": {
     "loginTitle": "Bemor kasallik tarixi tizimiga kirish",
@@ -606,12 +607,14 @@
       "mass_access": "Ko'p bemor kartasi",
       "off_hours": "Tungi murojaat",
       "bulk_export": "Ko'p eksport",
-      "audit_tamper": "Audit jurnali buzilgan"
+      "audit_tamper": "Audit jurnali buzilgan",
+      "emergency_access": "Favqulodda kirish"
     },
     "ruleText": {
       "mass_access": "{{m}} daqiqada {{n}} va undan ortiq turli bemor",
       "off_hours": "{{from}}:00 – {{to}}:00 oralig'ida bemor ma'lumotiga murojaat",
-      "bulk_export": "{{m}} daqiqada {{n}} va undan ortiq PDF eksport"
+      "bulk_export": "{{m}} daqiqada {{n}} va undan ortiq PDF eksport",
+      "emergency_access": "Shifokor bemor roziligisiz kartani ochdi — sababi qayd etilgan, tekshirib chiqing"
     },
     "filter": {
       "open": "Ochiq",
@@ -646,7 +649,8 @@
     "queue_called": "Sizni chaqirishyapti: №{{number}}, {{doctor}}.",
     "room": "Xona: {{room}}.",
     "rx_expiring": "«{{medication}}» retsepti {{days}} kundan keyin tugaydi.",
-    "rx_today": "«{{medication}}» retsepti bugun tugaydi."
+    "rx_today": "«{{medication}}» retsepti bugun tugaydi.",
+    "emergency_access": "Shifokor {{doctor}} kartangizni favqulodda ochdi. Sabab: «{{reason}}»"
   },
   "sessions": {
     "title": "Faol qurilmalar",
@@ -748,5 +752,64 @@
     "reload": "Sahifani qayta yuklash",
     "retry": "Qayta urinish",
     "home": "Bosh sahifa"
+  },
+  "consent": {
+    "title": "Ruxsatlar",
+    "lead": "Kartangizni faqat siz tanlagan shifokorlar ko'radi. Bugun navbat olgan shifokoringiz ham kun oxirigacha ko'ra oladi. Ruxsatni istalgan vaqtda bekor qilishingiz mumkin.",
+    "grantTitle": "Shifokorga ruxsat berish",
+    "doctor": "Shifokor",
+    "chooseDoctor": "Shifokorni tanlang",
+    "duration": "Muddat",
+    "dur": {
+      "1": "1 kun",
+      "7": "7 kun",
+      "30": "30 kun",
+      "none": "Muddatsiz"
+    },
+    "grantBtn": "Ruxsat berish",
+    "granted": "{{name}} endi kartangizni ko'ra oladi.",
+    "error": "Ruxsat berib bo'lmadi.",
+    "whoTitle": "Kartamni ko'ra oladiganlar",
+    "noGrants": "Hozircha hech kimga ruxsat bermagansiz.",
+    "until": "{{date}} gacha",
+    "untilShort": "{{v}} gacha",
+    "forever": "Muddatsiz",
+    "migrated": "Avvalgi davolanishdan",
+    "revoke": "Bekor qilish",
+    "revokeConfirm": "{{name}} uchun ruxsat bekor qilinsinmi?",
+    "visitsTitle": "Bugungi navbat orqali",
+    "visitUntil": "Bugun kun oxirigacha",
+    "emTitle": "Favqulodda kirishlar",
+    "noEm": "Kartangizga favqulodda kirilmagan.",
+    "emActive": "{{name}} kartangizni favqulodda ochdi ({{time}} gacha)",
+    "note": "Favqulodda kirish faqat shoshilinch holatlar uchun: shifokor sababni yozishi shart, kirish 60 daqiqadan keyin o'zi yopiladi va har bir holat xavfsizlik xizmatiga yuboriladi.",
+    "cancel": "Bekor qilish",
+    "back": "Bemorlar ro'yxati",
+    "doctorHint": "Ro'yxatda faqat sizga ruxsat bergan yoki bugun navbatingizdagi bemorlar. Boshqa bemorni topish uchun qidiring.",
+    "noPatients": "Hozircha sizga ruxsat bergan bemor yo'q.",
+    "accessCol": "Ruxsat",
+    "via": {
+      "grant": "Bemor ruxsati",
+      "visit": "Bugungi navbat",
+      "emergency": "Favqulodda",
+      "none": "Ruxsat yo'q"
+    },
+    "lockedTitle": "Karta yopiq",
+    "lockedText": "Bemor sizga kartasini ko'rishga ruxsat bermagan. Bemordan ilovadagi «Ruxsatlar» bo'limida ruxsat berishini so'rang. Shoshilinch holatda favqulodda kirishdan foydalaning — u qayd etiladi.",
+    "emOpenUntil": "Favqulodda kirish: karta {{time}} gacha ochiq. Barcha harakatlaringiz qayd etilmoqda.",
+    "em": {
+      "open": "Favqulodda kirish",
+      "title": "Favqulodda kirish",
+      "fact1": "Karta 60 daqiqaga ochiladi, keyin o'zi yopiladi.",
+      "fact2": "Bemorga darhol bildirishnoma yuboriladi.",
+      "fact3": "Xavfsizlik xizmati ogohlantiriladi, sabab audit jurnaliga yoziladi.",
+      "reason": "Sabab",
+      "placeholder": "Masalan: bemor hushsiz holatda keltirildi, allergiyalarni bilish zarur",
+      "more": "Yana kamida {{n}} belgi",
+      "enough": "Yetarli",
+      "submit": "Kartani ochish",
+      "error": "Kartani ochib bo'lmadi.",
+      "throttled": "Bugungi favqulodda kirishlar chegarasiga yetdingiz."
+    }
   }
 }

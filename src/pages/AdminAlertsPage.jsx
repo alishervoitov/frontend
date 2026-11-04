@@ -40,6 +40,7 @@ export default function AdminAlertsPage() {
                     <div><b>{t("alerts.rules.mass_access")}</b><span>{t("alerts.ruleText.mass_access", { n: rules.MASS_ACCESS_PATIENTS, m: rules.MASS_ACCESS_MINUTES })}</span></div>
                     <div><b>{t("alerts.rules.off_hours")}</b><span>{t("alerts.ruleText.off_hours", { from: String(rules.NIGHT_START_HOUR).padStart(2, "0"), to: String(rules.NIGHT_END_HOUR).padStart(2, "0") })}</span></div>
                     <div><b>{t("alerts.rules.bulk_export")}</b><span>{t("alerts.ruleText.bulk_export", { n: rules.EXPORT_COUNT, m: rules.EXPORT_MINUTES })}</span></div>
+                    <div><b>{t("alerts.rules.emergency_access")}</b><span>{t("alerts.ruleText.emergency_access")}</span></div>
                 </div>
             )}
 
