@@ -121,7 +121,7 @@ export default function DoctorQueuePage() {
                             <div className="q-current-name">
                                 {current.patient_id ? (
                                     <Link to={`/patients/${current.patient_id}`}>{current.name}</Link>
-                                ) : (current.name || t("queue.walkIn"))}
+                                ) : <span className="q-unid" title={t("reg.unidentifiedHint")}>{current.name || t("reg.unidentified")}</span>}
                             </div>
                             <div className="q-muted">{t(`queue.source.${current.source}`)} · {hhmm(current.called_at)}</div>
                         </>
@@ -158,7 +158,7 @@ export default function DoctorQueuePage() {
                         {waiting.map((x) => (
                             <tr key={x.id} className={x.source === "online" && x.arrived_at && Date.now() - new Date(x.arrived_at) < FRESH_MS ? "q-row-new" : ""}>
                                 <td><b>{x.number}</b></td>
-                                <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : (x.name || <span className="cell-muted">{t("queue.walkIn")}</span>)}</td>
+                                <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : <span className="q-unid" title={t("reg.unidentifiedHint")}>{x.name || t("reg.unidentified")}</span>}</td>
                                 <td><span className={`q-src q-src-${x.source}`}>{t(`queue.source.${x.source}`)}</span></td>
                                 <td>
                                     <span className="q-state q-state-here">{t("queue.statePresent")}</span>
@@ -207,7 +207,7 @@ export default function DoctorQueuePage() {
                             {past.map((x) => (
                                 <tr key={x.id}>
                                     <td><b>{x.number}</b></td>
-                                    <td>{x.name || <span className="cell-muted">{t("queue.walkIn")}</span>}</td>
+                                    <td>{x.patient_id ? <Link to={`/patients/${x.patient_id}`}>{x.name}</Link> : <span className="q-unid">{x.name || t("reg.unidentified")}</span>}</td>
                                     <td className="cell-muted">{t(`queue.status.${x.status}`)}</td>
                                     <td className="cell-muted">{x.called_at && x.finished_at ? `${hhmm(x.called_at)}–${hhmm(x.finished_at)}` : ""}</td>
                                 </tr>

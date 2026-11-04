@@ -15,8 +15,13 @@ export const queueApi = {
     noShow: (id) => client.post(`/queue/doctor/tickets/${id}/no-show/`).then((r) => r.data),
     saveSettings: (data) => client.patch("/queue/doctor/settings/", data).then((r) => r.data),
     registry: () => client.get("/queue/registry/").then((r) => r.data),
-    registryIssue: (doctor, visitor_name) =>
-        client.post("/queue/registry/", { doctor, visitor_name }).then((r) => r.data),
+    registryIssue: (doctor, patient) =>
+        client.post("/queue/registry/", { doctor, patient }).then((r) => r.data),
+    registryPatients: (q, dob) =>
+        client.get("/queue/registry/patients/", { params: { q, ...(dob ? { dob } : {}) } }).then((r) => r.data),
+    registryCreatePatient: (data) => client.post("/queue/registry/patients/", data).then((r) => r.data),
+    registryLink: (ticket, patient) =>
+        client.post(`/queue/registry/tickets/${ticket}/link/`, { patient }).then((r) => r.data),
     checkin: (code) => client.post("/queue/checkin/", { code }).then((r) => r.data),
     printedQr: () => client.get("/queue/admin/printed-checkin/", { params: { base: window.location.origin } }).then((r) => r.data),
     printedQrCreate: () => client.post("/queue/admin/printed-checkin/", null, { params: { base: window.location.origin } }).then((r) => r.data),

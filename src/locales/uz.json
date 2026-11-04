@@ -744,7 +744,15 @@
     "free": "bo'sh",
     "inLine": "navbatda",
     "doneToday": "qabul qilindi",
-    "next": "keyingi"
+    "next": "keyingi",
+    "patientStep": "Bemor",
+    "choosePatient": "Bemorni aniqlang",
+    "unidentified": "Aniqlanmagan",
+    "unidentifiedHint": "Kioskdan olingan chipta: registratura bemorni aniqlab, kartasiga bog'lashi kerak",
+    "link": "Bog'lash",
+    "linkTitle": "Chiptani bemorga bog'lash",
+    "linkHint": "Kioskdan olingan chipta egasini aniqlang. Bog'langach shifokor uning kartasini kun oxirigacha ko'ra oladi va yozuvlar shu kartaga tushadi.",
+    "statUnidentified": "Aniqlanmagan chipta"
   },
   "errorPage": {
     "title": "Xatolik yuz berdi",
@@ -811,5 +819,25 @@
       "error": "Kartani ochib bo'lmadi.",
       "throttled": "Bugungi favqulodda kirishlar chegarasiga yetdingiz."
     }
+  },
+  "pp": {
+    "search": "Familiya, ism yoki telefon",
+    "dob": "Tug'ilgan sana",
+    "notFound": "Bemor topilmadi",
+    "newBtn": "Yangi bemor kartasi",
+    "newTitle": "Yangi bemor kartasi",
+    "lastName": "Familiya",
+    "firstName": "Ism",
+    "gender": "Jinsi",
+    "male": "Erkak",
+    "female": "Ayol",
+    "phone": "Telefon",
+    "create": "Kartani ochish",
+    "change": "O'zgartirish",
+    "noDob": "Tug'ilgan sana yo'q",
+    "error": "Kartani ochib bo'lmadi.",
+    "dupTitle": "Shu ism va tug'ilgan sana bilan bemor bor. O'shami?",
+    "dupCreate": "Yo'q, baribir yangi karta ochish",
+    "newHint": "Karta registratura va shifokor orqali yuritiladi. Bemorda hozircha ilovaga kirish uchun parol yo'q."
   }
 }

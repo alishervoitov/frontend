@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { errorText, hhmm, queueApi } from "../api/queue";
 import TicketSlip from "../components/TicketSlip";
 import PrintedCheckinQr from "../components/PrintedCheckinQr";
+import PatientPicker from "../components/PatientPicker";
 import { groupBySpecialty, matchesQuery, specLabel } from "../api/specialty";
 import "../styles/registry.css";
 
@@ -22,7 +23,18 @@ function formatToday(lang) {
 const initials = (name) => (name || "?").split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
 
 // Bitta shifokorning bugungi navbati
-function DoctorCard({ row, onQuickIssue, onArrive, busyId }) {
+// Kioskdan olingan chipta egasi noma'lum: registratura uni bemor kartasiga bog'laydi
+function TicketName({ x, onLink, t }) {
+    if (x.patient_id) return x.name;
+    return (
+        <>
+            <span className="reg-unid">{x.name || t("reg.unidentified")}</span>
+            <button type="button" className="reg-link-btn" onClick={() => onLink(x)}>{t("reg.link")}</button>
+        </>
+    );
+}
+
+function DoctorCard({ row, onQuickIssue, onArrive, onLink, busyId }) {
     const { t } = useTranslation();
     const d = row.doctor;
     const waiting = row.tickets.filter((x) => x.status === "waiting" && x.arrived);
@@ -45,7 +57,7 @@ function DoctorCard({ row, onQuickIssue, onArrive, busyId }) {
                 <div className="reg-now-num">{cur ? cur.number : "—"}</div>
                 <div className="reg-now-text">
                     <span>{t("queue.nowServing")}</span>
-                    <b>{cur ? (cur.name || t("queue.walkIn")) : t("reg.free")}</b>
+                    <b>{cur ? <TicketName x={cur} onLink={(x) => onLink(x, d)} t={t} /> : t("reg.free")}</b>
                 </div>
             </div>
 
@@ -60,7 +72,7 @@ function DoctorCard({ row, onQuickIssue, onArrive, busyId }) {
                     {waiting.slice(0, SHOW_WAITING).map((x) => (
                         <li key={x.id}>
                             <span className="reg-num">{x.number}</span>
-                            <span className="reg-line-name">{x.name || t("queue.walkIn")}</span>
+                            <span className="reg-line-name"><TicketName x={x} onLink={(y) => onLink(y, d)} t={t} /></span>
                             <span className={`q-src q-src-${x.source}`}>{t(`queue.source.${x.source}`)}</span>
                             <span className="reg-eta">~{hhmm(x.eta)}</span>
                         </li>
@@ -94,7 +106,8 @@ export default function RegistryPage() {
     const [rows, setRows] = useState(null);
     const [doctorId, setDoctorId] = useState(null);
     const [query, setQuery] = useState("");
-    const [name, setName] = useState("");
+    const [patient, setPatient] = useState(null);
+    const [linkFor, setLinkFor] = useState(null);
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
@@ -121,18 +134,19 @@ export default function RegistryPage() {
             serving: all.filter((x) => x.status === "called").length,
             pending: all.filter((x) => x.status === "waiting" && !x.arrived).length,
             done: all.filter((x) => x.status === "done").length,
+            unidentified: all.filter((x) => !x.patient_id && (x.status === "waiting" || x.status === "called")).length,
         };
     }, [rows, doctors]);
 
     async function issue(e) {
         e.preventDefault();
-        if (!selected) return;
+        if (!selected || !patient) return;
         setBusy(true);
         setError("");
         try {
-            const tk = await queueApi.registryIssue(selected.id, name.trim());
+            const tk = await queueApi.registryIssue(selected.id, patient.id);
             setTicket(tk);
-            setName("");
+            setPatient(null);
             load();
         } catch (err) {
             setError(errorText(err, t));
@@ -151,7 +165,15 @@ export default function RegistryPage() {
         setDoctorId(d.id);
         setQuery("");
         window.scrollTo({ top: 0, behavior: "smooth" });
-        setTimeout(() => document.getElementById("reg-name")?.focus(), 250);
+        setTimeout(() => document.querySelector(".reg-panel .pp-search input")?.focus(), 250);
+    }
+
+    async function link(p) {
+        const x = linkFor;
+        setLinkFor(null);
+        setError("");
+        try { await queueApi.registryLink(x.ticket.id, p.id); } catch (err) { setError(errorText(err, t)); }
+        load();
     }
 
     const today = formatToday(i18n.language);
@@ -175,6 +197,9 @@ export default function RegistryPage() {
                 <div><span>{t("reg.statServing")}</span><b>{totals.serving}</b></div>
                 <div><span>{t("reg.statDone")}</span><b>{totals.done}</b></div>
                 <div className={totals.pending ? "is-warn" : ""}><span>{t("reg.statPending")}</span><b>{totals.pending}</b></div>
+                {totals.unidentified > 0 && (
+                    <div className="is-alert"><span>{t("reg.statUnidentified")}</span><b>{totals.unidentified}</b></div>
+                )}
             </div>
 
             {error && <div className="alert-error">{error}</div>}
@@ -183,7 +208,7 @@ export default function RegistryPage() {
                 <aside className="reg-panel card">
                     {ticket ? (
                         <div className="reg-issued">
-                            <div className="reg-issued-ok">✓ {t("reg.issued")}</div>
+                            <div className="reg-issued-ok">✓ {t("reg.issued")}{ticket.patient_name ? ` · ${ticket.patient_name}` : ""}</div>
                             <div className="q-print-area"><TicketSlip ticket={ticket} /></div>
                             <div className="reg-issued-actions">
                                 <button className="btn btn-primary" onClick={() => window.print()}>{t("queue.print")}</button>
@@ -220,10 +245,10 @@ export default function RegistryPage() {
                                     </div>
                                 ))}
                             </div>
-                            <label className="reg-label" htmlFor="reg-name">2. {t("queue.visitorName")}</label>
-                            <input id="reg-name" value={name} maxLength={100} onChange={(e) => setName(e.target.value)} placeholder={t("queue.optional")} />
-                            <button className="btn btn-primary reg-submit" disabled={busy || !selected}>
-                                {selected ? t("reg.issueFor", { name: selected.name }) : t("reg.chooseDoctor")}
+                            <div className="reg-label">2. {t("reg.patientStep")}</div>
+                            <PatientPicker value={patient} onChange={setPatient} />
+                            <button className="btn btn-primary reg-submit" disabled={busy || !selected || !patient}>
+                                {!selected ? t("reg.chooseDoctor") : !patient ? t("reg.choosePatient") : t("reg.issueFor", { name: selected.name })}
                             </button>
                         </form>
                     )}
@@ -233,11 +258,31 @@ export default function RegistryPage() {
                     <h2 className="reg-board-title">{t("queue.todayAll")}</h2>
                     <div className="reg-grid">
                         {(rows || []).map((r) => (
-                            <DoctorCard key={r.doctor.id} row={r} onQuickIssue={quickIssue} onArrive={arrive} busyId={busyId} />
+                            <DoctorCard key={r.doctor.id} row={r} onQuickIssue={quickIssue} onArrive={arrive}
+                                        onLink={(x, d) => setLinkFor({ ticket: x, doctor: d })} busyId={busyId} />
                         ))}
                     </div>
                 </section>
             </div>
+
+            {linkFor && (
+                <div className="cs-overlay" onMouseDown={(e) => e.target === e.currentTarget && setLinkFor(null)}>
+                    <div className="cs-modal pp-modal" role="dialog" aria-modal="true" aria-labelledby="link-title">
+                        <div className="cs-modal-head">
+                            <span className="reg-num">{linkFor.ticket.number}</span>
+                            <div>
+                                <h2 id="link-title">{t("reg.linkTitle")}</h2>
+                                <div className="cs-modal-sub">{linkFor.doctor.name} · {t(`queue.source.${linkFor.ticket.source}`)}</div>
+                            </div>
+                        </div>
+                        <p className="pp-hint" style={{ marginBottom: 12 }}>{t("reg.linkHint")}</p>
+                        <PatientPicker value={null} onChange={(p) => p && link(p)} autoFocus />
+                        <div className="cs-modal-actions" style={{ marginTop: 14 }}>
+                            <button type="button" className="btn btn-secondary" onClick={() => setLinkFor(null)}>{t("consent.cancel")}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <details className="reg-backup">
                 <summary>{t("queue.printedTitle")}</summary>

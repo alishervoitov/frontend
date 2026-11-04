@@ -305,3 +305,6 @@
 @media (max-width: 700px) {
     .table-card table.audit-table { min-width: 760px; }
 }
+
+/* Registraturada hali bemorga bog'lanmagan chipta */
+.q-unid { color: var(--accent); font-style: italic; }

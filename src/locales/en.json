@@ -736,7 +736,15 @@
     "free": "free",
     "inLine": "in line",
     "doneToday": "seen",
-    "next": "next"
+    "next": "next",
+    "patientStep": "Patient",
+    "choosePatient": "Identify the patient",
+    "unidentified": "Unidentified",
+    "unidentifiedHint": "Kiosk ticket: registry must identify the patient and link the ticket to their record",
+    "link": "Link",
+    "linkTitle": "Link ticket to patient",
+    "linkHint": "Identify who holds this kiosk ticket. Once linked, the doctor can see their record until the end of the day and entries go to that record.",
+    "statUnidentified": "Unidentified tickets"
   },
   "errorPage": {
     "title": "Something went wrong",
@@ -803,5 +811,25 @@
       "error": "Could not open the record.",
       "throttled": "You have reached today's emergency access limit."
     }
+  },
+  "pp": {
+    "search": "Last name, first name or phone",
+    "dob": "Date of birth",
+    "notFound": "No patient found",
+    "newBtn": "New patient record",
+    "newTitle": "New patient record",
+    "lastName": "Last name",
+    "firstName": "First name",
+    "gender": "Sex",
+    "male": "Male",
+    "female": "Female",
+    "phone": "Phone",
+    "create": "Open record",
+    "change": "Change",
+    "noDob": "No date of birth",
+    "error": "Could not open the record.",
+    "dupTitle": "A patient with this name and date of birth exists. Is it them?",
+    "dupCreate": "No, open a new record anyway",
+    "newHint": "The record is kept by the registry and doctors. The patient has no app password yet."
   }
 }

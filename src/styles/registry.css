@@ -91,3 +91,49 @@
     .reg-top-actions { width: 100%; }
     .reg-top-actions .btn { flex: 1; }
 }
+
+/* ===== Bemorni aniqlash ===== */
+.pp-search { display: grid; grid-template-columns: 1fr 124px; gap: 6px; }
+.reg-panel .pp-search input[type="date"], .pp-new input[type="date"] { padding: 8px 6px; font-size: 0.85rem; }
+.pp-results { margin-top: 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); max-height: 220px; overflow-y: auto; }
+.pp-row { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; background: var(--surface); border: none; border-top: 1px solid var(--border); font: inherit; text-align: left; cursor: pointer; }
+.pp-row:first-child { border-top: none; }
+.pp-row:hover { background: var(--primary-tint); }
+.pp-avatar { width: 30px; height: 30px; flex: none; border-radius: 50%; background: var(--primary-tint); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+.pp-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pp-row-text b { font-weight: 600; font-size: 0.9rem; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pp-row-text small { color: var(--ink-muted); font-size: 0.76rem; }
+.pp-none { padding: 10px; text-align: center; color: var(--ink-muted); font-size: 0.85rem; }
+.pp-link { align-self: flex-start; margin-top: 8px; background: none; border: none; padding: 4px 0; color: var(--primary); font: inherit; font-weight: 600; font-size: 0.86rem; cursor: pointer; }
+.pp-link:hover { text-decoration: underline; }
+.pp-link:disabled { opacity: 0.5; }
+.pp { display: flex; flex-direction: column; }
+.pp-chosen { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--primary); background: var(--primary-tint); border-radius: var(--radius-sm); }
+.pp-change { background: none; border: none; color: var(--primary); font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; padding: 4px; }
+.pp-new { border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 12px; background: var(--surface-sunken); display: flex; flex-direction: column; gap: 10px; }
+.pp-new-title { font-weight: 700; font-size: 0.88rem; }
+.pp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pp-grid label { display: flex; flex-direction: column; gap: 3px; font-size: 0.74rem; font-weight: 600; color: var(--ink-muted); min-width: 0; }
+.pp-grid input, .pp-grid select { width: 100%; padding: 8px 9px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; font-size: 0.88rem; background: var(--surface); color: var(--ink); font-weight: 400; }
+.pp-wide { grid-column: 1 / -1; }
+.pp-err { color: var(--danger); font-size: 0.76rem; font-weight: 500; }
+.pp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pp-actions .btn { width: 100%; padding: 8px; }
+.pp-dupes { border: 1px solid #E8C9A0; background: #FFF7EC; border-radius: var(--radius-sm); padding: 8px; display: flex; flex-direction: column; }
+.pp-dupes-title { font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
+.pp-dupes .pp-row { border-radius: 6px; border: 1px solid var(--border); margin-bottom: 4px; }
+.pp-hint { margin: 0; font-size: 0.74rem; color: var(--ink-muted); line-height: 1.45; }
+
+/* Aniqlanmagan (kiosk) chipta */
+.reg-unid { color: var(--accent); font-style: italic; }
+.reg-link-btn { margin-left: 6px; padding: 1px 8px; border: 1px solid var(--accent); border-radius: 999px; background: var(--surface); color: var(--accent); font: inherit; font-size: 0.72rem; font-weight: 600; cursor: pointer; font-style: normal; }
+.reg-link-btn:hover { background: var(--accent-tint); }
+.reg-now .reg-link-btn { border-color: #fff; color: var(--primary); }
+.reg-stats .is-alert b { color: var(--danger); }
+.cs-modal.pp-modal { border-top-color: var(--primary); }
+.pp-modal .cs-modal-head h2 { font-size: 1.1rem; }
+/* Bemor bosqichi qo'shilgach panel uzun bo'ladi: shifokorlar ro'yxati siqilmasin, panel o'zi aylansin */
+.reg-panel { overflow-y: auto; }
+.reg-pick { flex-shrink: 0; }
+.reg-now .reg-unid { color: #FFD7C4; }
+.reg-now-text .reg-unid { text-transform: none; letter-spacing: 0; font-size: inherit; opacity: 1; }
