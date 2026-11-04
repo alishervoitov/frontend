@@ -1,0 +1,74 @@
+/* ===== Ikki bosqichli kirish ===== */
+.mfa-page { max-width: 760px; }
+.mfa-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm); margin-bottom: 16px; }
+.mfa-card h2 { font-size: 1.1rem; margin: 0 0 8px; }
+.mfa-muted { color: var(--ink-muted); line-height: 1.6; margin: 0 0 14px; font-size: 0.92rem; }
+.mfa-small { font-size: 0.82rem; margin: 8px 0 0; }
+.mfa-banner { padding: 12px 16px; border-radius: var(--radius-md); background: var(--primary-tint); color: var(--primary); margin-bottom: 16px; font-size: 0.92rem; line-height: 1.5; }
+.mfa-banner-warn { background: var(--accent-tint); color: var(--accent); border: 1px solid #E8C9A0; }
+
+.mfa-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+.mfa-steps li { counter-increment: s; position: relative; padding: 0 0 22px 46px; display: flex; flex-direction: column; gap: 4px; color: var(--ink-muted); }
+.mfa-steps li::before { content: counter(s); position: absolute; left: 0; top: -3px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-sunken); color: var(--ink-muted); font-weight: 700; font-size: 0.9rem; }
+.mfa-steps li:not(:last-child)::after { content: ""; position: absolute; left: 14px; top: 30px; bottom: 2px; width: 2px; background: var(--border); }
+.mfa-steps li b { color: var(--ink); }
+.mfa-steps li.current::before { background: var(--primary); color: #fff; }
+.mfa-steps li.done::before { content: "✓"; background: var(--success-tint); color: var(--success); }
+.mfa-steps li span { font-size: 0.9rem; line-height: 1.5; }
+.mfa-start { width: auto; margin-left: 46px; }
+.mfa-qr-wrap { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+.mfa-qr { width: 184px; height: 184px; padding: 8px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); flex: none; }
+.mfa-qr svg { width: 100%; height: 100%; display: block; }
+.mfa-key { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.mfa-key span { font-size: 0.8rem; }
+.mfa-key code { font-family: var(--font-mono); font-size: 0.95rem; color: var(--ink); background: var(--surface-sunken); padding: 6px 10px; border-radius: var(--radius-sm); overflow-wrap: anywhere; letter-spacing: 0.04em; }
+.mfa-inline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.mfa-inline .btn { width: auto; }
+.mfa-code-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 1.35rem; letter-spacing: 0.35em; text-align: center; background: var(--surface); color: var(--ink); }
+.mfa-inline .mfa-code-input { width: 170px; }
+.mfa-backup-input { letter-spacing: 0.12em; font-size: 1.15rem; }
+.mfa-linkbtn { background: none; border: none; padding: 2px 0; color: var(--primary); font: inherit; font-weight: 600; cursor: pointer; align-self: flex-start; }
+.mfa-linkbtn:hover { text-decoration: underline; }
+.mfa-linkbtn-muted { color: var(--ink-muted); font-weight: 500; }
+
+.mfa-codes { list-style: none; margin: 0 0 16px; padding: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 20px; background: var(--surface-sunken); border-radius: var(--radius-md); border: 1px dashed var(--border-strong); }
+.mfa-codes code { font-family: var(--font-mono); font-size: 1.05rem; color: var(--ink); letter-spacing: 0.05em; }
+.mfa-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.mfa-row .btn { width: auto; }
+.mfa-check { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; font-size: 0.92rem; cursor: pointer; }
+.mfa-check input { width: 18px; height: 18px; accent-color: var(--primary); }
+
+.mfa-on-head { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.mfa-on-head div { display: flex; flex-direction: column; }
+.mfa-on-head span:not(.mfa-shield) { color: var(--ink-muted); font-size: 0.86rem; }
+.mfa-shield { width: 40px; height: 40px; border-radius: 50%; background: var(--success-tint); color: var(--success); display: grid; place-items: center; font-weight: 800; font-size: 1.1rem; flex: none; }
+.mfa-remaining { font-size: 0.9rem; margin-bottom: 14px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--surface-sunken); display: inline-block; }
+.mfa-remaining.low { background: var(--accent-tint); color: var(--accent); }
+.mfa-auto { width: auto; display: block; }
+.mfa-disable .field input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font: inherit; }
+.mfa-disable .mfa-code-input { font-size: 1.1rem; letter-spacing: 0.15em; }
+
+/* Login: ikkinchi bosqich */
+.mfa-login-head { display: flex; gap: 12px; align-items: center; margin: 6px 0 18px; }
+.mfa-login-icon { width: 42px; height: 42px; border-radius: 12px; background: var(--primary-tint); color: var(--primary); display: grid; place-items: center; flex: none; }
+.mfa-login-title { font-weight: 700; color: var(--ink); }
+.mfa-login-links { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.mfa-login-links .mfa-linkbtn { align-self: center; }
+
+/* Admin: foydalanuvchilar ro'yxatidagi 2FA holati */
+.au-mfa { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.au-mfa-badge { font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; white-space: nowrap; background: var(--success-tint); color: var(--success); }
+.au-mfa-badge.off { background: var(--surface-sunken); color: var(--ink-muted); }
+.au-mfa-badge.missing { background: var(--danger-tint); color: var(--danger); }
+.au-mfa-reset { background: none; border: none; padding: 0; color: var(--accent); font: inherit; font-size: 0.76rem; cursor: pointer; text-decoration: underline; }
+
+@media (max-width: 600px) {
+    .mfa-card { padding: 16px; }
+    .mfa-steps li { padding-left: 40px; }
+    .mfa-start { margin-left: 0; width: 100%; }
+    .mfa-qr { width: 100%; max-width: 220px; height: auto; aspect-ratio: 1; }
+    .mfa-codes { grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 12px; }
+    .mfa-codes code { font-size: 0.95rem; }
+    .mfa-inline .mfa-code-input { width: 100%; }
+    .mfa-inline .btn { flex: 1; }
+}

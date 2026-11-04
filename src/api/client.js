@@ -57,6 +57,10 @@ client.interceptors.response.use(
                 window.location.href = "/login";
             }
         }
+        // Admin/shifokor 2FA ni sozlamagan: istalgan so'rov shu kod bilan rad etiladi
+        if (status === 403 && error.response?.data?.code === "mfa_setup_required" && window.location.pathname !== "/security") {
+            window.location.href = "/security";
+        }
         return Promise.reject(error);
     }
 );

@@ -150,6 +150,10 @@ export default function Layout() {
                                         <span className="user-menu-ico"><NavIcon name="profile" size={18} /></span>
                                         <span className="user-menu-item-text"><b>{t("nav.myProfile")}</b><small>{t("nav.myProfileHint")}</small></span>
                                     </Link>
+                                    <Link role="menuitem" to="/security" className="user-menu-item">
+                                        <span className="user-menu-ico"><NavIcon name="key" size={18} /></span>
+                                        <span className="user-menu-item-text"><b>{t("mfa.title")}</b><small>{user?.mfa_enabled ? t("mfa.on") : t("mfa.off")}</small></span>
+                                    </Link>
                                     <Link role="menuitem" to="/sessions" className="user-menu-item">
                                         <span className="user-menu-ico"><NavIcon name="devices" size={18} /></span>
                                         <span className="user-menu-item-text"><b>{t("sessions.title")}</b><small>{t("nav.sessionsHint")}</small></span>
@@ -207,6 +211,9 @@ export default function Layout() {
                         <div className="side-group-title">{t("nav.groupAccount")}</div>
                         <Link to="/me" className={`side-link ${pathname === "/me" ? "active" : ""}`}>
                             <NavIcon name="profile" /><span className="side-link-label">{t("nav.myProfile")}</span>
+                        </Link>
+                        <Link to="/security" className={`side-link ${isActive("/security") ? "active" : ""}`}>
+                            <NavIcon name="key" /><span className="side-link-label">{t("mfa.title")}</span>
                         </Link>
                         <Link to="/sessions" className={`side-link ${isActive("/sessions") ? "active" : ""}`}>
                             <NavIcon name="devices" /><span className="side-link-label">{t("sessions.title")}</span>

@@ -46,6 +46,18 @@ export default function AdminUsersPage() {
         }
     }
 
+    // Xodim telefonini ham, zaxira kodlarini ham yo'qotganda: 2FA o'chadi, sessiyalari yopiladi
+    async function resetMfa(u) {
+        if (!window.confirm(t("mfa.resetConfirm", { name: u.username }))) return;
+        setError("");
+        try {
+            await client.post(`/auth/users/${u.id}/2fa/reset/`);
+            setUsers((list) => list.map((x) => (x.id === u.id ? { ...x, mfa_enabled: false } : x)));
+        } catch (err) {
+            setError(err.response?.data?.detail || t("queue.errors.generic"));
+        }
+    }
+
     const q = query.trim().toLowerCase();
     const count = (f) => users.filter((u) => matches(u, f, "")).length;
     const shown = users.filter((u) => matches(u, filter, q));
@@ -92,6 +104,7 @@ export default function AdminUsersPage() {
                             <th>{t("admin.email")}</th>
                             <th>{t("admin.role")}</th>
                             <th>{t("queue.specialty")}</th>
+                            <th>{t("mfa.col")}</th>
                             <th>{t("admin.status")}</th>
                         </tr>
                         </thead>
@@ -105,6 +118,16 @@ export default function AdminUsersPage() {
                                     <td className="cell-muted au-clip" data-label={t("admin.email")}>{u.email || "—"}</td>
                                     <td className="au-role" data-label={t("admin.role")}><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
                                     <td className={u.role === "doctor" ? "" : "au-empty"} data-label={t("queue.specialty")}>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
+                                    <td data-label={t("mfa.col")}>
+                                        <span className="au-mfa">
+                                            <span className={`au-mfa-badge ${u.mfa_enabled ? "" : u.mfa_required ? "missing" : "off"}`}>
+                                                {u.mfa_enabled ? t("mfa.on") : u.mfa_required ? t("mfa.notSet") : t("mfa.off")}
+                                            </span>
+                                            {u.mfa_enabled && u.id !== me?.id && (
+                                                <button type="button" className="au-mfa-reset" onClick={() => resetMfa(u)}>{t("mfa.reset")}</button>
+                                            )}
+                                        </span>
+                                    </td>
                                     <td className="au-actions" data-label={t("admin.status")}>
                                         {u.id === me?.id ? (
                                             <span className="cell-muted">{t("admin.you")}</span>

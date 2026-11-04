@@ -22,6 +22,7 @@ import RegistryPage from "./pages/RegistryPage";
 import KioskPage from "./pages/KioskPage";
 import ArrivePage from "./pages/ArrivePage";
 import SessionsPage from "./pages/SessionsPage";
+import SecurityPage from "./pages/SecurityPage";
 import AdminQueueStatsPage from "./pages/AdminQueueStatsPage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
@@ -29,6 +30,7 @@ import ConsentPage from "./pages/ConsentPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
 import "./styles/labs.css";
 import "./styles/consent.css";
+import "./styles/mfa.css";
 import "./styles/queue.css";
 
 export default function App() {
@@ -55,6 +57,7 @@ export default function App() {
                     >
                         <Route path="/me" element={<MePage />} />
                         <Route path="/sessions" element={<SessionsPage />} />
+                        <Route path="/security" element={<SecurityPage />} />
                         <Route
                             path="/queue"
                             element={
