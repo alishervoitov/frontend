@@ -20,6 +20,8 @@ export const queueApi = {
     registryPatients: (q, dob) =>
         client.get("/queue/registry/patients/", { params: { q, ...(dob ? { dob } : {}) } }).then((r) => r.data),
     registryCreatePatient: (data) => client.post("/queue/registry/patients/", data).then((r) => r.data),
+    registryTempPassword: (patient) =>
+        client.post(`/queue/registry/patients/${patient}/temp-password/`).then((r) => r.data),
     registryLink: (ticket, patient) =>
         client.post(`/queue/registry/tickets/${ticket}/link/`, { patient }).then((r) => r.data),
     checkin: (code) => client.post("/queue/checkin/", { code }).then((r) => r.data),

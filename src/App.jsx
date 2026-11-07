@@ -28,6 +28,7 @@ import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
 import ConsentPage from "./pages/ConsentPage";
 import AdminAlertsPage from "./pages/AdminAlertsPage";
+import AdminKiosksPage from "./pages/AdminKiosksPage";
 import "./styles/labs.css";
 import "./styles/consent.css";
 import "./styles/mfa.css";
@@ -80,6 +81,14 @@ export default function App() {
                             element={
                                 <ProtectedRoute allowedRoles={["admin"]}>
                                     <AdminQueueStatsPage />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admin/kiosks"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                    <AdminKiosksPage />
                                 </ProtectedRoute>
                             }
                         />

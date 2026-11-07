@@ -24,6 +24,7 @@
     "sessionsHint": "Qaysi qurilmalardan kirilgan",
     "lab": "Laboratoriya",
     "access": "Kirishlar tarixi",
+    "kiosks": "Kiosk kalitlari",
     "alerts": "Ogohlantirishlar",
     "consent": "Ruxsatlar"
   },
@@ -838,7 +839,7 @@
     "error": "Kartani ochib bo'lmadi.",
     "dupTitle": "Shu ism va tug'ilgan sana bilan bemor bor. O'shami?",
     "dupCreate": "Yo'q, baribir yangi karta ochish",
-    "newHint": "Karta registratura va shifokor orqali yuritiladi. Bemorda hozircha ilovaga kirish uchun parol yo'q."
+    "newHint": "Karta registratura va shifokor orqali yuritiladi. Bemor ilovaga kirishi uchun kartani tanlab «Parol berish»ni bosing."
   },
   "mfa": {
     "title": "Ikki bosqichli kirish",
@@ -930,5 +931,56 @@
     "allergiesPh": "Masalan: penitsillin, yong'oq. Yo'q bo'lsa bo'sh qoldiring",
     "error": "Saqlab bo'lmadi. Maydonlarni tekshiring.",
     "auditNote": "Har bir o'zgarish audit jurnaliga yoziladi (qaysi maydon o'zgargani, qiymatlarsiz)."
+  },
+  "tp": {
+    "title": "Ilovaga kirish paroli",
+    "lead": "Bemor uchun vaqtinchalik parol yaratiladi. U {{hours}} soat amal qiladi va birinchi kirishda bemor o'z parolini o'rnatadi.",
+    "warnExisting": "Bemorning hozirgi paroli bekor qilinadi va barcha qurilmalardagi sessiyalari yopiladi. Faqat bemor parolini unutganini shaxsan tasdiqlagan bo'lsa davom eting.",
+    "warnReissue": "Avval berilgan vaqtinchalik parol bekor qilinadi.",
+    "issue": "Parol yaratish",
+    "error": "Parol yaratib bo'lmadi.",
+    "slipTitle": "Ilovaga kirish ma'lumotlari",
+    "site": "Sayt",
+    "password": "Vaqtinchalik parol",
+    "validUntil": "Amal qiladi",
+    "slipNote": "Birinchi kirishda o'z parolingizni o'rnatasiz. Bu qog'ozni hech kimga ko'rsatmang va parolni o'rnatgach yo'q qiling.",
+    "shownOnce": "Parol faqat hozir ko'rsatiladi: oyna yopilgach uni qayta ko'rib bo'lmaydi, faqat yangisini yaratish mumkin.",
+    "copy": "Nusxa olish",
+    "copied": "Nusxa olindi ✓",
+    "done": "Tayyor",
+    "stateActive": "Ilovaga kira oladi",
+    "stateTemp": "Vaqtinchalik parol · {{date}} gacha",
+    "stateNone": "Ilovaga kirish paroli yo'q",
+    "btnIssue": "Parol berish",
+    "btnReissue": "Qayta berish",
+    "btnReset": "Parolni tiklash",
+    "loginTitle": "O'z parolingizni o'rnating",
+    "loginLead": "Siz registratura bergan vaqtinchalik parol bilan kirdingiz.",
+    "loginHint": "Kamida 8 belgi; juda oddiy yoki faqat raqamlardan iborat parol qabul qilinmaydi.",
+    "loginSubmit": "Saqlash va kirish"
+  },
+  "kiosks": {
+    "title": "Kiosk kalitlari",
+    "lead": "Shifoxonadagi har bir kiosk ekrani o'z maxfiy kaliti bilan ishlaydi. Kalit yo'qolsa yoki qurilma almashtirilsa, faqat o'sha kioskni bekor qiling — boshqalari ishlashda davom etadi.",
+    "nameLabel": "Yangi kiosk",
+    "namePlaceholder": "Masalan: 1-qavat, kirish zali",
+    "create": "Kalit yaratish",
+    "createError": "Kalitni yaratib bo'lmadi.",
+    "created": "«{{name}}» uchun kalit yaratildi",
+    "step1": "Kiosk qurilmasida saytning /kiosk sahifasini oching.",
+    "step2": "«Kiosk sozlash» oynasiga shu kalitni kiriting.",
+    "shownOnce": "Kalit faqat hozir ko'rsatiladi. Uni xabar yoki pochta orqali yubormang — kiosk qurilmasiga to'g'ridan-to'g'ri kiriting.",
+    "legacy": "Server sozlamasidagi umumiy kalit (QUEUE_KIOSK_KEY) hali ham faol. Barcha kiosklarni shu yerda yaratilgan kalitlarga o'tkazgach, uni .env.docker faylidan o'chiring.",
+    "empty": "Hali kiosk qo'shilmagan.",
+    "lastUsed": "Oxirgi faollik: {{when}} · IP {{ip}}",
+    "neverUsed": "Hali ishlatilmagan",
+    "createdBy": "Yaratilgan: {{when}} · {{who}}",
+    "revoke": "Bekor qilish",
+    "revokeConfirm": "Ha, bekor qilish",
+    "revokeError": "Bekor qilib bo'lmadi.",
+    "revokedTitle": "Bekor qilingan kiosklar ({{n}})",
+    "revokedAt": "bekor qilingan: {{when}}",
+    "loadError": "Ro'yxatni yuklab bo'lmadi.",
+    "note": "Bazada kalitning o'zi emas, faqat xeshi saqlanadi. Yaratish va bekor qilish audit jurnaliga yoziladi, yangi kalit haqida Telegram'ga xabar keladi."
   }
 }

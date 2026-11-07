@@ -22,6 +22,7 @@
     "sessionsHint": "Where you're signed in",
     "lab": "Laboratory",
     "access": "Access history",
+    "kiosks": "Kiosk keys",
     "alerts": "Alerts",
     "consent": "Permissions"
   },
@@ -830,7 +831,7 @@
     "error": "Could not open the record.",
     "dupTitle": "A patient with this name and date of birth exists. Is it them?",
     "dupCreate": "No, open a new record anyway",
-    "newHint": "The record is kept by the registry and doctors. The patient has no app password yet."
+    "newHint": "The record is kept by the registry and doctors. To let the patient sign in to the app, select the record and click “Issue password”."
   },
   "mfa": {
     "title": "Two-step sign-in",
@@ -922,5 +923,56 @@
     "allergiesPh": "E.g. penicillin, nuts. Leave empty if none",
     "error": "Could not save. Check the fields.",
     "auditNote": "Every change is written to the audit log (which field changed, without values)."
+  },
+  "tp": {
+    "title": "App sign-in password",
+    "lead": "A temporary password will be created for the patient. It is valid for {{hours}} hours; on first sign-in the patient sets their own password.",
+    "warnExisting": "The patient's current password will be revoked and all their sessions signed out. Continue only if the patient has confirmed in person that they forgot it.",
+    "warnReissue": "The previously issued temporary password will be revoked.",
+    "issue": "Create password",
+    "error": "Could not create the password.",
+    "slipTitle": "App sign-in details",
+    "site": "Website",
+    "password": "Temporary password",
+    "validUntil": "Valid until",
+    "slipNote": "You will set your own password on first sign-in. Do not show this slip to anyone and destroy it once you have changed the password.",
+    "shownOnce": "The password is shown only now: once this window is closed it cannot be viewed again, only replaced.",
+    "copy": "Copy",
+    "copied": "Copied ✓",
+    "done": "Done",
+    "stateActive": "Can sign in to the app",
+    "stateTemp": "Temporary password · until {{date}}",
+    "stateNone": "No app password",
+    "btnIssue": "Issue password",
+    "btnReissue": "Issue again",
+    "btnReset": "Reset password",
+    "loginTitle": "Set your password",
+    "loginLead": "You signed in with a temporary password from the registry desk.",
+    "loginHint": "At least 8 characters; very common or digits-only passwords are not accepted.",
+    "loginSubmit": "Save and sign in"
+  },
+  "kiosks": {
+    "title": "Kiosk keys",
+    "lead": "Each kiosk screen in the hospital works with its own secret key. If a key is lost or a device is replaced, revoke only that kiosk — the others keep working.",
+    "nameLabel": "New kiosk",
+    "namePlaceholder": "E.g. 1st floor, entrance hall",
+    "create": "Create key",
+    "createError": "Could not create the key.",
+    "created": "Key created for “{{name}}”",
+    "step1": "On the kiosk device, open the site's /kiosk page.",
+    "step2": "Enter this key in the “Kiosk setup” window.",
+    "shownOnce": "The key is shown only now. Do not send it by messenger or email — type it directly on the kiosk device.",
+    "legacy": "The shared key from the server settings (QUEUE_KIOSK_KEY) is still active. Once all kiosks use keys from this page, remove it from .env.docker.",
+    "empty": "No kiosks added yet.",
+    "lastUsed": "Last active: {{when}} · IP {{ip}}",
+    "neverUsed": "Not used yet",
+    "createdBy": "Created: {{when}} · {{who}}",
+    "revoke": "Revoke",
+    "revokeConfirm": "Yes, revoke",
+    "revokeError": "Could not revoke.",
+    "revokedTitle": "Revoked kiosks ({{n}})",
+    "revokedAt": "revoked: {{when}}",
+    "loadError": "Could not load the list.",
+    "note": "Only a hash of the key is stored, never the key itself. Creation and revocation are written to the audit log, and a Telegram message is sent for each new key."
   }
 }

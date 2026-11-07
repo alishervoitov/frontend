@@ -6,7 +6,7 @@ import LanguageSwitcher from "../components/LanguageSwitcher";
 import { pendingCheckin } from "../api/queue";
 
 export default function LoginPage() {
-    const { login, loginMfa } = useAuth();
+    const { login, loginMfa, setFirstPassword } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
 
@@ -18,6 +18,10 @@ export default function LoginPage() {
     const [mfaToken, setMfaToken] = useState(null);
     const [code, setCode] = useState("");
     const [useBackup, setUseBackup] = useState(false);
+    // Registratura bergan vaqtinchalik parol bilan kirildi: avval doimiy parol
+    const [pwToken, setPwToken] = useState(null);
+    const [newPw, setNewPw] = useState("");
+    const [newPw2, setNewPw2] = useState("");
 
     function goHome(user, backupRemaining) {
         if (user.mfa_required && !user.mfa_enabled) return navigate("/security");
@@ -35,7 +39,10 @@ export default function LoginPage() {
         setLoading(true);
         try {
             const result = await login(username, password);
-            if (result.mfaToken) {
+            if (result.pwToken) {
+                setPwToken(result.pwToken);
+                setPassword("");
+            } else if (result.mfaToken) {
                 setMfaToken(result.mfaToken);
                 setPassword("");
             } else {
@@ -72,7 +79,35 @@ export default function LoginPage() {
         }
     }
 
+    async function handleNewPassword(e) {
+        e.preventDefault();
+        setError("");
+        if (newPw !== newPw2) {
+            setError(t("auth.passwordMismatch"));
+            return;
+        }
+        setLoading(true);
+        try {
+            const result = await setFirstPassword(pwToken, newPw);
+            setPwToken(null);
+            setNewPw(""); setNewPw2("");
+            if (result.mfaToken) setMfaToken(result.mfaToken);
+            else goHome(result.user);
+        } catch (err) {
+            const d = err.response?.data || {};
+            if (d.code === "pw_token_expired") {
+                setPwToken(null);
+                setNewPw(""); setNewPw2("");
+            }
+            setError([].concat(d.detail || t("auth.loginError")).join(" "));
+        } finally {
+            setLoading(false);
+        }
+    }
+
     function backToPassword() {
+        setPwToken(null);
+        setNewPw(""); setNewPw2("");
         setMfaToken(null);
         setCode("");
         setUseBackup(false);
@@ -87,7 +122,39 @@ export default function LoginPage() {
             <div className="auth-card">
                 <div className="auth-brand">{t("app.name")}</div>
 
-                {mfaToken ? (
+                {pwToken ? (
+                    <>
+                        <div className="mfa-login-head">
+                            <span className="mfa-login-icon" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2" /><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" /></svg>
+                            </span>
+                            <div>
+                                <div className="mfa-login-title">{t("tp.loginTitle")}</div>
+                                <div className="auth-sub" style={{ marginBottom: 0 }}>{t("tp.loginLead")}</div>
+                            </div>
+                        </div>
+                        {error && <div className="alert-error">{error}</div>}
+                        <form onSubmit={handleNewPassword}>
+                            <div className="field">
+                                <label htmlFor="new-password">{t("auth.newPassword")}</label>
+                                <input id="new-password" type="password" autoComplete="new-password" autoFocus required
+                                       value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+                            </div>
+                            <div className="field">
+                                <label htmlFor="new-password2">{t("auth.confirmNewPassword")}</label>
+                                <input id="new-password2" type="password" autoComplete="new-password" required
+                                       value={newPw2} onChange={(e) => setNewPw2(e.target.value)} />
+                            </div>
+                            <p className="auth-hint">{t("tp.loginHint")}</p>
+                            <button className="btn btn-primary" type="submit" disabled={loading || !newPw || !newPw2}>
+                                {loading ? t("auth.saving") : t("tp.loginSubmit")}
+                            </button>
+                        </form>
+                        <div className="auth-switch mfa-login-links">
+                            <button type="button" className="mfa-linkbtn mfa-linkbtn-muted" onClick={backToPassword}>← {t("mfa.login.back")}</button>
+                        </div>
+                    </>
+                ) : mfaToken ? (
                     <>
                         <div className="mfa-login-head">
                             <span className="mfa-login-icon" aria-hidden="true">

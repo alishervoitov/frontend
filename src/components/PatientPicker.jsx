@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { queueApi } from "../api/queue";
-import { fmtDate } from "../api/dates";
+import { fmtDate, fmtDateTime } from "../api/dates";
 import { PatientPhoto, PhotoEditor } from "./PatientPhoto";
+import TempPasswordDialog from "./TempPasswordDialog";
 
 const EMPTY = { last_name: "", first_name: "", date_of_birth: "", phone: "", gender: "" };
 
@@ -33,6 +34,7 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
     const [dupes, setDupes] = useState(null);
     const [busy, setBusy] = useState(false);
     const [photoEdit, setPhotoEdit] = useState(false);
+    const [pwDialog, setPwDialog] = useState(false);
 
     useEffect(() => {
         const query = q.trim();
@@ -85,8 +87,25 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
                     <button type="button" className="pp-photo-btn" onClick={() => setPhotoEdit(true)}>
                         {value.photo_updated_at ? t("photo.change") : `+ ${t("photo.add")}`}
                     </button>
+                    {/* Ilovaga kirish: registraturada ochilgan bemorda parol yo'q, unutgan bemorga yangisi */}
+                    <span className="pp-login">
+                        <span className={`pp-login-state ${value.has_login ? "is-ok" : value.temp_password_expires ? "is-temp" : ""}`}>
+                            {value.has_login
+                                ? t("tp.stateActive")
+                                : value.temp_password_expires
+                                    ? t("tp.stateTemp", { date: fmtDateTime(value.temp_password_expires) })
+                                    : t("tp.stateNone")}
+                        </span>
+                        <button type="button" className="pp-photo-btn" onClick={() => setPwDialog(true)}>
+                            {value.has_login ? t("tp.btnReset") : value.temp_password_expires ? t("tp.btnReissue") : t("tp.btnIssue")}
+                        </button>
+                    </span>
                 </span>
                 <button type="button" className="pp-change" onClick={() => onChange(null)}>{t("pp.change")}</button>
+                {pwDialog && (
+                    <TempPasswordDialog patient={value} onClose={() => setPwDialog(false)}
+                                        onIssued={(r) => onChange({ ...value, has_login: false, temp_password_expires: r.expires_at })} />
+                )}
                 {photoEdit && (
                     <PhotoEditor patientId={value.id} onClose={() => setPhotoEdit(false)}
                                  onSaved={(v) => { setPhotoEdit(false); onChange({ ...value, photo_updated_at: v }); }} />

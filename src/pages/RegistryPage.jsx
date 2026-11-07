@@ -187,6 +187,7 @@ export default function RegistryPage() {
                 </div>
                 <div className="reg-top-actions">
                     <Link className="btn btn-secondary q-btn-auto" to="/admin/queue-stats">{t("nav.queueStats")}</Link>
+                    <Link className="btn btn-secondary q-btn-auto" to="/admin/kiosks">{t("nav.kiosks")}</Link>
                     <a className="btn btn-secondary q-btn-auto" href="/kiosk" target="_blank" rel="noreferrer">{t("queue.openKiosk")} ↗</a>
                 </div>
             </div>

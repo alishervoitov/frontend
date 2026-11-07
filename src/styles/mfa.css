@@ -72,3 +72,4 @@
     .mfa-inline .mfa-code-input { width: 100%; }
     .mfa-inline .btn { flex: 1; }
 }
+.auth-hint { font-size: 0.8rem; color: var(--ink-muted); margin: -4px 0 14px; line-height: 1.45; }

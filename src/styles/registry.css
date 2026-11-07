@@ -141,3 +141,35 @@
 .pp-chosen .pp-row-text { align-self: center; }
 .pp-photo-btn { align-self: flex-start; background: none; border: none; padding: 2px 0 0; color: var(--primary); font: inherit; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
 .pp-photo-btn:hover { text-decoration: underline; }
+
+/* Ilovaga kirish holati va vaqtinchalik parol (TempPasswordDialog) */
+.pp-login { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: 2px; }
+.pp-login-state { font-size: 0.76rem; color: var(--ink-muted); }
+.pp-login-state.is-ok { color: var(--success); }
+.pp-login-state.is-temp { color: var(--accent); }
+.cs-modal.tp-modal { border-top-color: var(--primary); }
+.tp-icon { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--primary-tint); color: var(--primary); }
+.tp-lead { color: var(--ink); font-size: 0.92rem; line-height: 1.5; margin: 0 0 12px; }
+.tp-warn { background: var(--danger-tint); color: var(--danger); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 0.86rem; margin-bottom: 12px; }
+.tp-slip { border: 1px dashed var(--border-strong); border-radius: var(--radius-md); padding: 16px 18px; background: var(--surface-sunken); }
+.tp-slip-brand { font-family: var(--font-display); font-weight: 700; color: var(--primary); }
+.tp-slip-title { font-size: 0.82rem; color: var(--ink-muted); margin-bottom: 10px; }
+.tp-slip-name { font-weight: 600; margin-bottom: 10px; }
+.tp-slip-rows { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; align-items: baseline; }
+.tp-slip-rows dt { color: var(--ink-muted); font-size: 0.82rem; }
+.tp-slip-rows dd { margin: 0; overflow-wrap: anywhere; }
+.tp-mono { font-family: var(--font-mono); }
+.tp-pass { font-size: 1.35rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink); white-space: nowrap; }
+.tp-slip-note { font-size: 0.78rem; color: var(--ink-muted); margin: 12px 0 0; line-height: 1.45; }
+.tp-once { font-size: 0.8rem; color: var(--ink-muted); margin: 10px 0 14px; }
+
+@media print {
+    .pw-print-area, .pw-print-area * { visibility: hidden; }
+    body.printing-pw .q-print-area, body.printing-pw .q-print-area * { visibility: hidden; }
+    body.printing-pw .pw-print-area, body.printing-pw .pw-print-area * { visibility: visible; }
+    body.printing-pw .pw-print-area { position: absolute; left: 0; top: 0; width: 80mm; }
+    body.printing-pw .tp-slip { background: none; border: 1px dashed #000; color: #000; }
+    body.printing-pw .tp-slip-rows { grid-template-columns: 1fr; gap: 1px; }
+    body.printing-pw .tp-slip-rows dd { margin-bottom: 6px; }
+    body.printing-pw .tp-pass { white-space: nowrap; font-size: 1.25rem; }
+}

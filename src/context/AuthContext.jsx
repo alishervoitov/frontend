@@ -41,6 +41,8 @@ export function AuthProvider({ children }) {
     // Refresh token javob tanasida kelmaydi - server uni httpOnly cookie qilib qo'yadi.
     async function login(username, password) {
         const res = await client.post("/auth/login/", { username, password });
+        // Registratura bergan vaqtinchalik parol: avval o'z parolini o'rnatadi
+        if (res.data.password_change_required) return { pwToken: res.data.pw_token };
         if (res.data.mfa_required) return { mfaToken: res.data.mfa_token };
         setAccessToken(res.data.access);
         setUser(res.data.user);
@@ -53,6 +55,15 @@ export function AuthProvider({ children }) {
         setAccessToken(res.data.access);
         setUser(res.data.user);
         return { user: res.data.user, backupRemaining: res.data.backup_remaining };
+    }
+
+    // Vaqtinchalik paroldan keyin doimiy parol; 2FA yoqilgan bo'lsa { mfaToken } qaytadi
+    async function setFirstPassword(pwToken, newPassword) {
+        const res = await client.post("/auth/login/set-password/", { pw_token: pwToken, new_password: newPassword });
+        if (res.data.mfa_required) return { mfaToken: res.data.mfa_token };
+        setAccessToken(res.data.access);
+        setUser(res.data.user);
+        return { user: res.data.user };
     }
 
     async function register(payload) {
@@ -71,7 +82,7 @@ export function AuthProvider({ children }) {
         channel.current?.postMessage("logout");
     }
 
-    const value = { user, loading, login, loginMfa, register, logout, setUser };
+    const value = { user, loading, login, loginMfa, setFirstPassword, register, logout, setUser };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

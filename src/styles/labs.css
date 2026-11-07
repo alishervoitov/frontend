@@ -335,3 +335,28 @@
 .eb-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .eb-actions .btn { width: auto; text-decoration: none; }
 .eb-details { margin-top: 18px; text-align: left; font-size: 0.75rem; max-height: 200px; overflow: auto; background: var(--surface-sunken); padding: 10px; border-radius: var(--radius-sm); white-space: pre-wrap; }
+
+/* Kiosk kalitlari (AdminKiosksPage) */
+.ks-new { padding: 16px 20px; margin: 0 0 16px; }
+.ks-new label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px; color: var(--ink); }
+.ks-new-row { display: flex; gap: 10px; }
+.ks-new-row input { flex: 1; min-width: 0; }
+.ks-created { padding: 18px 20px; margin: 0 0 16px; border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary) inset; }
+.ks-created-head { font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+.ks-key { font-family: var(--font-mono); font-size: 1.02rem; font-weight: 600; background: var(--surface-sunken); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: 10px 12px; overflow-wrap: anywhere; user-select: all; }
+.ks-steps { margin: 12px 0 0; padding-left: 20px; font-size: 0.88rem; color: var(--ink); line-height: 1.55; }
+.ks-once { font-size: 0.8rem; color: var(--danger); margin: 10px 0 12px; }
+.ks-created-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.ks-legacy { margin-bottom: 16px; }
+.ks-icon { color: var(--primary); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--primary-tint); flex: none; }
+.ks-prefix { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500; color: var(--ink-muted); background: var(--surface-sunken); padding: 1px 6px; border-radius: 6px; }
+.ks-confirm { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn.ks-danger { background: var(--danger); border-color: var(--danger); }
+.ks-revoked { margin-top: 18px; font-size: 0.88rem; }
+.ks-revoked summary { cursor: pointer; color: var(--ink-muted); }
+.ks-revoked ul { margin: 8px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+@media (max-width: 560px) {
+    .ks-new-row { flex-direction: column; }
+    .ks-confirm { width: 100%; }
+    .ks-confirm .btn { flex: 1; }
+}
