@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18n from "i18next";
 
 // Dev: API boshqa portda, lekin bir xil xostda - shunda refresh cookie "same-site" bo'lib yuboriladi
 export const API_BASE = import.meta.env.PROD ? "/api" : `${window.location.protocol}//${window.location.hostname}:8000/api`;
@@ -47,8 +48,12 @@ export function refreshAccess() {
     return refreshPromise;
 }
 
+// Server xabarlari (parol talablari, DRF xatolari) interfeys tilida qaytsin: brauzer tili emas
+const apiLang = () => (i18n.language || "uz").slice(0, 2);
+
 client.interceptors.request.use((config) => {
     if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+    config.headers["Accept-Language"] = apiLang();
     return config;
 });
 
