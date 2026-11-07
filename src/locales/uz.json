@@ -628,6 +628,13 @@
       "low": "Past"
     },
     "ack": "Ko'rib chiqildi",
+    "ackUnlock": "Ko'rib chiqildi — hisobni tiklash",
+    "response": {
+      "locked": "Hisob avtomatik to'xtatildi: barcha sessiyalar yopildi, ko'rib chiqmaguningizcha xodim kira olmaydi.",
+      "logout": "Barcha sessiyalar avtomatik yopildi (qayta kirishi kerak).",
+      "lockedDone": "Hisob avtomatik to'xtatilgan edi — ko'rib chiqilgach tiklandi.",
+      "logoutDone": "Sessiyalar avtomatik yopilgan edi."
+    },
     "ackedBy": "ko'rib chiqdi: {{name}}",
     "emptyOpen": "Ochiq ogohlantirishlar yo'q.",
     "empty": "Ogohlantirishlar yo'q.",

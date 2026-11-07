@@ -620,6 +620,13 @@
       "low": "Low"
     },
     "ack": "Mark reviewed",
+    "ackUnlock": "Reviewed — restore access",
+    "response": {
+      "locked": "Account automatically suspended: all sessions closed; the staff member cannot sign in until you review this alert.",
+      "logout": "All sessions were automatically closed (must sign in again).",
+      "lockedDone": "The account was suspended — restored after review.",
+      "logoutDone": "Sessions were automatically closed."
+    },
     "ackedBy": "reviewed by {{name}}",
     "emptyOpen": "No open alerts.",
     "empty": "No alerts.",

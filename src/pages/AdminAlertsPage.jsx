@@ -76,13 +76,20 @@ export default function AdminAlertsPage() {
                                     {a.actor_role && <span className={`badge badge-${a.actor_role}`}>{t(`roles.${a.actor_role}`)}</span>}
                                 </div>
                                 <div className="alert-detail">{a.detail}</div>
+                                {a.auto_response && (
+                                    <div className={`alert-response ${a.status === "open" && a.auto_response === "locked" ? "is-active" : ""}`}>
+                                        ⛔ {a.status === "open" ? t(`alerts.response.${a.auto_response}`) : t(`alerts.response.${a.auto_response}Done`)}
+                                    </div>
+                                )}
                                 <div className="alert-time">
                                     {fmt(a.first_seen)}{a.last_seen !== a.first_seen ? ` – ${fmt(a.last_seen)}` : ""}
                                     {a.status === "acknowledged" && ` · ${t("alerts.ackedBy", { name: a.acknowledged_by_name || "—" })}`}
                                 </div>
                             </div>
                             {a.status === "open" && (
-                                <button type="button" className="q-act q-act-ok" onClick={() => ack(a)}>{t("alerts.ack")}</button>
+                                <button type="button" className="q-act q-act-ok" onClick={() => ack(a)}>
+                                    {a.auto_response === "locked" ? t("alerts.ackUnlock") : t("alerts.ack")}
+                                </button>
                             )}
                         </div>
                     ))}

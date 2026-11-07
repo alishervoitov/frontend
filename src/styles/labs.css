@@ -360,3 +360,7 @@
     .ks-confirm { width: 100%; }
     .ks-confirm .btn { flex: 1; }
 }
+
+/* Avtomatik javob (sessiyalar yopildi / hisob to'xtatildi) */
+.alert-response { margin-top: 6px; font-size: 0.84rem; color: var(--ink-muted); }
+.alert-response.is-active { color: var(--danger); font-weight: 600; background: var(--danger-tint); border-radius: var(--radius-sm); padding: 6px 10px; display: inline-block; }
