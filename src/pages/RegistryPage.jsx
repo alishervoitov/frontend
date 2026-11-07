@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { errorText, hhmm, queueApi } from "../api/queue";
+import { errorText, gateOk, hhmm, queueApi } from "../api/queue";
 import TicketSlip from "../components/TicketSlip";
 import PrintedCheckinQr from "../components/PrintedCheckinQr";
-import PatientPicker from "../components/PatientPicker";
+import PatientPicker, { PhotoGate } from "../components/PatientPicker";
 import { groupBySpecialty, matchesQuery, specLabel } from "../api/specialty";
 import "../styles/registry.css";
 
@@ -108,6 +108,9 @@ export default function RegistryPage() {
     const [query, setQuery] = useState("");
     const [patient, setPatient] = useState(null);
     const [linkFor, setLinkFor] = useState(null);
+    const [linkPatient, setLinkPatient] = useState(null);
+    const [noPhoto, setNoPhoto] = useState("");
+    const [linkNoPhoto, setLinkNoPhoto] = useState("");
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState("");
     const [busy, setBusy] = useState(false);
@@ -144,9 +147,10 @@ export default function RegistryPage() {
         setBusy(true);
         setError("");
         try {
-            const tk = await queueApi.registryIssue(selected.id, patient.id);
+            const tk = await queueApi.registryIssue(selected.id, patient.id, patient.photo_updated_at ? "" : noPhoto);
             setTicket(tk);
             setPatient(null);
+            setNoPhoto("");
             load();
         } catch (err) {
             setError(errorText(err, t));
@@ -168,11 +172,17 @@ export default function RegistryPage() {
         setTimeout(() => document.querySelector(".reg-panel .pp-search input")?.focus(), 250);
     }
 
-    async function link(p) {
-        const x = linkFor;
+    function closeLink() {
         setLinkFor(null);
+        setLinkPatient(null);
+        setLinkNoPhoto("");
+    }
+
+    async function link() {
+        const x = linkFor, p = linkPatient;
+        closeLink();
         setError("");
-        try { await queueApi.registryLink(x.ticket.id, p.id); } catch (err) { setError(errorText(err, t)); }
+        try { await queueApi.registryLink(x.ticket.id, p.id, p.photo_updated_at ? "" : linkNoPhoto); } catch (err) { setError(errorText(err, t)); }
         load();
     }
 
@@ -247,8 +257,9 @@ export default function RegistryPage() {
                                 ))}
                             </div>
                             <div className="reg-label">2. {t("reg.patientStep")}</div>
-                            <PatientPicker value={patient} onChange={setPatient} />
-                            <button className="btn btn-primary reg-submit" disabled={busy || !selected || !patient}>
+                            <PatientPicker value={patient} onChange={(p) => { setPatient(p); if (!p) setNoPhoto(""); }} />
+                            <PhotoGate key={patient?.id ?? "none"} patient={patient} reason={noPhoto} onReason={setNoPhoto} />
+                            <button className="btn btn-primary reg-submit" disabled={busy || !selected || !gateOk(patient, noPhoto)}>
                                 {!selected ? t("reg.chooseDoctor") : !patient ? t("reg.choosePatient") : t("reg.issueFor", { name: selected.name })}
                             </button>
                         </form>
@@ -267,7 +278,7 @@ export default function RegistryPage() {
             </div>
 
             {linkFor && (
-                <div className="cs-overlay" onMouseDown={(e) => e.target === e.currentTarget && setLinkFor(null)}>
+                <div className="cs-overlay" onMouseDown={(e) => e.target === e.currentTarget && closeLink()}>
                     <div className="cs-modal pp-modal" role="dialog" aria-modal="true" aria-labelledby="link-title">
                         <div className="cs-modal-head">
                             <span className="reg-num">{linkFor.ticket.number}</span>
@@ -277,9 +288,11 @@ export default function RegistryPage() {
                             </div>
                         </div>
                         <p className="pp-hint" style={{ marginBottom: 12 }}>{t("reg.linkHint")}</p>
-                        <PatientPicker value={null} onChange={(p) => p && link(p)} autoFocus />
+                        <PatientPicker value={linkPatient} onChange={(p) => { setLinkPatient(p); setLinkNoPhoto(""); }} autoFocus />
+                        <PhotoGate key={linkPatient?.id ?? "none"} patient={linkPatient} reason={linkNoPhoto} onReason={setLinkNoPhoto} />
                         <div className="cs-modal-actions" style={{ marginTop: 14 }}>
-                            <button type="button" className="btn btn-secondary" onClick={() => setLinkFor(null)}>{t("consent.cancel")}</button>
+                            <button type="button" className="btn btn-secondary" onClick={closeLink}>{t("consent.cancel")}</button>
+                            <button type="button" className="btn btn-primary" disabled={!gateOk(linkPatient, linkNoPhoto)} onClick={link}>{t("reg.link")}</button>
                         </div>
                     </div>
                 </div>

@@ -15,15 +15,15 @@ export const queueApi = {
     noShow: (id) => client.post(`/queue/doctor/tickets/${id}/no-show/`).then((r) => r.data),
     saveSettings: (data) => client.patch("/queue/doctor/settings/", data).then((r) => r.data),
     registry: () => client.get("/queue/registry/").then((r) => r.data),
-    registryIssue: (doctor, patient) =>
-        client.post("/queue/registry/", { doctor, patient }).then((r) => r.data),
+    registryIssue: (doctor, patient, noPhotoReason = "") =>
+        client.post("/queue/registry/", { doctor, patient, no_photo_reason: noPhotoReason }).then((r) => r.data),
     registryPatients: (q, dob) =>
         client.get("/queue/registry/patients/", { params: { q, ...(dob ? { dob } : {}) } }).then((r) => r.data),
     registryCreatePatient: (data) => client.post("/queue/registry/patients/", data).then((r) => r.data),
     registryTempPassword: (patient) =>
         client.post(`/queue/registry/patients/${patient}/temp-password/`).then((r) => r.data),
-    registryLink: (ticket, patient) =>
-        client.post(`/queue/registry/tickets/${ticket}/link/`, { patient }).then((r) => r.data),
+    registryLink: (ticket, patient, noPhotoReason = "") =>
+        client.post(`/queue/registry/tickets/${ticket}/link/`, { patient, no_photo_reason: noPhotoReason }).then((r) => r.data),
     checkin: (code) => client.post("/queue/checkin/", { code }).then((r) => r.data),
     printedQr: () => client.get("/queue/admin/printed-checkin/", { params: { base: window.location.origin } }).then((r) => r.data),
     printedQrCreate: () => client.post("/queue/admin/printed-checkin/", null, { params: { base: window.location.origin } }).then((r) => r.data),
@@ -74,3 +74,8 @@ export function errorText(err, t) {
     if (code) return t(`queue.errors.${code}`, { defaultValue: err?.response?.data?.detail || err?.data?.detail });
     return err?.response?.data?.detail || t("queue.errors.generic");
 }
+
+// S8: rasmi yo'q bemorga chipta/bog'lash - rasm yoki kamida 5 belgilik sabab (server ham tekshiradi)
+export const NO_PHOTO_MIN = 5;
+export const gateOk = (patient, reason) =>
+    !!patient && (!!patient.photo_updated_at || reason.trim().length >= NO_PHOTO_MIN);

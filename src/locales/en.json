@@ -821,7 +821,14 @@
     }
   },
   "pp": {
-    "search": "Last name, first name or phone",
+    "search": "Surname, name, phone or last 4 digits of document",
+    "doc": "doc",
+    "docNumber": "Document number (passport, ID card)",
+    "gateTitle": "No photo on file",
+    "gateText": "Take a photo on the first visit so the registry and doctors can compare the face next time. Use “+ Add photo” above.",
+    "gateSkip": "Continue without a photo…",
+    "gateReason": "Why no photo? (written to the audit log)",
+    "gatePlaceholder": "E.g. the camera is not working",
     "dob": "Date of birth",
     "notFound": "No patient found",
     "newBtn": "New patient record",

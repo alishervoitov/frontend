@@ -5,7 +5,28 @@ import { fmtDate, fmtDateTime } from "../api/dates";
 import { PatientPhoto, PhotoEditor } from "./PatientPhoto";
 import TempPasswordDialog from "./TempPasswordDialog";
 
-const EMPTY = { last_name: "", first_name: "", date_of_birth: "", phone: "", gender: "" };
+const EMPTY = { last_name: "", first_name: "", date_of_birth: "", phone: "", gender: "", national_id: "" };
+
+// S8: rasmi yo'q bemorga chipta yoki bog'lashdan oldin - rasm olish yoki rasmsiz berish sababi (auditga yoziladi)
+export function PhotoGate({ patient, reason, onReason }) {
+    const { t } = useTranslation();
+    const [skip, setSkip] = useState(false);
+    if (!patient || patient.photo_updated_at) return null;
+    return (
+        <div className="pp-gate" role="note">
+            <b>{t("pp.gateTitle")}</b>
+            <span>{t("pp.gateText")}</span>
+            {skip ? (
+                <label className="pp-gate-reason">{t("pp.gateReason")}
+                    <input value={reason} maxLength={120} autoFocus placeholder={t("pp.gatePlaceholder")}
+                           onChange={(e) => onReason(e.target.value)} />
+                </label>
+            ) : (
+                <button type="button" className="pp-link" onClick={() => setSkip(true)}>{t("pp.gateSkip")}</button>
+            )}
+        </div>
+    );
+}
 
 function PatientRow({ p, onPick, t }) {
     return (
@@ -16,6 +37,7 @@ function PatientRow({ p, onPick, t }) {
                 <small>
                     {p.date_of_birth ? fmtDate(p.date_of_birth) : t("pp.noDob")}
                     {p.phone ? ` · ${p.phone}` : ""}
+                    {p.id_last4 ? ` · ${t("pp.doc")} …${p.id_last4}` : ""}
                 </small>
             </span>
         </button>
@@ -83,7 +105,7 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
                 <PatientPhoto patientId={value.id} version={value.photo_updated_at ?? null} className="pph-md" />
                 <span className="pp-row-text">
                     <b>{value.full_name}</b>
-                    <small>{value.date_of_birth ? fmtDate(value.date_of_birth) : t("pp.noDob")}{value.phone ? ` · ${value.phone}` : ""}</small>
+                    <small>{value.date_of_birth ? fmtDate(value.date_of_birth) : t("pp.noDob")}{value.phone ? ` · ${value.phone}` : ""}{value.id_last4 ? ` · ${t("pp.doc")} …${value.id_last4}` : ""}</small>
                     <button type="button" className="pp-photo-btn" onClick={() => setPhotoEdit(true)}>
                         {value.photo_updated_at ? t("photo.change") : `+ ${t("photo.add")}`}
                     </button>
@@ -130,7 +152,8 @@ export default function PatientPicker({ value, onChange, autoFocus }) {
                             <option value="F">{t("pp.female")}</option>
                         </select>
                     </label>
-                    <label className="pp-wide">{t("pp.phone")}<input type="tel" value={form.phone} onChange={set("phone")} onKeyDown={onEnter} placeholder="+998 90 123 45 67" maxLength={20} />{err("phone")}</label>
+                    <label>{t("pp.phone")}<input type="tel" value={form.phone} onChange={set("phone")} onKeyDown={onEnter} placeholder="+998 90 123 45 67" maxLength={20} />{err("phone")}</label>
+                    <label>{t("pp.docNumber")}<input value={form.national_id} onChange={set("national_id")} onKeyDown={onEnter} placeholder="AD 1234567" maxLength={30} />{err("national_id")}</label>
                 </div>
                 {errors.detail && <div className="pp-err">{errors.detail}</div>}
                 {dupes ? (

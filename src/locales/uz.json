@@ -829,7 +829,14 @@
     }
   },
   "pp": {
-    "search": "Familiya, ism yoki telefon",
+    "search": "Familiya, ism, telefon yoki hujjatning oxirgi 4 raqami",
+    "doc": "hujjat",
+    "docNumber": "Hujjat raqami (pasport, ID karta)",
+    "gateTitle": "Bemorning rasmi yo'q",
+    "gateText": "Birinchi tashrifda rasm oling: shifokor va registratura keyingi safar yuzni solishtiradi. Rasmni yuqoridagi «+ Rasm qo'shish» orqali oling.",
+    "gateSkip": "Rasmsiz davom etish…",
+    "gateReason": "Nega rasmsiz? (audit jurnaliga yoziladi)",
+    "gatePlaceholder": "Masalan: kamera ishlamayapti",
     "dob": "Tug'ilgan sana",
     "notFound": "Bemor topilmadi",
     "newBtn": "Yangi bemor kartasi",
