@@ -1,0 +1,47 @@
+# ShifoSafe frontend CI: lint, production build va npm zaiflik skaneri.
+# Haftalik ishga tushirish - kod o'zgarmasa ham yangi topilgan zaifliklarni ushlaydi (STRIDE E7).
+name: Frontend CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    - cron: "23 2 * * 1"        # har dushanba 07:23 (Toshkent)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint va build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: oxlint
+        run: npx oxlint src
+      - name: Production build
+        run: npm run build
+
+  audit:
+    name: npm audit (zaifliklar)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Yuqori va kritik darajali zaifliklar bo'lsa - CI qizil
+        run: npm audit --audit-level=high
