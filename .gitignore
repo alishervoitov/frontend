@@ -55,3 +55,9 @@ htmlcov/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node / Vite (kutubxonalar package-lock.json dan `npm ci` bilan o'rnatiladi)
+node_modules/
+dist/
+.vite/
+npm-debug.log*
