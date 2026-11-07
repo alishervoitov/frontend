@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { fmtDate, fmtTime } from "../api/dates";
+import { fmtDate, fmtDateTime, fmtTime } from "../api/dates";
 import client, { downloadPatientHistoryPdf} from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import RecordAttachments from "../components/RecordAttachments";
@@ -10,6 +10,7 @@ import { LabResultCard } from "../components/LabResultsSection";
 import { labApi, mergeHistory } from "../api/labs";
 import EmergencyAccessModal from "../components/EmergencyAccessModal";
 import { PatientPhotoBox } from "../components/PatientPhoto";
+import TempPasswordDialog from "../components/TempPasswordDialog";
 
 function ageOf(dob) {
     if (!dob) return null;
@@ -65,6 +66,7 @@ export default function PatientDetailPage() {
     const [error, setError] = useState("");
     const [showForm, setShowForm] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [pwDialog, setPwDialog] = useState(false);
     const [locked, setLocked] = useState(false);
 
     function loadData() {
@@ -164,9 +166,32 @@ export default function PatientDetailPage() {
                         >
                             ⬇ {t("patientDetail.downloadPdf")}
                         </button>
+                        {patient.login && (
+                            <button className="btn btn-secondary" onClick={() => setPwDialog(true)}>
+                                {patient.login.has_login ? t("tp.btnReset") : patient.login.temp_password_expires ? t("tp.btnReissue") : t("tp.btnIssue")}
+                            </button>
+                        )}
                     </div>
+                    {patient.login && (
+                        <div className={`pd-login-status pp-login-state ${patient.login.has_login ? "is-ok" : patient.login.temp_password_expires ? "is-temp" : ""}`}>
+                            {patient.login.has_login
+                                ? t("tp.stateActive")
+                                : patient.login.temp_password_expires
+                                    ? t("tp.stateTemp", { date: fmtDateTime(patient.login.temp_password_expires) })
+                                    : t("tp.stateNone")}
+                        </div>
+                    )}
                 </div>
             </section>
+
+            {pwDialog && (
+                <TempPasswordDialog
+                    patient={{ id: patient.id, full_name: patient.user.first_name || patient.user.last_name
+                        ? `${patient.user.first_name} ${patient.user.last_name}`.trim() : patient.user.username, ...patient.login }}
+                    onClose={() => setPwDialog(false)}
+                    onIssued={(r) => setPatient((p) => ({ ...p, login: { has_login: false, temp_password_expires: r.expires_at } }))}
+                />
+            )}
 
             {showEdit && (
                 <EditProfileForm

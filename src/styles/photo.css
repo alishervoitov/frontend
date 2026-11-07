@@ -91,3 +91,4 @@
     .pe-grid { grid-template-columns: 1fr; }
     .pe-actions .btn { flex: 1; }
 }
+.pd-login-status { display: block; margin-top: 8px; font-size: 0.82rem; }

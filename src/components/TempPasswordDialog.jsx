@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { queueApi } from "../api/queue";
 import { fmtDateTime } from "../api/dates";
+import "../styles/registry.css";
 
 // Faqat parol qog'ozini chop etish: registratura chiptasi (q-print-area) shu payt yashiriladi
 function printSlip() {
