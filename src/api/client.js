@@ -1,60 +1,75 @@
 import axios from "axios";
 
-export const API_BASE = import.meta.env.PROD ? "/api" : "http://127.0.0.1:8000/api";
+// Dev: API boshqa portda, lekin bir xil xostda - shunda refresh cookie "same-site" bo'lib yuboriladi
+export const API_BASE = import.meta.env.PROD ? "/api" : `${window.location.protocol}//${window.location.hostname}:8000/api`;
 
-const client = axios.create({ baseURL: API_BASE });
+// X-Requested-With - cookie o'qiydigan endpointlar (refresh, logout) uchun CSRF to'sig'i
+const XHR = { "X-Requested-With": "XMLHttpRequest" };
+const client = axios.create({ baseURL: API_BASE, withCredentials: true, headers: XHR });
 
-function getTokens() {
-    try {
-        return JSON.parse(localStorage.getItem("medkarta_tokens") || "null");
-    } catch {
-        return null;
-    }
+// Tokenlar (S6, I7):
+//  * refresh token - httpOnly cookie'da, JavaScript uni umuman ko'rmaydi;
+//  * access token (15 daqiqa) - faqat shu o'zgaruvchida: localStorage'ga yozilmaydi,
+//    sahifa yangilansa cookie orqali qaytadan olinadi.
+let accessToken = null;
+export function setAccessToken(token) {
+    accessToken = token || null;
 }
 
-function setTokens(tokens) {
-    if (tokens) localStorage.setItem("medkarta_tokens", JSON.stringify(tokens));
-    else localStorage.removeItem("medkarta_tokens");
+// Eski versiya tokenlarni localStorage'da saqlardi - qolgan bo'lsa o'chiramiz
+try {
+    localStorage.removeItem("medkarta_tokens");
+} catch {
+    /* brauzer xotirasi yopiq bo'lishi mumkin */
+}
+
+// Sessiya tugaganda (refresh rad etildi) AuthContext xabardor bo'ladi
+const expiredListeners = new Set();
+export function onSessionExpired(fn) {
+    expiredListeners.add(fn);
+    return () => expiredListeners.delete(fn);
+}
+
+let refreshPromise = null;
+// Bir vaqtda bir nechta 401 bo'lsa ham refresh bitta so'rov bilan bajariladi
+export function refreshAccess() {
+    if (!refreshPromise) {
+        refreshPromise = axios
+            .post(`${API_BASE}/auth/login/refresh/`, {}, { withCredentials: true, headers: XHR })
+            .then((r) => {
+                setAccessToken(r.data.access);
+                return r.data.access;
+            })
+            .finally(() => {
+                refreshPromise = null;
+            });
+    }
+    return refreshPromise;
 }
 
 client.interceptors.request.use((config) => {
-    const tokens = getTokens();
-    if (tokens?.access) {
-        config.headers.Authorization = `Bearer ${tokens.access}`;
-    }
+    if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
 });
 
-let refreshPromise = null;
+// Login, 2FA, refresh va logout'ning o'z 401 javobi "sessiya tugadi" degani emas
+const NO_REFRESH = /\/auth\/(login|logout)/;
 
 client.interceptors.response.use(
     (res) => res,
     async (error) => {
-        const original = error.config;
+        const original = error.config || {};
         const status = error.response?.status;
 
-        if (status === 401 && !original._retry && getTokens()?.refresh) {
+        if (status === 401 && !original._retry && !NO_REFRESH.test(original.url || "")) {
             original._retry = true;
             try {
-                if (!refreshPromise) {
-                    const tokens = getTokens();
-                    refreshPromise = axios
-                        .post(`${API_BASE}/auth/login/refresh/`, { refresh: tokens.refresh })
-                        .then((r) => {
-                            const updated = { ...tokens, access: r.data.access };
-                            setTokens(updated);
-                            return updated;
-                        })
-                        .finally(() => {
-                            refreshPromise = null;
-                        });
-                }
-                const updated = await refreshPromise;
-                original.headers.Authorization = `Bearer ${updated.access}`;
+                const token = await refreshAccess();
+                original.headers.Authorization = `Bearer ${token}`;
                 return client(original);
             } catch {
-                setTokens(null);
-                window.location.href = "/login";
+                setAccessToken(null);
+                expiredListeners.forEach((fn) => fn());
             }
         }
         // Admin/shifokor 2FA ni sozlamagan: istalgan so'rov shu kod bilan rad etiladi
@@ -65,7 +80,6 @@ client.interceptors.response.use(
     }
 );
 
-export { getTokens, setTokens };
 export async function downloadPatientHistoryPdf(patientId, filename, lang) {
     const currentLang = lang || localStorage.getItem("i18nextLng") || "uz";
     const res = await client.get(`/records/patients/${patientId}/history-pdf/`, {

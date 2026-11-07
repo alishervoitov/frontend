@@ -1,30 +1,48 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import client, { getTokens, setTokens } from "../api/client";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import client, { onSessionExpired, refreshAccess, setAccessToken } from "../api/client";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const channel = useRef(null);
 
     useEffect(() => {
-        const tokens = getTokens();
-        if (!tokens?.access) {
-            setLoading(false);
-            return;
+        let alive = true;
+        // Sahifa ochilganda: httpOnly cookie bo'lsa - yangi access token, keyin profil
+        refreshAccess()
+            .then(() => client.get("/auth/me/"))
+            .then((res) => alive && setUser(res.data))
+            .catch(() => setAccessToken(null))
+            .finally(() => alive && setLoading(false));
+
+        // Sessiya tugadi (refresh rad etildi): foydalanuvchi chiqariladi, ProtectedRoute /login ga yuboradi
+        const offExpired = onSessionExpired(() => setUser(null));
+
+        // Bir tabda chiqilsa, boshqa tablar ham darhol chiqadi
+        if ("BroadcastChannel" in window) {
+            channel.current = new BroadcastChannel("shifosafe-auth");
+            channel.current.onmessage = (e) => {
+                if (e.data === "logout") {
+                    setAccessToken(null);
+                    setUser(null);
+                }
+            };
         }
-        client
-            .get("/auth/me/")
-            .then((res) => setUser(res.data))
-            .catch(() => setTokens(null))
-            .finally(() => setLoading(false));
+        return () => {
+            alive = false;
+            offExpired();
+            channel.current?.close();
+        };
     }, []);
 
-    // Parol to'g'ri, lekin 2FA yoqilgan bo'lsa tokenlar berilmaydi: { mfaToken } qaytadi
+    // Parol to'g'ri, lekin 2FA yoqilgan bo'lsa tokenlar berilmaydi: { mfaToken } qaytadi.
+    // Refresh token javob tanasida kelmaydi - server uni httpOnly cookie qilib qo'yadi.
     async function login(username, password) {
         const res = await client.post("/auth/login/", { username, password });
         if (res.data.mfa_required) return { mfaToken: res.data.mfa_token };
-        setTokens({ access: res.data.access, refresh: res.data.refresh });
+        setAccessToken(res.data.access);
         setUser(res.data.user);
         return res.data.user;
     }
@@ -32,7 +50,7 @@ export function AuthProvider({ children }) {
     // Ikkinchi bosqich: ilovadagi 6 xonali kod yoki zaxira kod
     async function loginMfa(mfaToken, code) {
         const res = await client.post("/auth/login/2fa/", { mfa_token: mfaToken, code });
-        setTokens({ access: res.data.access, refresh: res.data.refresh });
+        setAccessToken(res.data.access);
         setUser(res.data.user);
         return { user: res.data.user, backupRemaining: res.data.backup_remaining };
     }
@@ -43,16 +61,14 @@ export function AuthProvider({ children }) {
     }
 
     async function logout() {
-        const tokens = getTokens();
         try {
-            if (tokens?.refresh) {
-                await client.post("/auth/logout/", { refresh: tokens.refresh });
-            }
+            await client.post("/auth/logout/");      // server cookie'ni o'chiradi va sessiyani yopadi
         } catch {
             // logout so'rovi muvaffaqiyatsiz bo'lsa ham, lokal holatni tozalaymiz
         }
-        setTokens(null);
+        setAccessToken(null);
         setUser(null);
+        channel.current?.postMessage("logout");
     }
 
     const value = { user, loading, login, loginMfa, register, logout, setUser };
