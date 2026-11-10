@@ -23,6 +23,7 @@ import KioskPage from "./pages/KioskPage";
 import ArrivePage from "./pages/ArrivePage";
 import SessionsPage from "./pages/SessionsPage";
 import SecurityPage from "./pages/SecurityPage";
+import AccountPage from "./pages/AccountPage";
 import AdminQueueStatsPage from "./pages/AdminQueueStatsPage";
 import LabPage from "./pages/LabPage";
 import AccessLogPage from "./pages/AccessLogPage";
@@ -60,6 +61,7 @@ export default function App() {
                         <Route path="/me" element={<MePage />} />
                         <Route path="/sessions" element={<SessionsPage />} />
                         <Route path="/security" element={<SecurityPage />} />
+                        <Route path="/account" element={<AccountPage />} />
                         <Route
                             path="/queue"
                             element={

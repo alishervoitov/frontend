@@ -72,6 +72,7 @@ function PatientHome({ user, onAvatarUpdated }) {
                         <div className="profile-links">
                             <Link to="/my-access" className="q-back profile-access-link">{t("access.link")} →</Link>
                             <Link to="/sessions" className="q-back profile-access-link">{t("sessions.title")} →</Link>
+                            <Link to="/account" className="q-back profile-access-link">{t("account.editLink")} →</Link>
                         </div>
                         </div>
                         {/* Karta rasmi (3x4): registratura va shifokor shaxsni shu bilan tasdiqlaydi */}

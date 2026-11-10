@@ -151,6 +151,10 @@ export default function Layout() {
                                         <span className="user-menu-ico"><NavIcon name="profile" size={18} /></span>
                                         <span className="user-menu-item-text"><b>{t("nav.myProfile")}</b><small>{t("nav.myProfileHint")}</small></span>
                                     </Link>
+                                    <Link role="menuitem" to="/account" className="user-menu-item">
+                                        <span className="user-menu-ico"><NavIcon name="settings" size={18} /></span>
+                                        <span className="user-menu-item-text"><b>{t("account.title")}</b><small>{t("account.menuHint")}</small></span>
+                                    </Link>
                                     <Link role="menuitem" to="/security" className="user-menu-item">
                                         <span className="user-menu-ico"><NavIcon name="key" size={18} /></span>
                                         <span className="user-menu-item-text"><b>{t("mfa.title")}</b><small>{user?.mfa_enabled ? t("mfa.on") : t("mfa.off")}</small></span>
@@ -212,6 +216,9 @@ export default function Layout() {
                         <div className="side-group-title">{t("nav.groupAccount")}</div>
                         <Link to="/me" className={`side-link ${pathname === "/me" ? "active" : ""}`}>
                             <NavIcon name="profile" /><span className="side-link-label">{t("nav.myProfile")}</span>
+                        </Link>
+                        <Link to="/account" className={`side-link ${isActive("/account") ? "active" : ""}`}>
+                            <NavIcon name="settings" /><span className="side-link-label">{t("account.title")}</span>
                         </Link>
                         <Link to="/security" className={`side-link ${isActive("/security") ? "active" : ""}`}>
                             <NavIcon name="key" /><span className="side-link-label">{t("mfa.title")}</span>

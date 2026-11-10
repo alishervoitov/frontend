@@ -18,6 +18,7 @@ const PATHS = {
     logout: "M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3 M10 16l-4-4 4-4 M6 12h10",
     menu: "M4 7h16 M4 12h16 M4 17h16",
     close: "M6 6l12 12 M18 6L6 18",
+    settings: "M4 6h9 M17 6h3 M15 4v4 M4 12h3 M11 12h9 M9 10v4 M4 18h11 M19 18h1 M17 16v4",
 };
 
 export default function NavIcon({ name, size = 20 }) {
