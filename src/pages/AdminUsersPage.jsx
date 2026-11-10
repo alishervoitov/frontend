@@ -256,7 +256,7 @@ function NewUserForm({ onCreated }) {
             </div>
             <div className="field">
                 <label>{t("auth.email")}</label>
-                <input type="email" value={form.email} onChange={update("email")} />
+                <input type="email" value={form.email} onChange={update("email")} required />
             </div>
             <div className="field">
                 <label>{t("auth.password")}</label>
