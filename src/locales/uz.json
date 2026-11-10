@@ -859,6 +859,25 @@
     "dupCreate": "Yo'q, baribir yangi karta ochish",
     "newHint": "Karta registratura va shifokor orqali yuritiladi. Bemor ilovaga kirishi uchun kartani tanlab «Parol berish»ni bosing."
   },
+  "emailVerify": {
+    "title": "Emailingizni tasdiqlang",
+    "hint": "{{email}} manziliga 6 xonali kod yuborildi. Parolni tiklash faqat tasdiqlangan emailga ishlaydi.",
+    "codeLabel": "Tasdiqlash kodi",
+    "confirm": "Tasdiqlash",
+    "resend": "Kodni qayta yuborish",
+    "resendIn": "Qayta yuborish ({{s}} s)",
+    "sent": "Yangi kod {{email}} manziliga yuborildi.",
+    "close": "Yopish",
+    "done": "Email tasdiqlandi.",
+    "errors": {
+      "invalid": "Kod noto'g'ri.",
+      "no_code": "Kod topilmadi yoki muddati tugagan. Yangi kod so'rang.",
+      "too_many": "Juda ko'p noto'g'ri urinish. Yangi kod so'rang.",
+      "cooldown": "Kodni qayta yuborishdan oldin bir daqiqa kuting.",
+      "daily_limit": "Bugun uchun kod yuborish chegarasi tugadi. Ertaga qayta urinib ko'ring.",
+      "no_email": "Hisobda email yo'q."
+    }
+  },
   "mfa": {
     "title": "Ikki bosqichli kirish",
     "on": "Yoqilgan",

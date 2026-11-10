@@ -7,6 +7,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import NotificationBell from "./NotificationBell";
 import NavIcon from "./NavIcon";
 import { RouteErrorBoundary } from "./ErrorBoundary";
+import EmailVerifyBanner from "./EmailVerifyBanner";
 
 // Rol bo'yicha menyu: kompyuterda yuqori qatorda, telefon/planshetda yon panelda (guruhlangan)
 function menuFor(role, t, counts) {
@@ -229,6 +230,7 @@ export default function Layout() {
                 </div>
             </aside>
             {/* Sahifadagi xato menyuni ham olib ketmasin */}
+            <EmailVerifyBanner />
             <RouteErrorBoundary><Outlet /></RouteErrorBoundary>
         </div>
     );

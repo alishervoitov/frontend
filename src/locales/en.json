@@ -851,6 +851,25 @@
     "dupCreate": "No, open a new record anyway",
     "newHint": "The record is kept by the registry and doctors. To let the patient sign in to the app, select the record and click “Issue password”."
   },
+  "emailVerify": {
+    "title": "Confirm your email",
+    "hint": "A 6-digit code was sent to {{email}}. Password reset only works for a confirmed email.",
+    "codeLabel": "Confirmation code",
+    "confirm": "Confirm",
+    "resend": "Resend code",
+    "resendIn": "Resend ({{s}} s)",
+    "sent": "A new code was sent to {{email}}.",
+    "close": "Close",
+    "done": "Email confirmed.",
+    "errors": {
+      "invalid": "Incorrect code.",
+      "no_code": "Code not found or expired. Request a new one.",
+      "too_many": "Too many wrong attempts. Request a new code.",
+      "cooldown": "Wait a minute before resending.",
+      "daily_limit": "Today's code limit is reached. Try again tomorrow.",
+      "no_email": "The account has no email."
+    }
+  },
   "mfa": {
     "title": "Two-step sign-in",
     "on": "On",
