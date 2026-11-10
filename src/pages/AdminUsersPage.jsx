@@ -115,7 +115,9 @@ export default function AdminUsersPage() {
                                 <tr key={u.id} className={u.is_active === false ? "au-inactive" : ""}>
                                     <td className="au-clip au-name" data-label={t("patients.fullName")}>{name || <span className="cell-muted">—</span>}</td>
                                     <td className="cell-muted au-clip" data-label={t("patients.username")}>{u.username}</td>
-                                    <td className="cell-muted au-clip" data-label={t("admin.email")}>{u.email || "—"}</td>
+                                    <td className="cell-muted au-clip" data-label={t("admin.email")}>
+                                        <EmailCell user={u} onSaved={(data) => setUsers((list) => list.map((x) => (x.id === u.id ? { ...x, ...data } : x)))} />
+                                    </td>
                                     <td className="au-role" data-label={t("admin.role")}><span className={`badge badge-${u.role}`}>{t(`roles.${u.role}`)}</span></td>
                                     <td className={u.role === "doctor" ? "" : "au-empty"} data-label={t("queue.specialty")}>{u.role === "doctor" ? <SpecialtyCell user={u} /> : <span className="cell-muted">—</span>}</td>
                                     <td data-label={t("mfa.col")}>
@@ -154,6 +156,64 @@ export default function AdminUsersPage() {
 }
 
 // Mavjud shifokorning mutaxassisligini jadvalning o'zida o'zgartirish
+// Administrator emailni tahrirlaydi: backend tekshiradi (format, takrorlanmaslik, xodimda majburiy),
+// har bir o'zgarishni audit jurnaliga, xodim hisobida Telegram'ga ham yozadi.
+function EmailCell({ user, onSaved }) {
+    const { t } = useTranslation();
+    const [editing, setEditing] = useState(false);
+    const [value, setValue] = useState(user.email || "");
+    const [error, setError] = useState("");
+    const [saving, setSaving] = useState(false);
+
+    function start() {
+        setValue(user.email || "");
+        setError("");
+        setEditing(true);
+    }
+
+    async function save(e) {
+        e.preventDefault();
+        const next = value.trim();
+        if (next.toLowerCase() === (user.email || "").toLowerCase()) {
+            setEditing(false);
+            return;
+        }
+        if (user.role !== "patient" && !window.confirm(t("admin.emailStaffConfirm", { name: user.username }))) return;
+        setSaving(true);
+        setError("");
+        try {
+            const res = await client.patch(`/auth/users/${user.id}/`, { email: next });
+            onSaved(res.data);
+            setEditing(false);
+        } catch (err) {
+            const d = err.response?.data;
+            setError(d?.email?.[0] || d?.detail || t("queue.errors.generic"));
+        } finally {
+            setSaving(false);
+        }
+    }
+
+    if (!editing) {
+        return (
+            <span className="au-email">
+                <span>{user.email || "—"}</span>
+                <button type="button" className="au-email-edit" onClick={start} title={t("admin.editEmail")} aria-label={t("admin.editEmail")}>✎</button>
+            </span>
+        );
+    }
+    return (
+        <form className="au-email-form" onSubmit={save}>
+            <input type="email" value={value} onChange={(e) => setValue(e.target.value)} required={user.role !== "patient"}
+                   maxLength={254} autoFocus aria-label={t("admin.email")} />
+            <span className="au-email-actions">
+                <button type="submit" className="au-status off" disabled={saving}>{t("admin.emailSave")}</button>
+                <button type="button" className="au-status" onClick={() => setEditing(false)} disabled={saving}>{t("admin.emailCancel")}</button>
+            </span>
+            {error && <span className="q-err au-email-err">{error}</span>}
+        </form>
+    );
+}
+
 function SpecialtyCell({ user }) {
     const { t } = useTranslation();
     const [value, setValue] = useState(user.specialty || "");

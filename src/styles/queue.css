@@ -172,6 +172,13 @@
 .au-search { max-width: 300px; margin: 0; }
 .au-table td { vertical-align: middle; }
 .au-clip { max-width: 240px; overflow-wrap: anywhere; }
+.au-email { display: inline-flex; align-items: center; gap: 6px; }
+.au-email-edit { background: none; border: none; padding: 2px 4px; font: inherit; color: var(--ink-muted); cursor: pointer; opacity: 0.7; border-radius: var(--radius-sm); }
+.au-email-edit:hover, .au-email-edit:focus-visible { opacity: 1; background: var(--surface-sunken); }
+.au-email-form { display: flex; flex-direction: column; gap: 6px; min-width: 200px; }
+.au-email-form input { font: inherit; font-size: 0.85rem; padding: 5px 8px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface, transparent); color: inherit; }
+.au-email-actions { display: flex; gap: 6px; }
+.au-email-err { font-weight: 500; font-size: 0.8rem; white-space: normal; }
 .au-inactive td { opacity: 0.55; }
 .au-inactive td:last-child { opacity: 1; }
 .au-status { background: none; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 5px 10px; font: inherit; font-size: 0.8rem; color: var(--danger); cursor: pointer; white-space: nowrap; }
