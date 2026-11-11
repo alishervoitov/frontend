@@ -1,5 +1,7 @@
 {
-  "app": { "name": "ShifoSafe" },
+  "app": {
+    "name": "ShifoSafe"
+  },
   "nav": {
     "patients": "Patients",
     "users": "Users",
@@ -60,11 +62,19 @@
     "passwordMismatch": "Passwords do not match.",
     "invalidLink": "This link is invalid or has expired."
   },
-  "roles": { "admin": "ADMIN", "doctor": "DOCTOR", "patient": "PATIENT",
-    "lab": "LAB" },
+  "roles": {
+    "admin": "ADMIN",
+    "doctor": "DOCTOR",
+    "patient": "PATIENT",
+    "lab": "LAB"
+  },
   "me": {
     "fullName": "Full name",
-    "genderValue": {"M": "Male", "F": "Female", "O": "Other"},
+    "genderValue": {
+      "M": "Male",
+      "F": "Female",
+      "O": "Other"
+    },
     "hello": "Hello, {{name}}!",
     "welcome": "Welcome, {{name}}!",
     "patientSubtitle": "This is your personal dashboard.",
@@ -188,7 +198,14 @@
     "selectAtLeastOne": "Select at least one quasi-identifier.",
     "groupSize": "Size",
     "hidden": "Hidden",
-    "filter": {"all": "All", "doctor": "Doctors", "lab": "Lab staff", "patient": "Patients", "admin": "Admins", "inactive": "Inactive"},
+    "filter": {
+      "all": "All",
+      "doctor": "Doctors",
+      "lab": "Lab staff",
+      "patient": "Patients",
+      "admin": "Admins",
+      "inactive": "Inactive"
+    },
     "editEmail": "Change email",
     "emailSave": "Save",
     "emailCancel": "Cancel",
@@ -219,98 +236,75 @@
     "as_needed": "As needed"
   },
   "auditActions": {
-    "view": "View", "create": "Create", "update": "Update",
-    "delete": "Delete", "login": "Login", "login_failed": "Failed login",
+    "view": "View",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "login": "Login",
+    "login_failed": "Failed login",
     "export": "Export"
   },
-  "actions": { "close": "Close", "yes": "Yes", "no": "No" },
+  "actions": {
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No"
+  },
   "landing": {
-    "eyebrow": "Medical records system",
-    "heroTitleA": "Medical history:",
-    "heroTitleB": "secure, in one place",
-    "heroText": "Medical records for doctor and patient.",
-    "chips": {
-      "roles": "Role-based access",
-      "session": "Secure sessions",
-      "audit": "Audit log"
-    },
-    "mock": {
-      "title": "My medical history",
-      "r1": {
-        "date": "12.03",
-        "diag": "General checkup",
-        "sub": "Doctor's recommendations"
-      },
-      "r2": {
-        "date": "28.03",
-        "diag": "Blood test",
-        "sub": "Results added"
-      },
-      "r3": {
-        "date": "15.04",
-        "diag": "Follow-up visit",
-        "sub": "Treatment continues"
-      },
-      "pdf": "Download PDF",
-      "note": "Sample data, not real patients",
-      "badge": "Only you can see it"
-    },
-    "stepsTitle": "How it works",
-    "steps": {
-      "1": {
-        "title": "Sign up",
-        "text": "Create a patient account and log in."
-      },
-      "2": {
-        "title": "Doctor adds a record",
-        "text": "Diagnosis, treatment and files are added to your history."
-      },
-      "3": {
-        "title": "View and download",
-        "text": "See your history in your portal and save it as PDF."
-      }
-    },
-    "featuresTitle": "Features",
-    "features": {
+    "title": "You can see who opened your medical record",
+    "lead": "ShifoSafe is an electronic medical record for a clinic. A doctor opens your record only for the period you allowed, and every access shows up in your account with a name and a time.",
+    "shotAccessAlt": "The Access history page in the patient account: accesses by a doctor, a lab technician and an administrator, with date and time",
+    "shotAccessCaption": "The Access history page in the patient account (Uzbek interface). Names and records are samples, not real patients.",
+    "consentTitle": "You give permission, and you take it back",
+    "consentP1": "You pick a doctor and a period: 1 day, 7 days, 30 days or no end date. You can revoke the permission at any time. The doctor you are booked with today can see your record until the end of the day.",
+    "consentP2": "In an emergency a doctor can get in without permission, but must write down the reason. That access closes by itself after 60 minutes, the security team is notified, and it is shown to you.",
+    "shotConsentAlt": "The Permissions page: choosing a doctor, a period, and a button to revoke a permission",
+    "shotConsentCaption": "The Permissions page with sample data (Uzbek interface).",
+    "rolesTitle": "Who does what",
+    "roles": {
       "patient": {
-        "title": "Patient portal",
-        "text": "Your profile, medical history and prescriptions in one place."
+        "title": "Patient",
+        "a": "Books a visit to a doctor online.",
+        "b": "Reads their medical history, prescriptions and lab results, and downloads the history as a PDF.",
+        "c": "Gives a doctor permission and watches who opened the record."
       },
       "doctor": {
-        "title": "Doctor panel",
-        "text": "Search patients, add medical records and files."
+        "title": "Doctor",
+        "a": "Sees today's queue and calls the next patient.",
+        "b": "Writes visit notes and prescriptions and attaches files.",
+        "c": "Opens only the records of patients who gave permission or are booked for today."
       },
-      "pdf": {
-        "title": "PDF download",
-        "text": "Download your medical history as a PDF."
-      },
-      "admin": {
-        "title": "Administrator",
-        "text": "User management, audit log and data anonymization."
+      "desk": {
+        "title": "Front desk and laboratory",
+        "a": "Registers a patient and adds a 3×4 photo to the record.",
+        "b": "Issues a queue ticket, and a temporary password for a patient who forgot theirs.",
+        "c": "A lab technician enters the result, and the patient sees it in their account."
       }
     },
-    "securityEyebrow": "Protection",
-    "securityTitle": "Your data is protected",
-    "securityText": "Medical data is among the most sensitive. The system restricts access by role and records actions.",
-    "security": {
-      "roles": "Role-based access: a patient sees only their own records.",
-      "session": "The session is revoked when you log out.",
-      "audit": "Actions are recorded in the audit log.",
-      "https": "Communication is encrypted over HTTPS."
-    },
-    "finalTitle": "Ready to get started?",
-    "footerNote": "Research prototype for a master's thesis",
-    "cards": {
-      "rx": {
-        "title": "Prescription",
-        "l1": "Medication name · twice daily",
-        "l2": "Course: 7 days"
+    "checksTitle": "How it was checked",
+    "checksLead": "The word “secure” proves nothing by itself. So we list what was done, with dates.",
+    "checksOpen": "The test suite and the results are published openly:",
+    "checks": {
+      "pentest": {
+        "when": "19 October 2026",
+        "what": "An independent tester attacked the system from outside and reported 9 findings. The confirmed ones were fixed."
       },
-      "pdf": {
-        "title": "PDF report",
-        "sub": "medical_history.pdf"
+      "retest": {
+        "when": "9 November 2026",
+        "what": "A re-test on the running system passed 89 of 89 tests."
+      },
+      "restore": {
+        "when": "10 November 2026",
+        "what": "A backup was restored into a separate database and verified. Backups are taken every 6 hours and kept encrypted in three places."
+      },
+      "ci": {
+        "when": "On every change",
+        "what": "More than 360 automated tests run, and the libraries in use are checked for known vulnerabilities."
       }
-    }
+    },
+    "aboutTitle": "About the project",
+    "aboutP1": "ShifoSafe was built at the Department of Software Engineering of Andijan State University as part of a master's thesis in information security. Author: Alisher Voitov.",
+    "aboutP2": "It is a research prototype. The system works and has been checked, but it is not yet officially in use at any clinic.",
+    "footerNote": "A research prototype built for a master's thesis"
   },
   "queue": {
     "title": "Doctor appointment queue",
@@ -851,7 +845,45 @@
     "dupCreate": "No, open a new record anyway",
     "newHint": "The record is kept by the registry and doctors. To let the patient sign in to the app, select the record and click “Issue password”."
   },
-  "account": {"title": "Profile settings", "menuHint": "Contact details and password", "editLink": "Edit details", "lead": "Update your contact details and change your password.", "contactTitle": "Contact details", "phone": "Phone number", "email": "Email", "staffEmailHint": "Staff email is changed by an administrator.", "emailVerified": "Email confirmed", "emailNotVerified": "Email not confirmed yet — confirm it in the box at the top of the page.", "currentPasswordForEmail": "Current password to change email", "emailChangeHint": "A confirmation code goes to the new email, and a notice goes to the old one.", "address": "Home address", "emergency": "Emergency contact", "emergencyPlaceholder": "E.g. Mother, +998901234567", "birthDate": "Date of birth", "dobOnce": "Set once. After that only the registry can change it.", "dobLocked": "Contact the registry to change it.", "save": "Save", "saving": "Saving...", "saved": "Details saved.", "savedEmail": "Saved. A confirmation code was sent to your new email.", "saveError": "Could not save. Please try again.", "lockedTitle": "Details changed by a doctor or the registry", "lockedLead": "These details are used for treatment and identification, so only a doctor or the registry changes them, based on documents. If something is wrong, tell staff at your visit.", "lockedLeadStaff": "Name and username are changed by an administrator.", "username": "Username", "pwTitle": "Change password", "pwLead": "After the change, all other devices are signed out. You stay signed in on this one.", "currentPassword": "Current password", "newPassword": "New password", "newPasswordConfirm": "Repeat new password", "pwRules": "At least 10 characters; not too simple or similar to your name.", "pwSubmit": "Change password", "pwChanged": "Password changed. Other devices signed out: {{count}}.", "pwError": "Could not change the password. Please try again.", "forgotHint": "If you don't remember your current password, sign out and use “Forgot password?” on the sign-in page. Check unfamiliar devices here:"},
+  "account": {
+    "title": "Profile settings",
+    "menuHint": "Contact details and password",
+    "editLink": "Edit details",
+    "lead": "Update your contact details and change your password.",
+    "contactTitle": "Contact details",
+    "phone": "Phone number",
+    "email": "Email",
+    "staffEmailHint": "Staff email is changed by an administrator.",
+    "emailVerified": "Email confirmed",
+    "emailNotVerified": "Email not confirmed yet — confirm it in the box at the top of the page.",
+    "currentPasswordForEmail": "Current password to change email",
+    "emailChangeHint": "A confirmation code goes to the new email, and a notice goes to the old one.",
+    "address": "Home address",
+    "emergency": "Emergency contact",
+    "emergencyPlaceholder": "E.g. Mother, +998901234567",
+    "birthDate": "Date of birth",
+    "dobOnce": "Set once. After that only the registry can change it.",
+    "dobLocked": "Contact the registry to change it.",
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Details saved.",
+    "savedEmail": "Saved. A confirmation code was sent to your new email.",
+    "saveError": "Could not save. Please try again.",
+    "lockedTitle": "Details changed by a doctor or the registry",
+    "lockedLead": "These details are used for treatment and identification, so only a doctor or the registry changes them, based on documents. If something is wrong, tell staff at your visit.",
+    "lockedLeadStaff": "Name and username are changed by an administrator.",
+    "username": "Username",
+    "pwTitle": "Change password",
+    "pwLead": "After the change, all other devices are signed out. You stay signed in on this one.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "newPasswordConfirm": "Repeat new password",
+    "pwRules": "At least 10 characters; not too simple or similar to your name.",
+    "pwSubmit": "Change password",
+    "pwChanged": "Password changed. Other devices signed out: {{count}}.",
+    "pwError": "Could not change the password. Please try again.",
+    "forgotHint": "If you don't remember your current password, sign out and use “Forgot password?” on the sign-in page. Check unfamiliar devices here:"
+  },
   "emailVerify": {
     "title": "Confirm your email",
     "hint": "A 6-digit code was sent to {{email}}. Password reset only works for a confirmed email.",

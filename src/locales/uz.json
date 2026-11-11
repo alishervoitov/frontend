@@ -70,7 +70,11 @@
   },
   "me": {
     "fullName": "F.I.Sh.",
-    "genderValue": {"M": "Erkak", "F": "Ayol", "O": "Boshqa"},
+    "genderValue": {
+      "M": "Erkak",
+      "F": "Ayol",
+      "O": "Boshqa"
+    },
     "hello": "Salom, {{name}}!",
     "welcome": "Xush kelibsiz, {{name}}!",
     "patientSubtitle": "Bu — sizning shaxsiy kabinetingiz.",
@@ -194,7 +198,14 @@
     "selectAtLeastOne": "Kamida bitta bilvosita identifikator tanlang.",
     "groupSize": "Hajmi",
     "hidden": "Yashirildi",
-    "filter": {"all": "Hammasi", "doctor": "Shifokorlar", "lab": "Laborantlar", "patient": "Bemorlar", "admin": "Adminlar", "inactive": "Faolsizlar"},
+    "filter": {
+      "all": "Hammasi",
+      "doctor": "Shifokorlar",
+      "lab": "Laborantlar",
+      "patient": "Bemorlar",
+      "admin": "Adminlar",
+      "inactive": "Faolsizlar"
+    },
     "editEmail": "Emailni o'zgartirish",
     "emailSave": "Saqlash",
     "emailCancel": "Bekor qilish",
@@ -225,8 +236,12 @@
     "as_needed": "Zarurat bo'yicha"
   },
   "auditActions": {
-    "view": "Ko'rish", "create": "Yaratish", "update": "Tahrirlash",
-    "delete": "O'chirish", "login": "Kirish", "login_failed": "Muvaffaqiyatsiz kirish",
+    "view": "Ko'rish",
+    "create": "Yaratish",
+    "update": "Tahrirlash",
+    "delete": "O'chirish",
+    "login": "Kirish",
+    "login_failed": "Muvaffaqiyatsiz kirish",
     "export": "Eksport qilish"
   },
   "actions": {
@@ -235,92 +250,61 @@
     "no": "Yo'q"
   },
   "landing": {
-    "eyebrow": "Tibbiy yozuvlar tizimi",
-    "heroTitleA": "Kasallik tarixi:",
-    "heroTitleB": "xavfsiz, bir joyda",
-    "heroText": "Tibbiy yozuvlar shifokor va bemor uchun.",
-    "chips": {
-      "roles": "Rolga asoslangan kirish",
-      "session": "Xavfsiz sessiyalar",
-      "audit": "Audit jurnali"
-    },
-    "mock": {
-      "title": "Kasallik tarixim",
-      "r1": {
-        "date": "12.03",
-        "diag": "Umumiy ko'rik",
-        "sub": "Shifokor tavsiyalari"
-      },
-      "r2": {
-        "date": "28.03",
-        "diag": "Qon tahlili",
-        "sub": "Natijalar kiritildi"
-      },
-      "r3": {
-        "date": "15.04",
-        "diag": "Nazorat ko'rigi",
-        "sub": "Davolash davom etadi"
-      },
-      "pdf": "PDF yuklab olish",
-      "note": "Namuna ma'lumotlar, real bemorlar emas",
-      "badge": "Faqat siz ko'rasiz"
-    },
-    "stepsTitle": "Qanday ishlaydi",
-    "steps": {
-      "1": {
-        "title": "Ro'yxatdan o'ting",
-        "text": "Bemor sifatida hisob yarating va tizimga kiring."
-      },
-      "2": {
-        "title": "Shifokor yozuv kiritadi",
-        "text": "Tashxis, davolash va fayllar kasallik tarixiga qo'shiladi."
-      },
-      "3": {
-        "title": "Ko'ring va yuklab oling",
-        "text": "Tarixingizni kabinetda ko'ring va PDF ko'rinishida saqlang."
-      }
-    },
-    "featuresTitle": "Imkoniyatlar",
-    "features": {
+    "title": "Kartangizni kim ochganini o'zingiz ko'rasiz",
+    "lead": "ShifoSafe — klinika uchun elektron tibbiy karta. Shifokor kartangizni faqat siz ruxsat bergan muddatda ochadi, har bir murojaat esa ismi va vaqti bilan kabinetingizda ko'rinib turadi.",
+    "shotAccessAlt": "Bemor kabinetidagi «Kirishlar tarixi» sahifasi: shifokor, laborant va administratorning murojaatlari sana va vaqt bilan",
+    "shotAccessCaption": "Bemor kabinetidagi «Kirishlar tarixi» sahifasi. Ismlar va yozuvlar namuna, real bemorlar emas.",
+    "consentTitle": "Ruxsatni siz berasiz va siz qaytarib olasiz",
+    "consentP1": "Shifokorni tanlaysiz va muddat belgilaysiz: 1 kun, 7 kun, 30 kun yoki muddatsiz. Ruxsatni istalgan payt bekor qilish mumkin. Bugun navbat olgan shifokoringiz kartani kun oxirigacha ko'ra oladi.",
+    "consentP2": "Shoshilinch holatda shifokor ruxsatsiz ham kira oladi, lekin sababini yozishi shart. Bunday kirish 60 daqiqadan keyin o'zi yopiladi, xavfsizlik xizmatiga xabar boradi va u sizga ham ko'rsatiladi.",
+    "shotConsentAlt": "«Ruxsatlar» sahifasi: shifokorni tanlash, muddat va berilgan ruxsatni bekor qilish tugmasi",
+    "shotConsentCaption": "«Ruxsatlar» sahifasi, namuna ma'lumotlar bilan.",
+    "rolesTitle": "Kim nima qiladi",
+    "roles": {
       "patient": {
-        "title": "Bemor kabineti",
-        "text": "Shaxsiy profil, kasallik tarixi va retseptlarni bir joyda ko'ring."
+        "title": "Bemor",
+        "a": "Shifokor qabuliga onlayn navbat oladi.",
+        "b": "Kasallik tarixi, retsept va tahlil natijalarini ko'radi, tarixni PDF qilib yuklab oladi.",
+        "c": "Shifokorga ruxsat beradi va kartasiga kim kirganini kuzatadi."
       },
       "doctor": {
-        "title": "Shifokor paneli",
-        "text": "Bemorlar ro'yxatidan qidiring, tibbiy yozuv va fayllar qo'shing."
+        "title": "Shifokor",
+        "a": "Bugungi navbatni ko'radi va bemorni chaqiradi.",
+        "b": "Ko'rik yozuvi va retsept yozadi, fayl biriktiradi.",
+        "c": "Faqat ruxsat bergan yoki bugun navbatda turgan bemorning kartasini ochadi."
       },
-      "pdf": {
-        "title": "PDF yuklab olish",
-        "text": "Kasallik tarixini PDF ko'rinishida yuklab oling."
-      },
-      "admin": {
-        "title": "Administrator",
-        "text": "Foydalanuvchilarni boshqarish, audit jurnali va ma'lumotlarni anonimlashtirish."
+      "desk": {
+        "title": "Registratura va laboratoriya",
+        "a": "Bemorni ro'yxatga oladi va kartaga 3×4 rasm qo'shadi.",
+        "b": "Navbatga chipta beradi, parolini unutgan bemorga vaqtinchalik parol chiqarib beradi.",
+        "c": "Laborant tahlil natijasini kiritadi, bemor uni kabinetida ko'radi."
       }
     },
-    "securityEyebrow": "Himoya",
-    "securityTitle": "Ma'lumotlaringiz himoyada",
-    "securityText": "Tibbiy ma'lumot eng nozik ma'lumotlardan biri. Tizim kirishni rollar bo'yicha cheklaydi va amallarni qayd etadi.",
-    "security": {
-      "roles": "Rolga asoslangan ruxsatlar: bemor faqat o'z yozuvlarini ko'radi.",
-      "session": "Tizimdan chiqqanda sessiya bekor qilinadi.",
-      "audit": "Amallar audit jurnalida qayd etiladi.",
-      "https": "Aloqa HTTPS orqali shifrlanadi."
-    },
-    "finalTitle": "Boshlashga tayyormisiz?",
-    "footerNote": "Magistrlik dissertatsiyasi doirasidagi tadqiqot prototipi",
-    "cards": {
-      "rx": {
-        "title": "Retsept",
-        "l1": "Dori nomi · kuniga 2 mahal",
-        "l2": "Davomiyligi: 7 kun"
+    "checksTitle": "Qanday tekshirilgan",
+    "checksLead": "«Xavfsiz» degan so'zning o'zi hech narsani isbotlamaydi. Shuning uchun nima qilinganini sanasi bilan yozamiz.",
+    "checksOpen": "Test paketi va natijalar ochiq e'lon qilingan:",
+    "checks": {
+      "pentest": {
+        "when": "2026-yil 19-oktyabr",
+        "what": "Mustaqil tekshiruvchi tizimga tashqaridan hujum qildi va 9 ta topilma qayd etdi. Tasdiqlanganlari tuzatildi."
       },
-      "pdf": {
-        "title": "PDF hisobot",
-        "sub": "kasallik_tarixi.pdf"
+      "retest": {
+        "when": "2026-yil 9-noyabr",
+        "what": "Ishlab turgan tizimda qayta test o'tkazildi: 89 ta testdan 89 tasi o'tdi."
+      },
+      "restore": {
+        "when": "2026-yil 10-noyabr",
+        "what": "Zaxira nusxa alohida bazaga tiklab tekshirildi. Zaxira har 6 soatda olinadi va shifrlangan holda uch joyda saqlanadi."
+      },
+      "ci": {
+        "when": "Har bir o'zgarishda",
+        "what": "360 dan ortiq avtomatik test ishga tushadi, ishlatilgan kutubxonalar ma'lum zaifliklarga tekshiriladi."
       }
-    }
+    },
+    "aboutTitle": "Loyiha haqida",
+    "aboutP1": "ShifoSafe Andijon davlat universitetining Dasturiy injiniring kafedrasida, axborot xavfsizligi bo'yicha magistrlik dissertatsiyasi doirasida ishlab chiqilgan. Muallif: Voitov Alisher.",
+    "aboutP2": "Bu tadqiqot prototipi. Tizim ishlaydi va tekshirilgan, lekin u hali biror klinikada rasman joriy etilmagan.",
+    "footerNote": "Magistrlik dissertatsiyasi doirasidagi tadqiqot prototipi"
   },
   "queue": {
     "title": "Shifokor qabuliga navbat",
@@ -859,7 +843,45 @@
     "dupCreate": "Yo'q, baribir yangi karta ochish",
     "newHint": "Karta registratura va shifokor orqali yuritiladi. Bemor ilovaga kirishi uchun kartani tanlab «Parol berish»ni bosing."
   },
-  "account": {"title": "Profil sozlamalari", "menuHint": "Aloqa ma'lumotlari va parol", "editLink": "Ma'lumotlarni tahrirlash", "lead": "Aloqa ma'lumotlaringizni yangilang va parolingizni almashtiring.", "contactTitle": "Aloqa ma'lumotlari", "phone": "Telefon raqami", "email": "Email", "staffEmailHint": "Xodim emaili administrator orqali o'zgartiriladi.", "emailVerified": "Email tasdiqlangan", "emailNotVerified": "Email hali tasdiqlanmagan — sahifa tepasidagi oynadan tasdiqlang.", "currentPasswordForEmail": "Emailni o'zgartirish uchun joriy parol", "emailChangeHint": "Yangi emailga tasdiqlash kodi yuboriladi, eski emailga esa ogohlantirish xati boradi.", "address": "Yashash manzili", "emergency": "Favqulodda aloqa", "emergencyPlaceholder": "Masalan: Onam, +998901234567", "birthDate": "Tug'ilgan sana", "dobOnce": "Bir marta kiritiladi. Keyin faqat registratura o'zgartiradi.", "dobLocked": "O'zgartirish uchun registraturaga murojaat qiling.", "save": "Saqlash", "saving": "Saqlanmoqda...", "saved": "Ma'lumotlar saqlandi.", "savedEmail": "Saqlandi. Yangi emailingizga tasdiqlash kodi yuborildi.", "saveError": "Saqlab bo'lmadi. Qayta urinib ko'ring.", "lockedTitle": "Shifokor yoki registratura o'zgartiradigan ma'lumotlar", "lockedLead": "Bu ma'lumotlar davolash va shaxsni tasdiqlash uchun ishlatiladi, shuning uchun ularni faqat shifokor yoki registratura hujjat asosida o'zgartiradi. Xato bo'lsa, qabulda ayting.", "lockedLeadStaff": "Ism-familiya va foydalanuvchi nomini administrator o'zgartiradi.", "username": "Foydalanuvchi nomi", "pwTitle": "Parolni o'zgartirish", "pwLead": "Parol o'zgargach, boshqa barcha qurilmalardan chiqariladi. Shu qurilmada qolasiz.", "currentPassword": "Joriy parol", "newPassword": "Yangi parol", "newPasswordConfirm": "Yangi parolni takrorlang", "pwRules": "Kamida 10 belgi; juda oddiy yoki ismingizga o'xshash bo'lmasin.", "pwSubmit": "Parolni o'zgartirish", "pwChanged": "Parol o'zgartirildi. Boshqa qurilmalardan chiqarildi: {{count}}.", "pwError": "Parolni o'zgartirib bo'lmadi. Qayta urinib ko'ring.", "forgotHint": "Joriy parolni eslay olmasangiz, tizimdan chiqib kirish sahifasidagi «Parolni unutdingizmi?» havolasidan foydalaning. Notanish qurilmalarni bu yerda ko'ring:"},
+  "account": {
+    "title": "Profil sozlamalari",
+    "menuHint": "Aloqa ma'lumotlari va parol",
+    "editLink": "Ma'lumotlarni tahrirlash",
+    "lead": "Aloqa ma'lumotlaringizni yangilang va parolingizni almashtiring.",
+    "contactTitle": "Aloqa ma'lumotlari",
+    "phone": "Telefon raqami",
+    "email": "Email",
+    "staffEmailHint": "Xodim emaili administrator orqali o'zgartiriladi.",
+    "emailVerified": "Email tasdiqlangan",
+    "emailNotVerified": "Email hali tasdiqlanmagan — sahifa tepasidagi oynadan tasdiqlang.",
+    "currentPasswordForEmail": "Emailni o'zgartirish uchun joriy parol",
+    "emailChangeHint": "Yangi emailga tasdiqlash kodi yuboriladi, eski emailga esa ogohlantirish xati boradi.",
+    "address": "Yashash manzili",
+    "emergency": "Favqulodda aloqa",
+    "emergencyPlaceholder": "Masalan: Onam, +998901234567",
+    "birthDate": "Tug'ilgan sana",
+    "dobOnce": "Bir marta kiritiladi. Keyin faqat registratura o'zgartiradi.",
+    "dobLocked": "O'zgartirish uchun registraturaga murojaat qiling.",
+    "save": "Saqlash",
+    "saving": "Saqlanmoqda...",
+    "saved": "Ma'lumotlar saqlandi.",
+    "savedEmail": "Saqlandi. Yangi emailingizga tasdiqlash kodi yuborildi.",
+    "saveError": "Saqlab bo'lmadi. Qayta urinib ko'ring.",
+    "lockedTitle": "Shifokor yoki registratura o'zgartiradigan ma'lumotlar",
+    "lockedLead": "Bu ma'lumotlar davolash va shaxsni tasdiqlash uchun ishlatiladi, shuning uchun ularni faqat shifokor yoki registratura hujjat asosida o'zgartiradi. Xato bo'lsa, qabulda ayting.",
+    "lockedLeadStaff": "Ism-familiya va foydalanuvchi nomini administrator o'zgartiradi.",
+    "username": "Foydalanuvchi nomi",
+    "pwTitle": "Parolni o'zgartirish",
+    "pwLead": "Parol o'zgargach, boshqa barcha qurilmalardan chiqariladi. Shu qurilmada qolasiz.",
+    "currentPassword": "Joriy parol",
+    "newPassword": "Yangi parol",
+    "newPasswordConfirm": "Yangi parolni takrorlang",
+    "pwRules": "Kamida 10 belgi; juda oddiy yoki ismingizga o'xshash bo'lmasin.",
+    "pwSubmit": "Parolni o'zgartirish",
+    "pwChanged": "Parol o'zgartirildi. Boshqa qurilmalardan chiqarildi: {{count}}.",
+    "pwError": "Parolni o'zgartirib bo'lmadi. Qayta urinib ko'ring.",
+    "forgotHint": "Joriy parolni eslay olmasangiz, tizimdan chiqib kirish sahifasidagi «Parolni unutdingizmi?» havolasidan foydalaning. Notanish qurilmalarni bu yerda ko'ring:"
+  },
   "emailVerify": {
     "title": "Emailingizni tasdiqlang",
     "hint": "{{email}} manziliga 6 xonali kod yuborildi. Parolni tiklash faqat tasdiqlangan emailga ishlaydi.",
