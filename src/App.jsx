@@ -1,40 +1,49 @@
+import { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import { RouteErrorBoundary } from "./components/ErrorBoundary";
+import PageLoading from "./components/PageLoading";
+import lazyPage from "./lazyPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import MePage from "./pages/MePage";
-import DoctorPatientsPage from "./pages/DoctorPatientsPage";
-import PatientDetailPage from "./pages/PatientDetailPage";
-import AdminUsersPage from "./pages/AdminUsersPage";
-import AdminAuditLogPage from "./pages/AdminAuditLogPage";
+// registry.css avval ham umumiy uslublardan oldin yuklanardi (sahifa importi orqali). Tartib saqlanadi,
+// aks holda u alohida bo'lakka tushib, global.css dan keyin yuklanadi va qoidalar ustunligi o'zgaradi.
+import "./styles/registry.css";
 import "./styles/global.css";
 import "./styles/landing.css";
-import AdminAnonymizePage from "./pages/AdminAnonymizePage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import QueuePage from "./pages/QueuePage";
-import DoctorQueuePage from "./pages/DoctorQueuePage";
-import RegistryPage from "./pages/RegistryPage";
-import KioskPage from "./pages/KioskPage";
-import ArrivePage from "./pages/ArrivePage";
-import SessionsPage from "./pages/SessionsPage";
-import SecurityPage from "./pages/SecurityPage";
-import AccountPage from "./pages/AccountPage";
-import AdminQueueStatsPage from "./pages/AdminQueueStatsPage";
-import LabPage from "./pages/LabPage";
-import AccessLogPage from "./pages/AccessLogPage";
-import ConsentPage from "./pages/ConsentPage";
-import AdminAlertsPage from "./pages/AdminAlertsPage";
-import AdminKiosksPage from "./pages/AdminKiosksPage";
 import "./styles/labs.css";
 import "./styles/consent.css";
 import "./styles/mfa.css";
 import "./styles/photo.css";
 import "./styles/queue.css";
+
+// Kirish sahifalari (bosh sahifa, login, ro'yxatdan o'tish) asosiy faylda qoladi - ular darhol ochilishi kerak.
+// Qolgan sahifalar alohida bo'laklarda: foydalanuvchi faqat o'zi ochgan sahifaning kodini yuklaydi.
+const MePage = lazyPage(() => import("./pages/MePage"));
+const DoctorPatientsPage = lazyPage(() => import("./pages/DoctorPatientsPage"));
+const PatientDetailPage = lazyPage(() => import("./pages/PatientDetailPage"));
+const AdminUsersPage = lazyPage(() => import("./pages/AdminUsersPage"));
+const AdminAuditLogPage = lazyPage(() => import("./pages/AdminAuditLogPage"));
+const AdminAnonymizePage = lazyPage(() => import("./pages/AdminAnonymizePage"));
+const ForgotPasswordPage = lazyPage(() => import("./pages/ForgotPasswordPage"));
+const ResetPasswordPage = lazyPage(() => import("./pages/ResetPasswordPage"));
+const QueuePage = lazyPage(() => import("./pages/QueuePage"));
+const DoctorQueuePage = lazyPage(() => import("./pages/DoctorQueuePage"));
+const RegistryPage = lazyPage(() => import("./pages/RegistryPage"));
+const KioskPage = lazyPage(() => import("./pages/KioskPage"));
+const ArrivePage = lazyPage(() => import("./pages/ArrivePage"));
+const SessionsPage = lazyPage(() => import("./pages/SessionsPage"));
+const SecurityPage = lazyPage(() => import("./pages/SecurityPage"));
+const AccountPage = lazyPage(() => import("./pages/AccountPage"));
+const AdminQueueStatsPage = lazyPage(() => import("./pages/AdminQueueStatsPage"));
+const LabPage = lazyPage(() => import("./pages/LabPage"));
+const AccessLogPage = lazyPage(() => import("./pages/AccessLogPage"));
+const ConsentPage = lazyPage(() => import("./pages/ConsentPage"));
+const AdminAlertsPage = lazyPage(() => import("./pages/AdminAlertsPage"));
+const AdminKiosksPage = lazyPage(() => import("./pages/AdminKiosksPage"));
 
 export default function App() {
     return (
@@ -42,6 +51,7 @@ export default function App() {
             <AuthProvider>
                 {/* Menyusiz sahifalar (login, kiosk, QR) uchun ham oq ekran o'rniga xabar */}
                 <RouteErrorBoundary full>
+                <Suspense fallback={<PageLoading />}>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<LoginPage />} />
@@ -178,6 +188,7 @@ export default function App() {
 
                     <Route path="*" element={<Navigate to="/me" replace />} />
                 </Routes>
+                </Suspense>
                 </RouteErrorBoundary>
             </AuthProvider>
         </BrowserRouter>

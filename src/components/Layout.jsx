@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import client from "../api/client";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import NotificationBell from "./NotificationBell";
 import NavIcon from "./NavIcon";
 import { RouteErrorBoundary } from "./ErrorBoundary";
 import EmailVerifyBanner from "./EmailVerifyBanner";
+import PageLoading from "./PageLoading";
 
 // Rol bo'yicha menyu: kompyuterda yuqori qatorda, telefon/planshetda yon panelda (guruhlangan)
 function menuFor(role, t, counts) {
@@ -238,7 +239,8 @@ export default function Layout() {
             </aside>
             {/* Sahifadagi xato menyuni ham olib ketmasin */}
             <EmailVerifyBanner />
-            <RouteErrorBoundary><Outlet /></RouteErrorBoundary>
+            {/* Menyu joyida qoladi, faqat sahifa qismi yuklanadi */}
+            <RouteErrorBoundary><Suspense fallback={<PageLoading />}><Outlet /></Suspense></RouteErrorBoundary>
         </div>
     );
 }
